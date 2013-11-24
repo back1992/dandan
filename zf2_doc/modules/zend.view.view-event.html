@@ -1,0 +1,588 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>The ViewEvent &mdash; Zend Framework 2 2.3.0dev documentation</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '2.3.0dev',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="Zend Framework 2 2.3.0dev documentation" href="../index.html" />
+    <link rel="next" title="View Helpers" href="zend.view.helpers.html" />
+    <link rel="prev" title="PhpRenderer View Scripts" href="zend.view.php-renderer.scripts.html" />
+<style type="text/css">
+    /* Styles for floating Edit on GitHub box */
+    #editor-trap {
+        padding: 1em;
+        border: 1px solid white;
+        width: 250px;
+
+        display: none;
+        color: white;
+        background: #3f454b;
+        position: fixed;
+        bottom: 5px;
+        left: 175px;
+        font-size: 85%;
+        text-align: left;
+        z-index: 2;
+
+        box-shadow: 0 4px 6px #333;
+        -moz-box-shadow: 0 4px 6px #333;
+        -webkit-box-shadow: 0 4px 6px #333;
+        
+        cursor: pointer;
+    }
+
+    #editor-trap h3 {
+        margin: 0 0 0.5em 0;
+        padding: 0;
+    }
+
+    #editor-trap h3 > span {
+        padding: 0 6px;
+        border: solid white;
+        border-width: 0 1px 4px 1px;
+        font-size: 10px;
+    }
+
+    #editor-trap a {
+        color: #98DBCC;
+    }
+
+    #editor-trap ol {
+        margin: 0;
+        padding: 0 0 0 2em;
+    }
+
+    /* Hide trick */
+    #editor-trap.toggled > * {
+        display: none;
+    }
+
+
+    #editor-trap.toggled > h3 {
+        display: block;
+    }
+
+    #editor-trap.toggled > h3 > span {
+        border-width: 6px 1px 0 1px;
+    }
+    
+    #edit-button {
+        position: fixed;
+        bottom: 5px;
+        left: 5px;
+        z-index: 2;
+        width: 162px;
+        height: 42px;
+    }
+</style>
+
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="zend.view.helpers.html" title="View Helpers"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="zend.view.php-renderer.scripts.html" title="PhpRenderer View Scripts"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">Zend Framework 2 2.3.0dev documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="the-viewevent">
+<span id="zend-view-view-event"></span><h1>The ViewEvent<a class="headerlink" href="#the-viewevent" title="Permalink to this headline">¶</a></h1>
+<p>The view layer of Zend Framework 2 incorporates and utilizes a custom <tt class="docutils literal"><span class="pre">Zend\EventManager\Event</span></tt> implementation -
+<tt class="docutils literal"><span class="pre">Zend\View\ViewEvent</span></tt>. This event is created during <tt class="docutils literal"><span class="pre">Zend\View\View::getEvent()</span></tt> and is passed directly to all
+the events that method triggers.</p>
+<p>The <tt class="docutils literal"><span class="pre">ViewEvent</span></tt> adds accessors and mutators for the following:</p>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">Model</span></tt> object, typically representing the layout view model.</li>
+<li><tt class="docutils literal"><span class="pre">Renderer</span></tt> object.</li>
+<li><tt class="docutils literal"><span class="pre">Request</span></tt> object.</li>
+<li><tt class="docutils literal"><span class="pre">Response</span></tt> object.</li>
+<li><tt class="docutils literal"><span class="pre">Result</span></tt> object.</li>
+</ul>
+<p>The methods it defines are:</p>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">setModel(Model</span> <span class="pre">$model)</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">getModel()</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">setRequest($request)</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">getRequest()</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">setResponse($response)</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">getResponse()</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">setRenderer($renderer)</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">getRenderer()</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">setResult($result)</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">getResult()</span></tt></li>
+</ul>
+<div class="section" id="order-of-events">
+<h2>Order of events<a class="headerlink" href="#order-of-events" title="Permalink to this headline">¶</a></h2>
+<p>The following events are triggered, in the following order:</p>
+<table border="1" class="docutils">
+<caption><tt class="docutils literal"><span class="pre">ViewEvent</span></tt> Events</caption>
+<colgroup>
+<col width="18%" />
+<col width="36%" />
+<col width="46%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Name</th>
+<th class="head">Constant</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><tt class="docutils literal"><span class="pre">renderer</span></tt></td>
+<td><tt class="docutils literal"><span class="pre">ViewEvent::EVENT_RENDERER</span></tt></td>
+<td>Render the view, with the help of renderers.</td>
+</tr>
+<tr class="row-odd"><td><tt class="docutils literal"><span class="pre">renderer.post</span></tt></td>
+<td><tt class="docutils literal"><span class="pre">ViewEvent::EVENT_RENDERER_POST</span></tt></td>
+<td>Triggers after the view is rendered.</td>
+</tr>
+<tr class="row-even"><td><tt class="docutils literal"><span class="pre">response</span></tt></td>
+<td><tt class="docutils literal"><span class="pre">ViewEvent::EVENT_RESPONSE</span></tt></td>
+<td>Populate the response from the view.</td>
+</tr>
+</tbody>
+</table>
+<p>Those events are extensively describe in the following sections.</p>
+</div>
+<div class="section" id="viewevent-event-renderer">
+<span id="zend-view-view-event-renderer"></span><h2>ViewEvent::EVENT_RENDERER<a class="headerlink" href="#viewevent-event-renderer" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="listeners">
+<span id="zend-view-view-event-renderer-listeners"></span><h3>Listeners<a class="headerlink" href="#listeners" title="Permalink to this headline">¶</a></h3>
+<p>The following classes are listening to this event (they are sorted from higher priority to lower priority):</p>
+<div class="section" id="for-phpstrategy">
+<h4>For PhpStrategy<a class="headerlink" href="#for-phpstrategy" title="Permalink to this headline">¶</a></h4>
+<p>This listener is added when the strategy used for rendering is <tt class="docutils literal"><span class="pre">PhpStrategy</span></tt>:</p>
+<table border="1" class="docutils">
+<caption><tt class="docutils literal"><span class="pre">ViewEvent::EVENT_RENDERER</span></tt> Listeners for <tt class="docutils literal"><span class="pre">PhpStrategy</span></tt></caption>
+<colgroup>
+<col width="40%" />
+<col width="10%" />
+<col width="22%" />
+<col width="28%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Class</th>
+<th class="head">Priority</th>
+<th class="head">Method Called</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><tt class="docutils literal"><span class="pre">Zend\View\Strategy\PhpStrategy</span></tt></td>
+<td>1</td>
+<td><tt class="docutils literal"><span class="pre">selectRenderer</span></tt></td>
+<td>Return a <tt class="docutils literal"><span class="pre">PhpRenderer</span></tt></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="for-jsonstrategy">
+<h4>For JsonStrategy<a class="headerlink" href="#for-jsonstrategy" title="Permalink to this headline">¶</a></h4>
+<p>This listener is added when the strategy used for rendering is <tt class="docutils literal"><span class="pre">JsonStrategy</span></tt>:</p>
+<table border="1" class="docutils">
+<caption><tt class="docutils literal"><span class="pre">ViewEvent::EVENT_RENDERER</span></tt> Listeners for <tt class="docutils literal"><span class="pre">JsonStrategy</span></tt></caption>
+<colgroup>
+<col width="40%" />
+<col width="10%" />
+<col width="21%" />
+<col width="29%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Class</th>
+<th class="head">Priority</th>
+<th class="head">Method Called</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><tt class="docutils literal"><span class="pre">Zend\View\Strategy\JsonStrategy</span></tt></td>
+<td>1</td>
+<td><tt class="docutils literal"><span class="pre">selectRenderer</span></tt></td>
+<td>Return a <tt class="docutils literal"><span class="pre">JsonRenderer</span></tt></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="for-feedstrategy">
+<h4>For FeedStrategy<a class="headerlink" href="#for-feedstrategy" title="Permalink to this headline">¶</a></h4>
+<p>This listener is added when the strategy used for rendering is <tt class="docutils literal"><span class="pre">FeedStrategy</span></tt>:</p>
+<table border="1" class="docutils">
+<caption><tt class="docutils literal"><span class="pre">ViewEvent::EVENT_RENDERER</span></tt> Listeners for <tt class="docutils literal"><span class="pre">FeedStrategy</span></tt></caption>
+<colgroup>
+<col width="40%" />
+<col width="10%" />
+<col width="21%" />
+<col width="29%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Class</th>
+<th class="head">Priority</th>
+<th class="head">Method Called</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><tt class="docutils literal"><span class="pre">Zend\View\Strategy\FeedStrategy</span></tt></td>
+<td>1</td>
+<td><tt class="docutils literal"><span class="pre">selectRenderer</span></tt></td>
+<td>Return a <tt class="docutils literal"><span class="pre">FeedRenderer</span></tt></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="section" id="triggerers">
+<h3>Triggerers<a class="headerlink" href="#triggerers" title="Permalink to this headline">¶</a></h3>
+<p>This event is triggered by the following classes:</p>
+<table border="1" class="docutils">
+<caption><tt class="docutils literal"><span class="pre">ViewEvent::EVENT_RENDERER</span></tt> Triggerers</caption>
+<colgroup>
+<col width="19%" />
+<col width="20%" />
+<col width="61%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Class</th>
+<th class="head">In Method</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><tt class="docutils literal"><span class="pre">Zend\View\View</span></tt></td>
+<td><tt class="docutils literal"><span class="pre">render</span></tt></td>
+<td>It has a short circuit callback that stops propagation once
+one result return an instance of a Renderer.</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="section" id="viewevent-event-renderer-post">
+<span id="zend-view-view-event-renderer-post"></span><h2>ViewEvent::EVENT_RENDERER_POST<a class="headerlink" href="#viewevent-event-renderer-post" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="zend-view-view-event-renderer-post-listeners">
+<span id="id1"></span><h3>Listeners<a class="headerlink" href="#zend-view-view-event-renderer-post-listeners" title="Permalink to this headline">¶</a></h3>
+<p>There are currently no built-in listeners for this event.</p>
+</div>
+<div class="section" id="id2">
+<h3>Triggerers<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<p>This event is triggered by the following classes:</p>
+<table border="1" class="docutils">
+<caption><tt class="docutils literal"><span class="pre">ViewEvent::EVENT_RENDERER_POST</span></tt> Triggerers</caption>
+<colgroup>
+<col width="19%" />
+<col width="20%" />
+<col width="61%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Class</th>
+<th class="head">In Method</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><tt class="docutils literal"><span class="pre">Zend\View\View</span></tt></td>
+<td><tt class="docutils literal"><span class="pre">render</span></tt></td>
+<td>This event is triggered after <tt class="docutils literal"><span class="pre">ViewEvent::EVENT_RENDERER</span></tt>
+and before <tt class="docutils literal"><span class="pre">ViewEvent::EVENT_RESPONSE</span></tt>.</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="section" id="viewevent-event-response">
+<span id="zend-view-view-event-response"></span><h2>ViewEvent::EVENT_RESPONSE<a class="headerlink" href="#viewevent-event-response" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="zend-view-view-event-response-listeners">
+<span id="id3"></span><h3>Listeners<a class="headerlink" href="#zend-view-view-event-response-listeners" title="Permalink to this headline">¶</a></h3>
+<p>The following classes are listening to this event (they are sorted from higher priority to lower priority):</p>
+<div class="section" id="id4">
+<h4>For PhpStrategy<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h4>
+<p>This listener is added when the strategy used for rendering is <tt class="docutils literal"><span class="pre">PhpStrategy</span></tt>:</p>
+<table border="1" class="docutils">
+<caption><tt class="docutils literal"><span class="pre">ViewEvent::EVENT_RESPONSE</span></tt> Listeners for <tt class="docutils literal"><span class="pre">PhpStrategy</span></tt></caption>
+<colgroup>
+<col width="32%" />
+<col width="8%" />
+<col width="17%" />
+<col width="43%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Class</th>
+<th class="head">Priority</th>
+<th class="head">Method Called</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><tt class="docutils literal"><span class="pre">Zend\View\Strategy\PhpStrategy</span></tt></td>
+<td>1</td>
+<td><tt class="docutils literal"><span class="pre">injectResponse</span></tt></td>
+<td>Populate the <tt class="docutils literal"><span class="pre">Response</span></tt> object from the view.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="id5">
+<h4>For JsonStrategy<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h4>
+<p>This listener is added when the strategy used for rendering is <tt class="docutils literal"><span class="pre">JsonStrategy</span></tt>:</p>
+<table border="1" class="docutils">
+<caption><tt class="docutils literal"><span class="pre">ViewEvent::EVENT_RESPONSE</span></tt> Listeners for <tt class="docutils literal"><span class="pre">JsonStrategy</span></tt></caption>
+<colgroup>
+<col width="32%" />
+<col width="8%" />
+<col width="17%" />
+<col width="43%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Class</th>
+<th class="head">Priority</th>
+<th class="head">Method Called</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><tt class="docutils literal"><span class="pre">Zend\View\Strategy\JsonStrategy</span></tt></td>
+<td>1</td>
+<td><tt class="docutils literal"><span class="pre">injectResponse</span></tt></td>
+<td>Populate the <tt class="docutils literal"><span class="pre">Response</span></tt> object from the view.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="id6">
+<h4>For FeedStrategy<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h4>
+<p>This listener is added when the strategy used for rendering is <tt class="docutils literal"><span class="pre">FeedStrategy</span></tt>:</p>
+<table border="1" class="docutils">
+<caption><tt class="docutils literal"><span class="pre">ViewEvent::EVENT_RESPONSE</span></tt> Listeners for <tt class="docutils literal"><span class="pre">FeedStrategy</span></tt></caption>
+<colgroup>
+<col width="32%" />
+<col width="8%" />
+<col width="17%" />
+<col width="43%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Class</th>
+<th class="head">Priority</th>
+<th class="head">Method Called</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><tt class="docutils literal"><span class="pre">Zend\View\Strategy\FeedStrategy</span></tt></td>
+<td>1</td>
+<td><tt class="docutils literal"><span class="pre">injectResponse</span></tt></td>
+<td>Populate the <tt class="docutils literal"><span class="pre">Response</span></tt> object from the view.</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="section" id="id7">
+<h3>Triggerers<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
+<p>This event is triggered by the following classes:</p>
+<table border="1" class="docutils">
+<caption><tt class="docutils literal"><span class="pre">ViewEvent::EVENT_RESPONSE</span></tt> Triggerers</caption>
+<colgroup>
+<col width="19%" />
+<col width="20%" />
+<col width="61%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Class</th>
+<th class="head">In Method</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><tt class="docutils literal"><span class="pre">Zend\View\View</span></tt></td>
+<td><tt class="docutils literal"><span class="pre">render</span></tt></td>
+<td>This event is triggered after <tt class="docutils literal"><span class="pre">ViewEvent::EVENT_RENDERER</span></tt>
+and  <tt class="docutils literal"><span class="pre">ViewEvent::EVENT_RENDERER_POST</span></tt>.</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/zf2_logo.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">The ViewEvent</a><ul>
+<li><a class="reference internal" href="#order-of-events">Order of events</a></li>
+<li><a class="reference internal" href="#viewevent-event-renderer">ViewEvent::EVENT_RENDERER</a><ul>
+<li><a class="reference internal" href="#listeners">Listeners</a><ul>
+<li><a class="reference internal" href="#for-phpstrategy">For PhpStrategy</a></li>
+<li><a class="reference internal" href="#for-jsonstrategy">For JsonStrategy</a></li>
+<li><a class="reference internal" href="#for-feedstrategy">For FeedStrategy</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#triggerers">Triggerers</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#viewevent-event-renderer-post">ViewEvent::EVENT_RENDERER_POST</a><ul>
+<li><a class="reference internal" href="#zend-view-view-event-renderer-post-listeners">Listeners</a></li>
+<li><a class="reference internal" href="#id2">Triggerers</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#viewevent-event-response">ViewEvent::EVENT_RESPONSE</a><ul>
+<li><a class="reference internal" href="#zend-view-view-event-response-listeners">Listeners</a><ul>
+<li><a class="reference internal" href="#id4">For PhpStrategy</a></li>
+<li><a class="reference internal" href="#id5">For JsonStrategy</a></li>
+<li><a class="reference internal" href="#id6">For FeedStrategy</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id7">Triggerers</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="zend.view.php-renderer.scripts.html"
+                        title="previous chapter">PhpRenderer View Scripts</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="zend.view.helpers.html"
+                        title="next chapter">View Helpers</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li>
+        <!--<a href="../_sources/modules/zend.view.view-event.txt"-->
+        <a href="https://github.com/zendframework/zf2-documentation/blob/master/docs/languages/en/modules/zend.view.view-event.rst"
+           rel="nofollow">Show Source</a></li>
+    <li><a href="https://github.com/zendframework/zf2-documentation/edit/master/docs/languages/en/modules/zend.view.view-event.rst"
+           rel="nofollow">Edit Source</a>
+    </li>
+  </ul>
+        <p style="font-size: 12px">
+            Note: You need to stay logged into your <a href="http://www.github.com">GitHub account</a> to contribute to the documentation.
+        </p>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="zend.view.helpers.html" title="View Helpers"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="zend.view.php-renderer.scripts.html" title="PhpRenderer View Scripts"
+             >previous</a> |</li>
+        <li><a href="../index.html">Zend Framework 2 2.3.0dev documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+
+    <div class="footer">
+        &copy; Copyright 2013, Zend Technologies Ltd..
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b3.
+    </div>
+<div id="edit-button">
+    <img src="../_static/edit.gif" alt="Edit this document" title="Edit this document" onclick="javascript:$('#editor-trap').toggle();">
+</div>
+     
+<div id="editor-trap">
+    <h3>Edit this document</h3>
+
+    <p>
+        The source code of this file is hosted on GitHub. Everyone can
+        update and fix errors in this document with few clicks -
+        no downloads needed.
+    <p>
+
+    <ol>
+
+        <li>
+            Login with your <a href="http://www.github.com">GitHub</a> account.
+        </li>
+
+        <li>
+            Go to
+            <a href="https://github.com/zendframework/zf2-documentation/edit/master/docs/languages/en/modules/zend.view.view-event.rst">
+                The ViewEvent
+            </a> on GitHub.
+        </li>
+
+        <li>
+            Edit file contents using GitHub's text editor in your web browser
+        </li>
+
+        <li>
+            Fill in the <b>Commit message</b> text box at the end of the page telling <i>why</i>
+            you did the changes. Press <b>Propose file change</b> button next to it when done.
+        </li>
+
+
+        <li>
+            On <i>Send a pull request</i> page you don't need to fill in text anymore. Just
+            press <b>Send pull request</b> button.
+        </li>
+
+        <li>
+            Your changes are now queued for review under project's <a href="https://github.com/zendframework/zf2-documentation/pulls">Pull requests</a> tab on GitHub.
+        </li>
+    </ol>
+
+</div>
+
+
+  </body>
+</html>

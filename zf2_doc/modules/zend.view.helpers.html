@@ -1,0 +1,349 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>View Helpers &mdash; Zend Framework 2 2.3.0dev documentation</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '2.3.0dev',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="Zend Framework 2 2.3.0dev documentation" href="../index.html" />
+    <link rel="next" title="View Helper - BasePath" href="zend.view.helpers.base-path.html" />
+    <link rel="prev" title="The ViewEvent" href="zend.view.view-event.html" />
+<style type="text/css">
+    /* Styles for floating Edit on GitHub box */
+    #editor-trap {
+        padding: 1em;
+        border: 1px solid white;
+        width: 250px;
+
+        display: none;
+        color: white;
+        background: #3f454b;
+        position: fixed;
+        bottom: 5px;
+        left: 175px;
+        font-size: 85%;
+        text-align: left;
+        z-index: 2;
+
+        box-shadow: 0 4px 6px #333;
+        -moz-box-shadow: 0 4px 6px #333;
+        -webkit-box-shadow: 0 4px 6px #333;
+        
+        cursor: pointer;
+    }
+
+    #editor-trap h3 {
+        margin: 0 0 0.5em 0;
+        padding: 0;
+    }
+
+    #editor-trap h3 > span {
+        padding: 0 6px;
+        border: solid white;
+        border-width: 0 1px 4px 1px;
+        font-size: 10px;
+    }
+
+    #editor-trap a {
+        color: #98DBCC;
+    }
+
+    #editor-trap ol {
+        margin: 0;
+        padding: 0 0 0 2em;
+    }
+
+    /* Hide trick */
+    #editor-trap.toggled > * {
+        display: none;
+    }
+
+
+    #editor-trap.toggled > h3 {
+        display: block;
+    }
+
+    #editor-trap.toggled > h3 > span {
+        border-width: 6px 1px 0 1px;
+    }
+    
+    #edit-button {
+        position: fixed;
+        bottom: 5px;
+        left: 5px;
+        z-index: 2;
+        width: 162px;
+        height: 42px;
+    }
+</style>
+
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="zend.view.helpers.base-path.html" title="View Helper - BasePath"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="zend.view.view-event.html" title="The ViewEvent"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">Zend Framework 2 2.3.0dev documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="view-helpers">
+<span id="zend-view-helpers"></span><h1>View Helpers<a class="headerlink" href="#view-helpers" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="introduction">
+<span id="zend-view-helpers-introduction"></span><h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<p>In your view scripts, often it is necessary to perform certain complex functions over and over: e.g., formatting a
+date, generating form elements, or displaying action links. You can use helper, or plugin, classes to perform these
+behaviors for you.</p>
+<p>A helper is simply a class that implements <tt class="docutils literal"><span class="pre">Zend\View\Helper\HelperInterface</span></tt> and it simply defines two methods,
+<tt class="docutils literal"><span class="pre">setView()</span></tt>, which accepts a <tt class="docutils literal"><span class="pre">Zend\View\Renderer\RendererInterface</span></tt> instance/implementation, and <tt class="docutils literal"><span class="pre">getView()</span></tt>,
+used to retrieve that instance. <tt class="docutils literal"><span class="pre">Zend\View\Renderer\PhpRenderer</span></tt> composes a <em>plugin manager</em>, allowing you to
+retrieve helpers, and also provides some method overloading capabilities that allow proxying method calls to helpers.</p>
+<p>As an example, let&#8217;s say we have a helper class named <tt class="docutils literal"><span class="pre">MyModule\View\Helper\LowerCase</span></tt>, which we register in our
+plugin manager with the name &#8220;lowercase&#8221;. We can retrieve it in one of the following ways:</p>
+<div class="highlight-php"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16</pre></div></td><td class="code"><div class="highlight"><pre><span class="c1">// $view is a PhpRenderer instance</span>
+
+<span class="c1">// Via the plugin manager:</span>
+<span class="nv">$pluginManager</span> <span class="o">=</span> <span class="nv">$view</span><span class="o">-&gt;</span><span class="na">getHelperPluginManager</span><span class="p">();</span>
+<span class="nv">$helper</span>        <span class="o">=</span> <span class="nv">$pluginManager</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;lowercase&#39;</span><span class="p">);</span>
+
+<span class="c1">// Retrieve the helper instance, via the method &quot;plugin&quot;,</span>
+<span class="c1">// which proxies to the plugin manager:</span>
+<span class="nv">$helper</span> <span class="o">=</span> <span class="nv">$view</span><span class="o">-&gt;</span><span class="na">plugin</span><span class="p">(</span><span class="s1">&#39;lowercase&#39;</span><span class="p">);</span>
+
+<span class="c1">// If the helper does not define __invoke(), the following also retrieves it:</span>
+<span class="nv">$helper</span> <span class="o">=</span> <span class="nv">$view</span><span class="o">-&gt;</span><span class="na">lowercase</span><span class="p">();</span>
+
+<span class="c1">// If the helper DOES define __invoke, you can call the helper</span>
+<span class="c1">// as if it is a method:</span>
+<span class="nv">$filtered</span> <span class="o">=</span> <span class="nv">$view</span><span class="o">-&gt;</span><span class="na">lowercase</span><span class="p">(</span><span class="s1">&#39;some value&#39;</span><span class="p">);</span>
+</pre></div>
+</td></tr></table></div>
+<p>The last two examples demonstrate how the <tt class="docutils literal"><span class="pre">PhpRenderer</span></tt> uses method overloading to retrieve and/or invoke helpers
+directly, offering a convenience API for end users.</p>
+<p>A large number of helpers are provided in the standard distribution of Zend Framework. You can also register
+helpers by adding them to the <em>plugin manager</em>.</p>
+</div>
+<div class="section" id="included-helpers">
+<span id="zend-view-helpers-initial"></span><h2>Included Helpers<a class="headerlink" href="#included-helpers" title="Permalink to this headline">¶</a></h2>
+<p>Zend Framework comes with an initial set of helper classes. In particular, there are helpers for creating
+route-based <em>URL</em>s and <em>HTML</em> lists, as well as declaring variables. Additionally, there are a rich set of
+helpers for providing values for, and rendering, the various HTML <em>&lt;head&gt;</em> tags, such as <tt class="docutils literal"><span class="pre">HeadTitle</span></tt>,
+<tt class="docutils literal"><span class="pre">HeadLink</span></tt>, and <tt class="docutils literal"><span class="pre">HeadScript</span></tt>. The currently shipped helpers include:</p>
+<ul class="simple">
+<li><a class="reference internal" href="zend.view.helpers.base-path.html#zend-view-helpers-initial-basepath"><em>BasePath</em></a></li>
+<li><a class="reference internal" href="zend.view.helpers.cycle.html#zend-view-helpers-initial-cycle"><em>Cycle</em></a></li>
+<li><a class="reference internal" href="zend.view.helpers.doctype.html#zend-view-helpers-initial-doctype"><em>Doctype</em></a></li>
+<li><a class="reference internal" href="zend.view.helpers.flash-messenger.html#zend-view-helpers-initial-flashmessenger"><em>FlashMessenger</em></a></li>
+<li><a class="reference internal" href="zend.view.helpers.head-link.html#zend-view-helpers-initial-headlink"><em>HeadLink</em></a></li>
+<li><a class="reference internal" href="zend.view.helpers.head-meta.html#zend-view-helpers-initial-headmeta"><em>HeadMeta</em></a></li>
+<li><a class="reference internal" href="zend.view.helpers.head-script.html#zend-view-helpers-initial-headscript"><em>HeadScript</em></a></li>
+<li><a class="reference internal" href="zend.view.helpers.head-style.html#zend-view-helpers-initial-headstyle"><em>HeadStyle</em></a></li>
+<li><a class="reference internal" href="zend.view.helpers.head-title.html#zend-view-helpers-initial-headtitle"><em>HeadTitle</em></a></li>
+<li><a class="reference internal" href="zend.view.helpers.html-list.html#zend-view-helpers-initial-htmllist"><em>HtmlList</em></a></li>
+<li><a class="reference internal" href="zend.view.helpers.html-object.html#zend-view-helpers-initial-object"><em>HTML Object Plugins</em></a></li>
+<li><a class="reference internal" href="zend.view.helpers.identity.html#zend-view-helpers-initial-identity"><em>Identity</em></a></li>
+<li><a class="reference internal" href="zend.view.helpers.inline-script.html#zend-view-helpers-initial-inlinescript"><em>InlineScript</em></a></li>
+<li><a class="reference internal" href="zend.view.helpers.json.html#zend-view-helpers-initial-json"><em>JSON</em></a></li>
+<li><a class="reference internal" href="zend.view.helpers.partial.html#zend-view-helpers-initial-partial"><em>Partial</em></a></li>
+<li><a class="reference internal" href="zend.view.helpers.placeholder.html#zend-view-helpers-initial-placeholder"><em>Placeholder</em></a></li>
+<li><a class="reference internal" href="zend.view.helpers.url.html#zend-view-helpers-initial-url"><em>Url</em></a></li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">View helpers related to <strong>Internationalization</strong> are documented in the
+<a class="reference internal" href="zend.i18n.view.helpers.html#zend-i18n-view-helpers"><em>I18n View Helpers</em></a> chapter.</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">View helpers related to <strong>form</strong> are documented in the
+<a class="reference internal" href="zend.form.view.helpers.html#zend-form-view-helpers"><em>Form View Helpers</em></a> chapter.</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">View helpers related to <strong>navigation</strong> are documented in the
+<a class="reference internal" href="zend.navigation.view.helpers.html#zend-navigation-view-helpers"><em>Navigation View Helpers</em></a> chapter.</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">View helpers related to <strong>paginator</strong> are documented in the
+<a class="reference internal" href="zend.paginator.usage.html#zend-paginator-rendering"><em>Paginator Usage</em></a> chapter.</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">For documentation on writing <strong>custom view helpers</strong> see the
+<a class="reference internal" href="zend.view.helpers.advanced-usage.html#zend-view-helpers-advanced-usage"><em>Advanced usage</em></a> chapter.</p>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/zf2_logo.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">View Helpers</a><ul>
+<li><a class="reference internal" href="#introduction">Introduction</a></li>
+<li><a class="reference internal" href="#included-helpers">Included Helpers</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="zend.view.view-event.html"
+                        title="previous chapter">The ViewEvent</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="zend.view.helpers.base-path.html"
+                        title="next chapter">View Helper - BasePath</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li>
+        <!--<a href="../_sources/modules/zend.view.helpers.txt"-->
+        <a href="https://github.com/zendframework/zf2-documentation/blob/master/docs/languages/en/modules/zend.view.helpers.rst"
+           rel="nofollow">Show Source</a></li>
+    <li><a href="https://github.com/zendframework/zf2-documentation/edit/master/docs/languages/en/modules/zend.view.helpers.rst"
+           rel="nofollow">Edit Source</a>
+    </li>
+  </ul>
+        <p style="font-size: 12px">
+            Note: You need to stay logged into your <a href="http://www.github.com">GitHub account</a> to contribute to the documentation.
+        </p>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="zend.view.helpers.base-path.html" title="View Helper - BasePath"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="zend.view.view-event.html" title="The ViewEvent"
+             >previous</a> |</li>
+        <li><a href="../index.html">Zend Framework 2 2.3.0dev documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+
+    <div class="footer">
+        &copy; Copyright 2013, Zend Technologies Ltd..
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b3.
+    </div>
+<div id="edit-button">
+    <img src="../_static/edit.gif" alt="Edit this document" title="Edit this document" onclick="javascript:$('#editor-trap').toggle();">
+</div>
+     
+<div id="editor-trap">
+    <h3>Edit this document</h3>
+
+    <p>
+        The source code of this file is hosted on GitHub. Everyone can
+        update and fix errors in this document with few clicks -
+        no downloads needed.
+    <p>
+
+    <ol>
+
+        <li>
+            Login with your <a href="http://www.github.com">GitHub</a> account.
+        </li>
+
+        <li>
+            Go to
+            <a href="https://github.com/zendframework/zf2-documentation/edit/master/docs/languages/en/modules/zend.view.helpers.rst">
+                View Helpers
+            </a> on GitHub.
+        </li>
+
+        <li>
+            Edit file contents using GitHub's text editor in your web browser
+        </li>
+
+        <li>
+            Fill in the <b>Commit message</b> text box at the end of the page telling <i>why</i>
+            you did the changes. Press <b>Propose file change</b> button next to it when done.
+        </li>
+
+
+        <li>
+            On <i>Send a pull request</i> page you don't need to fill in text anymore. Just
+            press <b>Send pull request</b> button.
+        </li>
+
+        <li>
+            Your changes are now queued for review under project's <a href="https://github.com/zendframework/zf2-documentation/pulls">Pull requests</a> tab on GitHub.
+        </li>
+    </ol>
+
+</div>
+
+
+  </body>
+</html>

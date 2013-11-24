@@ -1,0 +1,1094 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>The MvcEvent &mdash; Zend Framework 2 2.3.0dev documentation</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '2.3.0dev',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="Zend Framework 2 2.3.0dev documentation" href="../index.html" />
+    <link rel="next" title="The SendResponseEvent" href="zend.mvc.send-response-event.html" />
+    <link rel="prev" title="Routing" href="zend.mvc.routing.html" />
+<style type="text/css">
+    /* Styles for floating Edit on GitHub box */
+    #editor-trap {
+        padding: 1em;
+        border: 1px solid white;
+        width: 250px;
+
+        display: none;
+        color: white;
+        background: #3f454b;
+        position: fixed;
+        bottom: 5px;
+        left: 175px;
+        font-size: 85%;
+        text-align: left;
+        z-index: 2;
+
+        box-shadow: 0 4px 6px #333;
+        -moz-box-shadow: 0 4px 6px #333;
+        -webkit-box-shadow: 0 4px 6px #333;
+        
+        cursor: pointer;
+    }
+
+    #editor-trap h3 {
+        margin: 0 0 0.5em 0;
+        padding: 0;
+    }
+
+    #editor-trap h3 > span {
+        padding: 0 6px;
+        border: solid white;
+        border-width: 0 1px 4px 1px;
+        font-size: 10px;
+    }
+
+    #editor-trap a {
+        color: #98DBCC;
+    }
+
+    #editor-trap ol {
+        margin: 0;
+        padding: 0 0 0 2em;
+    }
+
+    /* Hide trick */
+    #editor-trap.toggled > * {
+        display: none;
+    }
+
+
+    #editor-trap.toggled > h3 {
+        display: block;
+    }
+
+    #editor-trap.toggled > h3 > span {
+        border-width: 6px 1px 0 1px;
+    }
+    
+    #edit-button {
+        position: fixed;
+        bottom: 5px;
+        left: 5px;
+        z-index: 2;
+        width: 162px;
+        height: 42px;
+    }
+</style>
+
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="zend.mvc.send-response-event.html" title="The SendResponseEvent"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="zend.mvc.routing.html" title="Routing"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">Zend Framework 2 2.3.0dev documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="the-mvcevent">
+<span id="zend-mvc-mvc-event"></span><h1>The MvcEvent<a class="headerlink" href="#the-mvcevent" title="Permalink to this headline">¶</a></h1>
+<p>The MVC layer of Zend Framework 2 incorporates and utilizes a custom <tt class="docutils literal"><span class="pre">Zend\EventManager\Event</span></tt> implementation -
+<tt class="docutils literal"><span class="pre">Zend\Mvc\MvcEvent</span></tt>. This event is created during <tt class="docutils literal"><span class="pre">Zend\Mvc\Application::bootstrap()</span></tt> and is passed directly to
+all the events that method triggers. Additionally, if your controllers implement the
+<tt class="docutils literal"><span class="pre">Zend\Mvc\InjectApplicationEventInterface</span></tt>, <tt class="docutils literal"><span class="pre">MvcEvent</span></tt> will be injected into those controllers.</p>
+<p>The <tt class="docutils literal"><span class="pre">MvcEvent</span></tt> adds accessors and mutators for the following:</p>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">Application</span></tt> object.</li>
+<li><tt class="docutils literal"><span class="pre">Request</span></tt> object.</li>
+<li><tt class="docutils literal"><span class="pre">Response</span></tt> object.</li>
+<li><tt class="docutils literal"><span class="pre">Router</span></tt> object.</li>
+<li><tt class="docutils literal"><span class="pre">RouteMatch</span></tt> object.</li>
+<li>Result - usually the result of dispatching a controller.</li>
+<li><tt class="docutils literal"><span class="pre">ViewModel</span></tt> object, typically representing the layout view model.</li>
+</ul>
+<p>The methods it defines are:</p>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">setApplication($application)</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">getApplication()</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">setRequest($request)</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">getRequest()</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">setResponse($response)</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">getResponse()</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">setRouter($router)</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">getRouter()</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">setRouteMatch($routeMatch)</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">getRouteMatch()</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">setResult($result)</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">getResult()</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">setViewModel($viewModel)</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">getViewModel()</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">isError()</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">setError()</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">getError()</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">getController()</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">setController($name)</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">getControllerClass()</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">setControllerClass($class)</span></tt></li>
+</ul>
+<p>The <tt class="docutils literal"><span class="pre">Application</span></tt>, <tt class="docutils literal"><span class="pre">Request</span></tt>, <tt class="docutils literal"><span class="pre">Response</span></tt>, <tt class="docutils literal"><span class="pre">Router</span></tt>, and <tt class="docutils literal"><span class="pre">ViewModel</span></tt> are all injected during the
+<tt class="docutils literal"><span class="pre">bootstrap</span></tt> event. Following the <tt class="docutils literal"><span class="pre">route</span></tt> event, it will be injected also with the <tt class="docutils literal"><span class="pre">RouteMatch</span></tt> object
+encapsulating the results of routing.</p>
+<p>Since this object is passed around throughout the MVC, it is a common location for retrieving the results of
+routing, the router, and the request and response objects. Additionally, we encourage setting the results of
+execution in the event, to allow event listeners to introspect them and utilize them within their execution. As an
+example, the results could be passed into a view renderer.</p>
+<div class="section" id="order-of-events">
+<span id="zend-mvc-mvc-event-order"></span><h2>Order of events<a class="headerlink" href="#order-of-events" title="Permalink to this headline">¶</a></h2>
+<p>The following events are triggered, in the following order:</p>
+<table border="1" class="docutils">
+<caption><tt class="docutils literal"><span class="pre">MvcEvent</span></tt> Events</caption>
+<colgroup>
+<col width="18%" />
+<col width="32%" />
+<col width="50%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Name</th>
+<th class="head">Constant</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><tt class="docutils literal"><span class="pre">bootstrap</span></tt></td>
+<td><tt class="docutils literal"><span class="pre">MvcEvent::EVENT_BOOTSTRAP</span></tt></td>
+<td>Bootstrap the application by creating the ViewManager.</td>
+</tr>
+<tr class="row-odd"><td><tt class="docutils literal"><span class="pre">route</span></tt></td>
+<td><tt class="docutils literal"><span class="pre">MvcEvent::EVENT_ROUTE</span></tt></td>
+<td>Perform all the route work (matching...).</td>
+</tr>
+<tr class="row-even"><td><tt class="docutils literal"><span class="pre">dispatch</span></tt></td>
+<td><tt class="docutils literal"><span class="pre">MvcEvent::EVENT_DISPATCH</span></tt></td>
+<td>Dispatch the matched route to a controller/action.</td>
+</tr>
+<tr class="row-odd"><td><tt class="docutils literal"><span class="pre">dispatch.error</span></tt></td>
+<td><tt class="docutils literal"><span class="pre">MvcEvent::EVENT_DISPATCH_ERROR</span></tt></td>
+<td>Event triggered in case of a problem during dispatch
+process (unknown controller...).</td>
+</tr>
+<tr class="row-even"><td><tt class="docutils literal"><span class="pre">render</span></tt></td>
+<td><tt class="docutils literal"><span class="pre">MvcEvent::EVENT_RENDER</span></tt></td>
+<td>Prepare the data and delegate the rendering to the
+view layer.</td>
+</tr>
+<tr class="row-odd"><td><tt class="docutils literal"><span class="pre">render.error</span></tt></td>
+<td><tt class="docutils literal"><span class="pre">MvcEvent::EVENT_RENDER_ERROR</span></tt></td>
+<td>Event triggered in case of a problem during the render
+process (no renderer found...).</td>
+</tr>
+<tr class="row-even"><td><tt class="docutils literal"><span class="pre">finish</span></tt></td>
+<td><tt class="docutils literal"><span class="pre">MvcEvent::EVENT_FINISH</span></tt></td>
+<td>Perform any task once everything is done.</td>
+</tr>
+</tbody>
+</table>
+<p>Those events are extensively describe in the following sections.</p>
+</div>
+<div class="section" id="mvcevent-event-bootstrap">
+<span id="zend-mvc-mvc-event-bootstrap"></span><h2>MvcEvent::EVENT_BOOTSTRAP<a class="headerlink" href="#mvcevent-event-bootstrap" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="listeners">
+<span id="zend-mvc-mvc-event-bootstrap-listeners"></span><h3>Listeners<a class="headerlink" href="#listeners" title="Permalink to this headline">¶</a></h3>
+<p>The following classes are listening to this event (they are sorted from higher priority to lower priority):</p>
+<table border="1" class="docutils" id="zend-mvc-mvc-event-bootstrap-listeners-table">
+<caption><tt class="docutils literal"><span class="pre">MvcEvent::EVENT_BOOTSTRAP</span></tt> Listeners</caption>
+<colgroup>
+<col width="23%" />
+<col width="6%" />
+<col width="11%" />
+<col width="11%" />
+<col width="50%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Class</th>
+<th class="head">Priority</th>
+<th class="head">Method Called</th>
+<th class="head">Itself Triggers</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><tt class="docutils literal"><span class="pre">Zend\Mvc\View\Http\ViewManager</span></tt></td>
+<td>10000</td>
+<td><tt class="docutils literal"><span class="pre">onBootstrap</span></tt></td>
+<td><em>none</em></td>
+<td>Prepares the view layer (instantiate a <tt class="docutils literal"><span class="pre">Zend\Mvc\View\Http\ViewManager</span></tt>).</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="triggerers">
+<span id="zend-mvc-mvc-event-bootstrap-triggerers"></span><h3>Triggerers<a class="headerlink" href="#triggerers" title="Permalink to this headline">¶</a></h3>
+<p>This event is triggered by the following classes:</p>
+<table border="1" class="docutils" id="zend-mvc-mvc-event-bootstrap-triggerers-table">
+<caption><tt class="docutils literal"><span class="pre">MvcEvent::EVENT_BOOTSTRAP</span></tt> Triggerers</caption>
+<colgroup>
+<col width="64%" />
+<col width="36%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Class</th>
+<th class="head">In Method</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><tt class="docutils literal"><span class="pre">Zend\Mvc\Application</span></tt></td>
+<td><tt class="docutils literal"><span class="pre">bootstrap</span></tt></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="section" id="mvcevent-event-route">
+<span id="zend-mvc-mvc-event-route"></span><h2>MvcEvent::EVENT_ROUTE<a class="headerlink" href="#mvcevent-event-route" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="zend-mvc-mvc-event-route-listeners">
+<span id="id1"></span><h3>Listeners<a class="headerlink" href="#zend-mvc-mvc-event-route-listeners" title="Permalink to this headline">¶</a></h3>
+<p>The following classes are listening to this event (they are sorted from higher priority to lower priority):</p>
+<table border="1" class="docutils" id="zend-mvc-mvc-event-route-listeners-table">
+<caption><tt class="docutils literal"><span class="pre">MvcEvent::EVENT_ROUTE</span></tt> Listeners</caption>
+<colgroup>
+<col width="17%" />
+<col width="5%" />
+<col width="7%" />
+<col width="19%" />
+<col width="52%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Class</th>
+<th class="head">Priority</th>
+<th class="head">Method Called</th>
+<th class="head">Itself Triggers</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><tt class="docutils literal"><span class="pre">Zend\Mvc\ModuleRouteListener</span></tt></td>
+<td>1</td>
+<td><tt class="docutils literal"><span class="pre">onRoute</span></tt></td>
+<td><em>none</em></td>
+<td>This listener determines if the module namespace should be prepended to the controller name. This
+is the case if the route match contains a parameter key matching the MODULE_NAMESPACE constant.</td>
+</tr>
+<tr class="row-odd"><td><tt class="docutils literal"><span class="pre">Zend\Mvc\RouteListener</span></tt></td>
+<td>1</td>
+<td><tt class="docutils literal"><span class="pre">onRoute</span></tt></td>
+<td><tt class="docutils literal"><span class="pre">MvcEvent::EVENT_DISPATCH_ERROR</span></tt>
+(if no route is matched)</td>
+<td>Tries to match the request to the router and return a RouteMatch object.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="zend-mvc-mvc-event-route-triggerers">
+<span id="id2"></span><h3>Triggerers<a class="headerlink" href="#zend-mvc-mvc-event-route-triggerers" title="Permalink to this headline">¶</a></h3>
+<p>This event is triggered by the following classes:</p>
+<table border="1" class="docutils" id="zend-mvc-mvc-event-route-triggerers-table">
+<caption><tt class="docutils literal"><span class="pre">MvcEvent::EVENT_ROUTE</span></tt> Triggerers</caption>
+<colgroup>
+<col width="25%" />
+<col width="10%" />
+<col width="66%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Class</th>
+<th class="head">In Method</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><tt class="docutils literal"><span class="pre">Zend\Mvc\Application</span></tt></td>
+<td><tt class="docutils literal"><span class="pre">run</span></tt></td>
+<td>It also has a short circuit callback that allows to stop the
+propagation of the event if an error is raised during the routing.</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="section" id="mvcevent-event-dispatch">
+<span id="zend-mvc-mvc-event-dispatch"></span><h2>MvcEvent::EVENT_DISPATCH<a class="headerlink" href="#mvcevent-event-dispatch" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="zend-mvc-mvc-event-dispatch-listeners">
+<span id="id3"></span><h3>Listeners<a class="headerlink" href="#zend-mvc-mvc-event-dispatch-listeners" title="Permalink to this headline">¶</a></h3>
+<p>The following classes are listening to this event (they are sorted from higher priority to lower priority):</p>
+<div class="section" id="console-context-only">
+<span id="zend-mvc-mvc-event-dispatch-listeners-console"></span><h4>Console context only<a class="headerlink" href="#console-context-only" title="Permalink to this headline">¶</a></h4>
+<p>Those listeners are only attached in a Console context:</p>
+<table border="1" class="docutils" id="zend-mvc-mvc-event-dispatch-listeners-console-table">
+<caption><tt class="docutils literal"><span class="pre">MvcEvent::EVENT_DISPATCH</span></tt> Listeners for Console context only</caption>
+<colgroup>
+<col width="33%" />
+<col width="5%" />
+<col width="17%" />
+<col width="45%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Class</th>
+<th class="head">Priority</th>
+<th class="head">Method Called</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><tt class="docutils literal"><span class="pre">Zend\Mvc\View\Console\InjectNamedConsoleParamsListener</span></tt></td>
+<td>1000</td>
+<td><tt class="docutils literal"><span class="pre">injectNamedParams</span></tt></td>
+<td>Merge all the params (route matched params and params in the command) and add
+them to the Request object.</td>
+</tr>
+<tr class="row-odd"><td><tt class="docutils literal"><span class="pre">Zend\Mvc\View\Console\CreateViewModelListener</span></tt></td>
+<td>-80</td>
+<td><tt class="docutils literal"><span class="pre">createViewModelFromArray</span></tt></td>
+<td>If the controller action returned an associative array, it casts it to a
+<tt class="docutils literal"><span class="pre">ConsoleModel</span></tt> object.</td>
+</tr>
+<tr class="row-even"><td><tt class="docutils literal"><span class="pre">Zend\Mvc\View\Console\CreateViewModelListener</span></tt></td>
+<td>-80</td>
+<td><tt class="docutils literal"><span class="pre">createViewModelFromString</span></tt></td>
+<td>If the controller action returned a string, it casts it to a <tt class="docutils literal"><span class="pre">ConsoleModel</span></tt>
+object.</td>
+</tr>
+<tr class="row-odd"><td><tt class="docutils literal"><span class="pre">Zend\Mvc\View\Console\CreateViewModelListener</span></tt></td>
+<td>-80</td>
+<td><tt class="docutils literal"><span class="pre">createViewModelFromNull</span></tt></td>
+<td>If the controller action returned null, it casts it to a <tt class="docutils literal"><span class="pre">ConsoleModel</span></tt>
+object.</td>
+</tr>
+<tr class="row-even"><td><tt class="docutils literal"><span class="pre">Zend\Mvc\View\Console\InjectViewModelListener</span></tt></td>
+<td>-100</td>
+<td><tt class="docutils literal"><span class="pre">injectViewModel</span></tt></td>
+<td>Inserts the <tt class="docutils literal"><span class="pre">ViewModel</span></tt> (in this case, a <tt class="docutils literal"><span class="pre">ConsoleModel</span></tt>) and adds it to
+the MvcEvent object. It either (a) adds it as a child to the default, composed
+view model, or (b) replaces it if the result is marked as terminable.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="http-context-only">
+<span id="zend-mvc-mvc-event-dispatch-listeners-http"></span><h4>Http context only<a class="headerlink" href="#http-context-only" title="Permalink to this headline">¶</a></h4>
+<p>Those listeners are only attached in a Http context:</p>
+<table border="1" class="docutils" id="zend-mvc-mvc-event-dispatch-listeners-http-table">
+<caption><tt class="docutils literal"><span class="pre">MvcEvent::EVENT_DISPATCH</span></tt> Listeners for Http context only</caption>
+<colgroup>
+<col width="28%" />
+<col width="5%" />
+<col width="17%" />
+<col width="49%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Class</th>
+<th class="head">Priority</th>
+<th class="head">Method Called</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><tt class="docutils literal"><span class="pre">Zend\Mvc\View\Http\CreateViewModelListener</span></tt></td>
+<td>-80</td>
+<td><tt class="docutils literal"><span class="pre">createViewModelFromArray</span></tt></td>
+<td>If the controller action returned an associative array, it casts it to a
+<tt class="docutils literal"><span class="pre">ViewModel</span></tt> object.</td>
+</tr>
+<tr class="row-odd"><td><tt class="docutils literal"><span class="pre">Zend\Mvc\View\Http\CreateViewModelListener</span></tt></td>
+<td>-80</td>
+<td><tt class="docutils literal"><span class="pre">createViewModelFromNull</span></tt></td>
+<td>If the controller action returned null, it casts it to a <tt class="docutils literal"><span class="pre">ViewModel</span></tt> object.</td>
+</tr>
+<tr class="row-even"><td><tt class="docutils literal"><span class="pre">Zend\Mvc\View\Http\RouteNotFoundStrategy</span></tt></td>
+<td>-90</td>
+<td><tt class="docutils literal"><span class="pre">prepareNotFoundViewModel</span></tt></td>
+<td>It creates and return a 404 <tt class="docutils literal"><span class="pre">ViewModel</span></tt>.</td>
+</tr>
+<tr class="row-odd"><td><tt class="docutils literal"><span class="pre">Zend\Mvc\View\Http\InjectTemplateListener</span></tt></td>
+<td>-90</td>
+<td><tt class="docutils literal"><span class="pre">injectTemplate</span></tt></td>
+<td>Inject a template into the view model, if none present. Template is derived from
+the controller found in the route match, and, optionally, the action, if present.</td>
+</tr>
+<tr class="row-even"><td><tt class="docutils literal"><span class="pre">Zend\Mvc\View\Http\InjectViewModelListener</span></tt></td>
+<td>-100</td>
+<td><tt class="docutils literal"><span class="pre">injectViewModel</span></tt></td>
+<td>Inserts the <tt class="docutils literal"><span class="pre">ViewModel</span></tt> (in this case, a <tt class="docutils literal"><span class="pre">ViewModel</span></tt>) and adds it to the
+MvcEvent object. It either (a) adds it as a child to the default, composed view
+model, or (b) replaces it if the result is marked as terminable.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="all-contexts">
+<span id="zend-mvc-mvc-event-dispatch-listeners-all"></span><h4>All contexts<a class="headerlink" href="#all-contexts" title="Permalink to this headline">¶</a></h4>
+<p>Those listeners are attached for both contexts:</p>
+<table border="1" class="docutils" id="zend-mvc-mvc-event-dispatch-listeners-all-table">
+<caption><tt class="docutils literal"><span class="pre">MvcEvent::EVENT_DISPATCH</span></tt> Listeners for both contexts</caption>
+<colgroup>
+<col width="17%" />
+<col width="5%" />
+<col width="8%" />
+<col width="25%" />
+<col width="44%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Class</th>
+<th class="head">Priority</th>
+<th class="head">Method Called</th>
+<th class="head">Itself Triggers</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><tt class="docutils literal"><span class="pre">Zend\Mvc\DispatchListener</span></tt></td>
+<td>1</td>
+<td><tt class="docutils literal"><span class="pre">onDispatch</span></tt></td>
+<td><tt class="docutils literal"><span class="pre">MvcEvent::EVENT_DISPATCH_ERROR</span></tt> (if an
+exception is raised during dispatch processes)</td>
+<td>Try to load the matched controller from the service manager (and throws various
+exceptions if it does not).</td>
+</tr>
+<tr class="row-odd"><td><tt class="docutils literal"><span class="pre">Zend\Mvc\AbstractController</span></tt></td>
+<td>1</td>
+<td><tt class="docutils literal"><span class="pre">onDispatch</span></tt></td>
+<td><em>none</em></td>
+<td>The <tt class="docutils literal"><span class="pre">onDispatch</span></tt> method of the <tt class="docutils literal"><span class="pre">AbstractController</span></tt> is an abstract method. In
+<tt class="docutils literal"><span class="pre">AbstractActionController</span></tt> for instance, it simply calls the action method.</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="section" id="zend-mvc-mvc-event-dispatch-triggerers">
+<span id="id4"></span><h3>Triggerers<a class="headerlink" href="#zend-mvc-mvc-event-dispatch-triggerers" title="Permalink to this headline">¶</a></h3>
+<p>This event is triggered by the following classes:</p>
+<table border="1" class="docutils" id="zend-mvc-mvc-event-dispatch-triggerers-table">
+<caption><tt class="docutils literal"><span class="pre">MvcEvent::EVENT_DISPATCH</span></tt> Triggerers</caption>
+<colgroup>
+<col width="35%" />
+<col width="11%" />
+<col width="54%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Class</th>
+<th class="head">In Method</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><tt class="docutils literal"><span class="pre">Zend\Mvc\Application</span></tt></td>
+<td><tt class="docutils literal"><span class="pre">run</span></tt></td>
+<td>It also has a short circuit callback that allows to stop the
+propagation of the event if an error is raised during the routing.</td>
+</tr>
+<tr class="row-odd"><td><tt class="docutils literal"><span class="pre">Zend\Mvc\Controller\AbstractController</span></tt></td>
+<td><tt class="docutils literal"><span class="pre">dispatch</span></tt></td>
+<td>If a listener returns a <tt class="docutils literal"><span class="pre">Response</span></tt> object, it stops propagation.
+Note: every <tt class="docutils literal"><span class="pre">AbstractController</span></tt> listen to this event and execute
+the <tt class="docutils literal"><span class="pre">onBootstrap</span></tt> method when it is triggered.</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="section" id="mvcevent-event-dispatch-error">
+<span id="zend-mvc-mvc-event-dispatch-error"></span><h2>MvcEvent::EVENT_DISPATCH_ERROR<a class="headerlink" href="#mvcevent-event-dispatch-error" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="zend-mvc-mvc-event-dispatch-error-listeners">
+<span id="id5"></span><h3>Listeners<a class="headerlink" href="#zend-mvc-mvc-event-dispatch-error-listeners" title="Permalink to this headline">¶</a></h3>
+<p>The following classes are listening to this event (they are sorted from higher priority to lower priority):</p>
+<div class="section" id="zend-mvc-mvc-event-dispatch-error-listeners-console">
+<span id="id6"></span><h4>Console context only<a class="headerlink" href="#zend-mvc-mvc-event-dispatch-error-listeners-console" title="Permalink to this headline">¶</a></h4>
+<table border="1" class="docutils" id="zend-mvc-mvc-event-dispatch-error-listeners-console-table">
+<caption><tt class="docutils literal"><span class="pre">MvcEvent::EVENT_DISPATCH_ERROR</span></tt> Listeners for Console context only</caption>
+<colgroup>
+<col width="29%" />
+<col width="5%" />
+<col width="17%" />
+<col width="49%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Class</th>
+<th class="head">Priority</th>
+<th class="head">Method Called</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><tt class="docutils literal"><span class="pre">Zend\Mvc\View\Console\RouteNotFoundStrategy</span></tt></td>
+<td>1</td>
+<td><tt class="docutils literal"><span class="pre">handleRouteNotFoundError</span></tt></td>
+<td>Detect if an error is a route not found condition. If a &#8220;controller not found&#8221; or
+&#8220;invalid controller&#8221; error type is encountered, sets the response status code to 404.</td>
+</tr>
+<tr class="row-odd"><td><tt class="docutils literal"><span class="pre">Zend\Mvc\View\Console\ExceptionStrategy</span></tt></td>
+<td>1</td>
+<td><tt class="docutils literal"><span class="pre">prepareExceptionViewModel</span></tt></td>
+<td>Create an exception view model and set the status code to 404.</td>
+</tr>
+<tr class="row-even"><td><tt class="docutils literal"><span class="pre">Zend\Mvc\View\Console\InjectViewModelListener</span></tt></td>
+<td>-100</td>
+<td><tt class="docutils literal"><span class="pre">injectViewModel</span></tt></td>
+<td>Inserts the <tt class="docutils literal"><span class="pre">ViewModel</span></tt> (in this case, a <tt class="docutils literal"><span class="pre">ConsoleModel</span></tt>) and adds it to the
+MvcEvent object. It either (a) adds it as a child to the default, composed view
+model, or (b) replaces it if the result is marked as terminable.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="zend-mvc-mvc-event-dispatch-error-listeners-http">
+<span id="id7"></span><h4>Http context only<a class="headerlink" href="#zend-mvc-mvc-event-dispatch-error-listeners-http" title="Permalink to this headline">¶</a></h4>
+<p>Those listeners are only attached in a Http context:</p>
+<table border="1" class="docutils" id="zend-mvc-mvc-event-dispatch-error-listeners-http-table">
+<caption><tt class="docutils literal"><span class="pre">MvcEvent::EVENT_DISPATCH_ERROR</span></tt> Listeners for Http context only</caption>
+<colgroup>
+<col width="28%" />
+<col width="5%" />
+<col width="18%" />
+<col width="48%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Class</th>
+<th class="head">Priority</th>
+<th class="head">Method Called</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><tt class="docutils literal"><span class="pre">Zend\Mvc\View\Http\RouteNotFoundStrategy</span></tt></td>
+<td>1</td>
+<td><tt class="docutils literal"><span class="pre">detectNotFoundError</span></tt></td>
+<td>Detect if an error is a 404 condition. If a &#8220;controller not found&#8221; or &#8220;invalid
+controller&#8221; error type is encountered, sets the response status code to 404.</td>
+</tr>
+<tr class="row-odd"><td><tt class="docutils literal"><span class="pre">Zend\Mvc\View\Http\RouteNotFoundStrategy</span></tt></td>
+<td>1</td>
+<td><tt class="docutils literal"><span class="pre">prepareNotFoundViewModel</span></tt></td>
+<td>Create and return a 404 view model.</td>
+</tr>
+<tr class="row-even"><td><tt class="docutils literal"><span class="pre">Zend\Mvc\View\Http\ExceptionStrategy</span></tt></td>
+<td>1</td>
+<td><tt class="docutils literal"><span class="pre">prepareExceptionViewModel</span></tt></td>
+<td>Create an exception view model and set the status code to 404</td>
+</tr>
+<tr class="row-odd"><td><tt class="docutils literal"><span class="pre">Zend\Mvc\View\Http\InjectViewModelListener</span></tt></td>
+<td>-100</td>
+<td><tt class="docutils literal"><span class="pre">injectViewModel</span></tt></td>
+<td>Inserts the <tt class="docutils literal"><span class="pre">ViewModel</span></tt> (in this case, a <tt class="docutils literal"><span class="pre">ViewModel</span></tt>) and adds it to the
+MvcEvent object. It either (a) adds it as a child to the default, composed
+view model, or (b) replaces it if the result is marked as terminable.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="zend-mvc-mvc-event-dispatch-error-listeners-all">
+<span id="id8"></span><h4>All contexts<a class="headerlink" href="#zend-mvc-mvc-event-dispatch-error-listeners-all" title="Permalink to this headline">¶</a></h4>
+<p>Those listeners are attached for both contexts:</p>
+<table border="1" class="docutils" id="zend-mvc-mvc-event-dispatch-error-listeners-all-table">
+<caption><tt class="docutils literal"><span class="pre">MvcEvent::EVENT_DISPATCH_ERROR</span></tt> Listeners for both contexts</caption>
+<colgroup>
+<col width="28%" />
+<col width="8%" />
+<col width="21%" />
+<col width="42%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Class</th>
+<th class="head">Priority</th>
+<th class="head">Method Called</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><tt class="docutils literal"><span class="pre">Zend\Mvc\DispatchListener</span></tt></td>
+<td>1</td>
+<td><tt class="docutils literal"><span class="pre">reportMonitorEvent</span></tt></td>
+<td>Used to monitoring when Zend Server is used.</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="section" id="zend-mvc-mvc-event-dispatch-error-triggerers">
+<span id="id9"></span><h3>Triggerers<a class="headerlink" href="#zend-mvc-mvc-event-dispatch-error-triggerers" title="Permalink to this headline">¶</a></h3>
+<table border="1" class="docutils" id="zend-mvc-mvc-event-dispatch-error-triggerers-table">
+<caption><tt class="docutils literal"><span class="pre">MvcEvent::EVENT_DISPATCH_ERROR</span></tt> Triggerers</caption>
+<colgroup>
+<col width="45%" />
+<col width="55%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Class</th>
+<th class="head">In Method</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><tt class="docutils literal"><span class="pre">Zend\Mvc\DispatchListener</span></tt></td>
+<td><tt class="docutils literal"><span class="pre">onDispatch</span></tt></td>
+</tr>
+<tr class="row-odd"><td><tt class="docutils literal"><span class="pre">Zend\Mvc\DispatchListener</span></tt></td>
+<td><tt class="docutils literal"><span class="pre">marshallControllerNotFoundEvent</span></tt></td>
+</tr>
+<tr class="row-even"><td><tt class="docutils literal"><span class="pre">Zend\Mvc\DispatchListener</span></tt></td>
+<td><tt class="docutils literal"><span class="pre">marshallBadControllerEvent</span></tt></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="section" id="mvcevent-event-render">
+<span id="zend-mvc-mvc-event-render"></span><h2>MvcEvent::EVENT_RENDER<a class="headerlink" href="#mvcevent-event-render" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="zend-mvc-mvc-event-render-listeners">
+<span id="id10"></span><h3>Listeners<a class="headerlink" href="#zend-mvc-mvc-event-render-listeners" title="Permalink to this headline">¶</a></h3>
+<p>The following classes are listening to this event (they are sorted from higher priority to lower priority):</p>
+<div class="section" id="zend-mvc-mvc-event-render-listeners-console">
+<span id="id11"></span><h4>Console context only<a class="headerlink" href="#zend-mvc-mvc-event-render-listeners-console" title="Permalink to this headline">¶</a></h4>
+<p>Those listeners are only attached in a Console context:</p>
+<table border="1" class="docutils" id="zend-mvc-mvc-event-render-listeners-console-table">
+<caption><tt class="docutils literal"><span class="pre">MvcEvent::EVENT_RENDER</span></tt> Listeners for Console context only</caption>
+<colgroup>
+<col width="56%" />
+<col width="10%" />
+<col width="15%" />
+<col width="19%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Class</th>
+<th class="head">Priority</th>
+<th class="head">Method Called</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><tt class="docutils literal"><span class="pre">Zend\Mvc\View\Console\DefaultRenderingStrategy</span></tt></td>
+<td>-10000</td>
+<td><tt class="docutils literal"><span class="pre">render</span></tt></td>
+<td>Render the view.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="zend-mvc-mvc-event-render-listeners-http">
+<span id="id12"></span><h4>Http context only<a class="headerlink" href="#zend-mvc-mvc-event-render-listeners-http" title="Permalink to this headline">¶</a></h4>
+<p>Those listeners are only attached in a Http context:</p>
+<table border="1" class="docutils" id="zend-mvc-mvc-event-render-listeners-http-table">
+<caption><tt class="docutils literal"><span class="pre">MvcEvent::EVENT_RENDER</span></tt> Listeners for Http context only</caption>
+<colgroup>
+<col width="55%" />
+<col width="10%" />
+<col width="16%" />
+<col width="19%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Class</th>
+<th class="head">Priority</th>
+<th class="head">Method Called</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><tt class="docutils literal"><span class="pre">Zend\Mvc\View\Http\DefaultRenderingStrategy</span></tt></td>
+<td>-10000</td>
+<td><tt class="docutils literal"><span class="pre">render</span></tt></td>
+<td>Render the view.</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="section" id="zend-mvc-mvc-event-render-triggerers">
+<span id="id13"></span><h3>Triggerers<a class="headerlink" href="#zend-mvc-mvc-event-render-triggerers" title="Permalink to this headline">¶</a></h3>
+<p>This event is triggered by the following classes:</p>
+<table border="1" class="docutils" id="zend-mvc-mvc-event-render-triggerers-table">
+<caption><tt class="docutils literal"><span class="pre">MvcEvent::EVENT_RENDER</span></tt> Triggerers</caption>
+<colgroup>
+<col width="23%" />
+<col width="18%" />
+<col width="59%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Class</th>
+<th class="head">In Method</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><tt class="docutils literal"><span class="pre">Zend\Mvc\Application</span></tt></td>
+<td><tt class="docutils literal"><span class="pre">completeRequest</span></tt></td>
+<td>This event is triggered just before the MvcEvent::FINISH event.</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="section" id="mvcevent-event-render-error">
+<span id="zend-mvc-mvc-event-render-error"></span><h2>MvcEvent::EVENT_RENDER_ERROR<a class="headerlink" href="#mvcevent-event-render-error" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="zend-mvc-mvc-event-render-error-listeners">
+<span id="id14"></span><h3>Listeners<a class="headerlink" href="#zend-mvc-mvc-event-render-error-listeners" title="Permalink to this headline">¶</a></h3>
+<p>The following classes are listening to this event (they are sorted from higher priority to lower priority):</p>
+<div class="section" id="zend-mvc-mvc-event-render-error-listeners-console">
+<span id="id15"></span><h4>Console context only<a class="headerlink" href="#zend-mvc-mvc-event-render-error-listeners-console" title="Permalink to this headline">¶</a></h4>
+<p>Those listeners are only attached in a Console context:</p>
+<table border="1" class="docutils" id="zend-mvc-mvc-event-render-error-listeners-console-table">
+<caption><tt class="docutils literal"><span class="pre">MvcEvent::EVENT_RENDER_ERROR</span></tt> Listeners for Console context only</caption>
+<colgroup>
+<col width="30%" />
+<col width="5%" />
+<col width="18%" />
+<col width="47%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Class</th>
+<th class="head">Priority</th>
+<th class="head">Method Called</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><tt class="docutils literal"><span class="pre">Zend\Mvc\View\Console\ExceptionStrategy</span></tt></td>
+<td>1</td>
+<td><tt class="docutils literal"><span class="pre">prepareExceptionViewModel</span></tt></td>
+<td>Create an exception view model and set the status code to 404.</td>
+</tr>
+<tr class="row-odd"><td><tt class="docutils literal"><span class="pre">Zend\Mvc\View\Console\InjectViewModelListener</span></tt></td>
+<td>-100</td>
+<td><tt class="docutils literal"><span class="pre">injectViewModel</span></tt></td>
+<td>Inserts the <tt class="docutils literal"><span class="pre">ViewModel</span></tt> (in this case, a <tt class="docutils literal"><span class="pre">ConsoleModel</span></tt>) and adds it to the
+MvcEvent object. It either (a) adds it as a child to the default, composed view
+model, or (b) replaces it if the result is marked as terminable.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="zend-mvc-mvc-event-render-error-listeners-http">
+<span id="id16"></span><h4>Http context only<a class="headerlink" href="#zend-mvc-mvc-event-render-error-listeners-http" title="Permalink to this headline">¶</a></h4>
+<p>Those listeners are only attached in a Http context:</p>
+<table border="1" class="docutils" id="zend-mvc-mvc-event-render-error-listeners-http-table">
+<caption><tt class="docutils literal"><span class="pre">MvcEvent::EVENT_RENDER_ERROR</span></tt> Listeners for Http context only</caption>
+<colgroup>
+<col width="30%" />
+<col width="5%" />
+<col width="18%" />
+<col width="47%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Class</th>
+<th class="head">Priority</th>
+<th class="head">Method Called</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><tt class="docutils literal"><span class="pre">Zend\Mvc\View\Console\ExceptionStrategy</span></tt></td>
+<td>1</td>
+<td><tt class="docutils literal"><span class="pre">prepareExceptionViewModel</span></tt></td>
+<td>Create an exception view model and set the status code to 404.</td>
+</tr>
+<tr class="row-odd"><td><tt class="docutils literal"><span class="pre">Zend\Mvc\View\Console\InjectViewModelListener</span></tt></td>
+<td>-100</td>
+<td><tt class="docutils literal"><span class="pre">injectViewModel</span></tt></td>
+<td>Inserts the <tt class="docutils literal"><span class="pre">ViewModel</span></tt> (in this case, a <tt class="docutils literal"><span class="pre">ViewModel</span></tt>) and adds it to the
+MvcEvent object. It either (a) adds it as a child to the default, composed view
+model, or (b) replaces it if the result is marked as terminable.</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="section" id="zend-mvc-mvc-event-render-error-triggerers">
+<span id="id17"></span><h3>Triggerers<a class="headerlink" href="#zend-mvc-mvc-event-render-error-triggerers" title="Permalink to this headline">¶</a></h3>
+<p>This event is triggered by the following classes:</p>
+<table border="1" class="docutils" id="zend-mvc-mvc-event-render-error-triggerers-table">
+<caption><tt class="docutils literal"><span class="pre">MvcEvent::EVENT_RENDER_ERROR</span></tt> Triggerers</caption>
+<colgroup>
+<col width="44%" />
+<col width="10%" />
+<col width="45%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Class</th>
+<th class="head">In Method</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><tt class="docutils literal"><span class="pre">Zend\Mvc\View\Http\DefaultRenderingStrategy</span></tt></td>
+<td><tt class="docutils literal"><span class="pre">render</span></tt></td>
+<td>This event is triggered if an exception is raised
+during rendering.</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="section" id="mvcevent-event-finish">
+<span id="zend-mvc-mvc-event-finish"></span><h2>MvcEvent::EVENT_FINISH<a class="headerlink" href="#mvcevent-event-finish" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="zend-mvc-mvc-event-finish-listeners">
+<span id="id18"></span><h3>Listeners<a class="headerlink" href="#zend-mvc-mvc-event-finish-listeners" title="Permalink to this headline">¶</a></h3>
+<p>The following classes are listening to this event (they are sorted from higher priority to lower priority):</p>
+<table border="1" class="docutils" id="zend-mvc-mvc-event-finish-listeners-table">
+<caption><tt class="docutils literal"><span class="pre">MvcEvent::EVENT_FINISH</span></tt> Listeners</caption>
+<colgroup>
+<col width="26%" />
+<col width="7%" />
+<col width="13%" />
+<col width="54%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Class</th>
+<th class="head">Priority</th>
+<th class="head">Method Called</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><tt class="docutils literal"><span class="pre">Zend\Mvc\SendResponseListener</span></tt></td>
+<td>-10000</td>
+<td><tt class="docutils literal"><span class="pre">sendResponse</span></tt></td>
+<td>It triggers the <tt class="docutils literal"><span class="pre">SendResponseEvent</span></tt> in order to prepare the response
+(see the next page for more information about <tt class="docutils literal"><span class="pre">SendResponseEvent</span></tt>).</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="zend-mvc-mvc-event-finish-triggerers">
+<span id="id19"></span><h3>Triggerers<a class="headerlink" href="#zend-mvc-mvc-event-finish-triggerers" title="Permalink to this headline">¶</a></h3>
+<p>This event is triggered by the following classes:</p>
+<table border="1" class="docutils" id="zend-mvc-mvc-event-finish-triggerers-table">
+<caption><tt class="docutils literal"><span class="pre">MvcEvent::EVENT_FINISH</span></tt> Triggerers</caption>
+<colgroup>
+<col width="23%" />
+<col width="19%" />
+<col width="58%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Class</th>
+<th class="head">In Method</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><tt class="docutils literal"><span class="pre">Zend\Mvc\Application</span></tt></td>
+<td><tt class="docutils literal"><span class="pre">run</span></tt></td>
+<td>This event is triggered once the MvcEvent::ROUTE event returns
+a correct <tt class="docutils literal"><span class="pre">ResponseInterface</span></tt>.</td>
+</tr>
+<tr class="row-odd"><td><tt class="docutils literal"><span class="pre">Zend\Mvc\Application</span></tt></td>
+<td><tt class="docutils literal"><span class="pre">run</span></tt></td>
+<td>This event is triggered once the MvcEvent::DISPATCH event
+returns a correct <tt class="docutils literal"><span class="pre">ResponseInterface</span></tt>.</td>
+</tr>
+<tr class="row-even"><td><tt class="docutils literal"><span class="pre">Zend\Mvc\Application</span></tt></td>
+<td><tt class="docutils literal"><span class="pre">completeRequest</span></tt></td>
+<td>This event is triggered after the MvcEvent::RENDER (this means
+that, at this point, the view is already rendered).</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/zf2_logo.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">The MvcEvent</a><ul>
+<li><a class="reference internal" href="#order-of-events">Order of events</a></li>
+<li><a class="reference internal" href="#mvcevent-event-bootstrap">MvcEvent::EVENT_BOOTSTRAP</a><ul>
+<li><a class="reference internal" href="#listeners">Listeners</a></li>
+<li><a class="reference internal" href="#triggerers">Triggerers</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#mvcevent-event-route">MvcEvent::EVENT_ROUTE</a><ul>
+<li><a class="reference internal" href="#zend-mvc-mvc-event-route-listeners">Listeners</a></li>
+<li><a class="reference internal" href="#zend-mvc-mvc-event-route-triggerers">Triggerers</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#mvcevent-event-dispatch">MvcEvent::EVENT_DISPATCH</a><ul>
+<li><a class="reference internal" href="#zend-mvc-mvc-event-dispatch-listeners">Listeners</a><ul>
+<li><a class="reference internal" href="#console-context-only">Console context only</a></li>
+<li><a class="reference internal" href="#http-context-only">Http context only</a></li>
+<li><a class="reference internal" href="#all-contexts">All contexts</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#zend-mvc-mvc-event-dispatch-triggerers">Triggerers</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#mvcevent-event-dispatch-error">MvcEvent::EVENT_DISPATCH_ERROR</a><ul>
+<li><a class="reference internal" href="#zend-mvc-mvc-event-dispatch-error-listeners">Listeners</a><ul>
+<li><a class="reference internal" href="#zend-mvc-mvc-event-dispatch-error-listeners-console">Console context only</a></li>
+<li><a class="reference internal" href="#zend-mvc-mvc-event-dispatch-error-listeners-http">Http context only</a></li>
+<li><a class="reference internal" href="#zend-mvc-mvc-event-dispatch-error-listeners-all">All contexts</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#zend-mvc-mvc-event-dispatch-error-triggerers">Triggerers</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#mvcevent-event-render">MvcEvent::EVENT_RENDER</a><ul>
+<li><a class="reference internal" href="#zend-mvc-mvc-event-render-listeners">Listeners</a><ul>
+<li><a class="reference internal" href="#zend-mvc-mvc-event-render-listeners-console">Console context only</a></li>
+<li><a class="reference internal" href="#zend-mvc-mvc-event-render-listeners-http">Http context only</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#zend-mvc-mvc-event-render-triggerers">Triggerers</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#mvcevent-event-render-error">MvcEvent::EVENT_RENDER_ERROR</a><ul>
+<li><a class="reference internal" href="#zend-mvc-mvc-event-render-error-listeners">Listeners</a><ul>
+<li><a class="reference internal" href="#zend-mvc-mvc-event-render-error-listeners-console">Console context only</a></li>
+<li><a class="reference internal" href="#zend-mvc-mvc-event-render-error-listeners-http">Http context only</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#zend-mvc-mvc-event-render-error-triggerers">Triggerers</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#mvcevent-event-finish">MvcEvent::EVENT_FINISH</a><ul>
+<li><a class="reference internal" href="#zend-mvc-mvc-event-finish-listeners">Listeners</a></li>
+<li><a class="reference internal" href="#zend-mvc-mvc-event-finish-triggerers">Triggerers</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="zend.mvc.routing.html"
+                        title="previous chapter">Routing</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="zend.mvc.send-response-event.html"
+                        title="next chapter">The SendResponseEvent</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li>
+        <!--<a href="../_sources/modules/zend.mvc.mvc-event.txt"-->
+        <a href="https://github.com/zendframework/zf2-documentation/blob/master/docs/languages/en/modules/zend.mvc.mvc-event.rst"
+           rel="nofollow">Show Source</a></li>
+    <li><a href="https://github.com/zendframework/zf2-documentation/edit/master/docs/languages/en/modules/zend.mvc.mvc-event.rst"
+           rel="nofollow">Edit Source</a>
+    </li>
+  </ul>
+        <p style="font-size: 12px">
+            Note: You need to stay logged into your <a href="http://www.github.com">GitHub account</a> to contribute to the documentation.
+        </p>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="zend.mvc.send-response-event.html" title="The SendResponseEvent"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="zend.mvc.routing.html" title="Routing"
+             >previous</a> |</li>
+        <li><a href="../index.html">Zend Framework 2 2.3.0dev documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+
+    <div class="footer">
+        &copy; Copyright 2013, Zend Technologies Ltd..
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b3.
+    </div>
+<div id="edit-button">
+    <img src="../_static/edit.gif" alt="Edit this document" title="Edit this document" onclick="javascript:$('#editor-trap').toggle();">
+</div>
+     
+<div id="editor-trap">
+    <h3>Edit this document</h3>
+
+    <p>
+        The source code of this file is hosted on GitHub. Everyone can
+        update and fix errors in this document with few clicks -
+        no downloads needed.
+    <p>
+
+    <ol>
+
+        <li>
+            Login with your <a href="http://www.github.com">GitHub</a> account.
+        </li>
+
+        <li>
+            Go to
+            <a href="https://github.com/zendframework/zf2-documentation/edit/master/docs/languages/en/modules/zend.mvc.mvc-event.rst">
+                The MvcEvent
+            </a> on GitHub.
+        </li>
+
+        <li>
+            Edit file contents using GitHub's text editor in your web browser
+        </li>
+
+        <li>
+            Fill in the <b>Commit message</b> text box at the end of the page telling <i>why</i>
+            you did the changes. Press <b>Propose file change</b> button next to it when done.
+        </li>
+
+
+        <li>
+            On <i>Send a pull request</i> page you don't need to fill in text anymore. Just
+            press <b>Send pull request</b> button.
+        </li>
+
+        <li>
+            Your changes are now queued for review under project's <a href="https://github.com/zendframework/zf2-documentation/pulls">Pull requests</a> tab on GitHub.
+        </li>
+    </ol>
+
+</div>
+
+
+  </body>
+</html>

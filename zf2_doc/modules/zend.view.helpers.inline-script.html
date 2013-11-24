@@ -1,0 +1,347 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>View Helper - InlineScript &mdash; Zend Framework 2 2.3.0dev documentation</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '2.3.0dev',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="Zend Framework 2 2.3.0dev documentation" href="../index.html" />
+    <link rel="next" title="View Helper - JSON" href="zend.view.helpers.json.html" />
+    <link rel="prev" title="View Helper - Identity" href="zend.view.helpers.identity.html" />
+<style type="text/css">
+    /* Styles for floating Edit on GitHub box */
+    #editor-trap {
+        padding: 1em;
+        border: 1px solid white;
+        width: 250px;
+
+        display: none;
+        color: white;
+        background: #3f454b;
+        position: fixed;
+        bottom: 5px;
+        left: 175px;
+        font-size: 85%;
+        text-align: left;
+        z-index: 2;
+
+        box-shadow: 0 4px 6px #333;
+        -moz-box-shadow: 0 4px 6px #333;
+        -webkit-box-shadow: 0 4px 6px #333;
+        
+        cursor: pointer;
+    }
+
+    #editor-trap h3 {
+        margin: 0 0 0.5em 0;
+        padding: 0;
+    }
+
+    #editor-trap h3 > span {
+        padding: 0 6px;
+        border: solid white;
+        border-width: 0 1px 4px 1px;
+        font-size: 10px;
+    }
+
+    #editor-trap a {
+        color: #98DBCC;
+    }
+
+    #editor-trap ol {
+        margin: 0;
+        padding: 0 0 0 2em;
+    }
+
+    /* Hide trick */
+    #editor-trap.toggled > * {
+        display: none;
+    }
+
+
+    #editor-trap.toggled > h3 {
+        display: block;
+    }
+
+    #editor-trap.toggled > h3 > span {
+        border-width: 6px 1px 0 1px;
+    }
+    
+    #edit-button {
+        position: fixed;
+        bottom: 5px;
+        left: 5px;
+        z-index: 2;
+        width: 162px;
+        height: 42px;
+    }
+</style>
+
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="zend.view.helpers.json.html" title="View Helper - JSON"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="zend.view.helpers.identity.html" title="View Helper - Identity"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">Zend Framework 2 2.3.0dev documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="view-helper-inlinescript">
+<span id="zend-view-helpers-initial-inlinescript"></span><h1>View Helper - InlineScript<a class="headerlink" href="#view-helper-inlinescript" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="introduction">
+<span id="zend-view-helpers-initial-inlinescript-introduction"></span><h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<p>The <em>HTML</em> <strong>&lt;script&gt;</strong> element is used to either provide inline client-side scripting elements or link to a remote
+resource containing client-side scripting code. The <tt class="docutils literal"><span class="pre">InlineScript</span></tt> helper allows you to manage both. It is
+derived from <a class="reference internal" href="zend.view.helpers.head-script.html#zend-view-helpers-initial-headscript"><em>HeadScript</em></a>, and any method of that helper is available;
+however, use the <tt class="docutils literal"><span class="pre">inlineScript()</span></tt> method in place of <tt class="docutils literal"><span class="pre">headScript()</span></tt>.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p><strong>Use InlineScript for HTML Body Scripts</strong></p>
+<p><tt class="docutils literal"><span class="pre">InlineScript</span></tt>, should be used when you wish to include scripts inline in the <em>HTML</em> <strong>body</strong>. Placing scripts
+at the end of your document is a good practice for speeding up delivery of your page, particularly when using
+3rd party analytics scripts.</p>
+<p class="last">Some JS libraries need to be included in the <em>HTML</em> <strong>head</strong>; use <a class="reference internal" href="zend.view.helpers.head-script.html#zend-view-helpers-initial-headscript"><em>HeadScript</em></a> for those scripts.</p>
+</div>
+</div>
+<div class="section" id="basic-usage">
+<span id="zend-view-helpers-initial-inlinescript-basicusage"></span><h2>Basic Usage<a class="headerlink" href="#basic-usage" title="Permalink to this headline">¶</a></h2>
+<p>Add to the layout script:</p>
+<div class="highlight-php"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7
+8</pre></div></td><td class="code"><div class="highlight"><pre><span class="o">&lt;</span><span class="nx">body</span><span class="o">&gt;</span>
+    <span class="o">&lt;!--</span> <span class="nx">Content</span> <span class="o">--&gt;</span>
+
+    <span class="o">&lt;?</span><span class="nx">php</span>
+    <span class="k">echo</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">inlineScript</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">prependFile</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">basePath</span><span class="p">(</span><span class="s1">&#39;js/vendor/foundation.min.js&#39;</span><span class="p">))</span>
+                              <span class="o">-&gt;</span><span class="na">prependFile</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">basePath</span><span class="p">(</span><span class="s1">&#39;js/vendor/jquery.js&#39;</span><span class="p">));</span>
+    <span class="cp">?&gt;</span><span class="x"></span>
+<span class="x">&lt;/body&gt;</span>
+</pre></div>
+</td></tr></table></div>
+<p>Output:</p>
+<div class="highlight-html"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6</pre></div></td><td class="code"><div class="highlight"><pre><span class="nt">&lt;body&gt;</span>
+    <span class="c">&lt;!-- Content --&gt;</span>
+
+    <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span> <span class="na">src=</span><span class="s">&quot;/js/vendor/jquery.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+    <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span> <span class="na">src=</span><span class="s">&quot;/js/vendor/foundation.min.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+<span class="nt">&lt;/body&gt;</span>
+</pre></div>
+</td></tr></table></div>
+</div>
+<div class="section" id="capturing-scripts">
+<span id="zend-view-helpers-initial-inlinescript-capture"></span><h2>Capturing Scripts<a class="headerlink" href="#capturing-scripts" title="Permalink to this headline">¶</a></h2>
+<p>Add in your view scripts:</p>
+<div class="highlight-php"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7</pre></div></td><td class="code"><div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">inlineScript</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">captureStart</span><span class="p">();</span>
+<span class="k">echo</span> <span class="s">&lt;&lt;&lt;JS</span>
+<span class="s">    $(&#39;select&#39;).change(function(){</span>
+<span class="s">        location.href = $(this).val();</span>
+<span class="s">    });</span>
+<span class="s">JS;</span>
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">inlineScript</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">captureEnd</span><span class="p">();</span>
+</pre></div>
+</td></tr></table></div>
+<p>Output:</p>
+<div class="highlight-html"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13</pre></div></td><td class="code"><div class="highlight"><pre><span class="nt">&lt;body&gt;</span>
+    <span class="c">&lt;!-- Content --&gt;</span>
+
+    <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span> <span class="na">src=</span><span class="s">&quot;/js/vendor/jquery.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+    <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span> <span class="na">src=</span><span class="s">&quot;/js/vendor/foundation.min.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+    <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span><span class="nt">&gt;</span>
+        <span class="c1">//&lt;!--</span>
+        <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;select&#39;</span><span class="p">).</span><span class="nx">change</span><span class="p">(</span><span class="kd">function</span><span class="p">(){</span>
+            <span class="nx">location</span><span class="p">.</span><span class="nx">href</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="k">this</span><span class="p">).</span><span class="nx">val</span><span class="p">();</span>
+        <span class="p">});</span>
+        <span class="c1">//--&gt;</span>
+    <span class="nt">&lt;/script&gt;</span>
+<span class="nt">&lt;/body&gt;</span>
+</pre></div>
+</td></tr></table></div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/zf2_logo.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">View Helper - InlineScript</a><ul>
+<li><a class="reference internal" href="#introduction">Introduction</a></li>
+<li><a class="reference internal" href="#basic-usage">Basic Usage</a></li>
+<li><a class="reference internal" href="#capturing-scripts">Capturing Scripts</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="zend.view.helpers.identity.html"
+                        title="previous chapter">View Helper - Identity</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="zend.view.helpers.json.html"
+                        title="next chapter">View Helper - JSON</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li>
+        <!--<a href="../_sources/modules/zend.view.helpers.inline-script.txt"-->
+        <a href="https://github.com/zendframework/zf2-documentation/blob/master/docs/languages/en/modules/zend.view.helpers.inline-script.rst"
+           rel="nofollow">Show Source</a></li>
+    <li><a href="https://github.com/zendframework/zf2-documentation/edit/master/docs/languages/en/modules/zend.view.helpers.inline-script.rst"
+           rel="nofollow">Edit Source</a>
+    </li>
+  </ul>
+        <p style="font-size: 12px">
+            Note: You need to stay logged into your <a href="http://www.github.com">GitHub account</a> to contribute to the documentation.
+        </p>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="zend.view.helpers.json.html" title="View Helper - JSON"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="zend.view.helpers.identity.html" title="View Helper - Identity"
+             >previous</a> |</li>
+        <li><a href="../index.html">Zend Framework 2 2.3.0dev documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+
+    <div class="footer">
+        &copy; Copyright 2013, Zend Technologies Ltd..
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b3.
+    </div>
+<div id="edit-button">
+    <img src="../_static/edit.gif" alt="Edit this document" title="Edit this document" onclick="javascript:$('#editor-trap').toggle();">
+</div>
+     
+<div id="editor-trap">
+    <h3>Edit this document</h3>
+
+    <p>
+        The source code of this file is hosted on GitHub. Everyone can
+        update and fix errors in this document with few clicks -
+        no downloads needed.
+    <p>
+
+    <ol>
+
+        <li>
+            Login with your <a href="http://www.github.com">GitHub</a> account.
+        </li>
+
+        <li>
+            Go to
+            <a href="https://github.com/zendframework/zf2-documentation/edit/master/docs/languages/en/modules/zend.view.helpers.inline-script.rst">
+                View Helper - InlineScript
+            </a> on GitHub.
+        </li>
+
+        <li>
+            Edit file contents using GitHub's text editor in your web browser
+        </li>
+
+        <li>
+            Fill in the <b>Commit message</b> text box at the end of the page telling <i>why</i>
+            you did the changes. Press <b>Propose file change</b> button next to it when done.
+        </li>
+
+
+        <li>
+            On <i>Send a pull request</i> page you don't need to fill in text anymore. Just
+            press <b>Send pull request</b> button.
+        </li>
+
+        <li>
+            Your changes are now queued for review under project's <a href="https://github.com/zendframework/zf2-documentation/pulls">Pull requests</a> tab on GitHub.
+        </li>
+    </ol>
+
+</div>
+
+
+  </body>
+</html>

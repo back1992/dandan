@@ -1,0 +1,364 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Running Zend Framework 2 and Zend Framework 1 in parallel &mdash; Zend Framework 2 2.3.0dev documentation</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '2.3.0dev',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="Zend Framework 2 2.3.0dev documentation" href="../index.html" />
+    <link rel="next" title="Introduction to Zend\Authentication" href="../modules/zend.authentication.intro.html" />
+    <link rel="prev" title="Namespacing Old Classes" href="namespacing-old-classes.html" />
+<style type="text/css">
+    /* Styles for floating Edit on GitHub box */
+    #editor-trap {
+        padding: 1em;
+        border: 1px solid white;
+        width: 250px;
+
+        display: none;
+        color: white;
+        background: #3f454b;
+        position: fixed;
+        bottom: 5px;
+        left: 175px;
+        font-size: 85%;
+        text-align: left;
+        z-index: 2;
+
+        box-shadow: 0 4px 6px #333;
+        -moz-box-shadow: 0 4px 6px #333;
+        -webkit-box-shadow: 0 4px 6px #333;
+        
+        cursor: pointer;
+    }
+
+    #editor-trap h3 {
+        margin: 0 0 0.5em 0;
+        padding: 0;
+    }
+
+    #editor-trap h3 > span {
+        padding: 0 6px;
+        border: solid white;
+        border-width: 0 1px 4px 1px;
+        font-size: 10px;
+    }
+
+    #editor-trap a {
+        color: #98DBCC;
+    }
+
+    #editor-trap ol {
+        margin: 0;
+        padding: 0 0 0 2em;
+    }
+
+    /* Hide trick */
+    #editor-trap.toggled > * {
+        display: none;
+    }
+
+
+    #editor-trap.toggled > h3 {
+        display: block;
+    }
+
+    #editor-trap.toggled > h3 > span {
+        border-width: 6px 1px 0 1px;
+    }
+    
+    #edit-button {
+        position: fixed;
+        bottom: 5px;
+        left: 5px;
+        z-index: 2;
+        width: 162px;
+        height: 42px;
+    }
+</style>
+
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../modules/zend.authentication.intro.html" title="Introduction to Zend\Authentication"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="namespacing-old-classes.html" title="Namespacing Old Classes"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">Zend Framework 2 2.3.0dev documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="running-zend-framework-2-and-zend-framework-1-in-parallel">
+<span id="migration-zf1-zf2-parallel"></span><h1>Running Zend Framework 2 and Zend Framework 1 in parallel<a class="headerlink" href="#running-zend-framework-2-and-zend-framework-1-in-parallel" title="Permalink to this headline">¶</a></h1>
+<p>From a technical point of view it is absolutely possible to run ZF2 in parallel
+with ZF1 because there is no conflict between the classnames due to the fact
+that ZF2 uses namespaces and ZF1 does not.  Running ZF1 and ZF2 in parallel can
+be used as a migration strategy in projects where it is not possible, or not
+convenient, to migrate an entire application from ZF1 to ZF2. For instance, you
+could implement any new features of the application using ZF2, while maintaining
+original ZF1 features.</p>
+<p>Let&#8217;s examine some scenarios on how to execute ZF1 and ZF2 together.</p>
+<div class="section" id="use-zf2-in-a-zf1-project">
+<span id="zf2-in-zf1"></span><h2>Use ZF2 in a ZF1 project<a class="headerlink" href="#use-zf2-in-a-zf1-project" title="Permalink to this headline">¶</a></h2>
+<p>Suppose we have an existing ZF1 application and we want to start using ZF2; how
+could we do that?</p>
+<p>Because ZF2 uses namespaced classes, you can run it in parallel with ZF1 without
+naming conflicts. In order to do this, you will need to add some code to
+autoload ZF2 from within your ZF1 project.  Add these lines of code in your
+<tt class="docutils literal"><span class="pre">public/index.php</span></tt>, before the instantiation of <tt class="docutils literal"><span class="pre">$application</span></tt>:</p>
+<div class="highlight-php"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6</pre></div></td><td class="code"><div class="highlight"><pre><span class="nb">define</span><span class="p">(</span><span class="s1">&#39;ZF2_PATH&#39;</span><span class="p">,</span> <span class="s1">&#39;/path/to/zf2/library&#39;</span><span class="p">);</span>
+<span class="k">require_once</span> <span class="nx">ZF2_PATH</span> <span class="o">.</span> <span class="s1">&#39;/Zend/Loader/StandardAutoloader.php&#39;</span><span class="p">;</span>
+<span class="nv">$loader</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Zend\Loader\StandardAutoloader</span><span class="p">(</span><span class="k">array</span><span class="p">(</span>
+    <span class="s1">&#39;autoregister_zf&#39;</span> <span class="o">=&gt;</span> <span class="k">true</span><span class="p">,</span>
+<span class="p">));</span>
+<span class="nv">$loader</span><span class="o">-&gt;</span><span class="na">register</span><span class="p">();</span>
+</pre></div>
+</td></tr></table></div>
+<p>We used the <tt class="docutils literal"><span class="pre">StandardAutoloader</span></tt> class from ZF2. Using this autoloader,
+classes with the initial namespace <tt class="docutils literal"><span class="pre">Zend</span></tt> will be loaded using the
+<tt class="docutils literal"><span class="pre">ZF2_PATH</span></tt>, and any ZF1 classes will continue to be loaded via the mechanisms
+present in ZF1.</p>
+<p>Of course, this is not a real integration of ZF2 inside ZF1; it only provides
+the ability to consume ZF2 classes within your ZF1 application.  For instance,
+you cannot use the MVC architecture of ZF2 because you are using the MVC of ZF1.</p>
+<p>Evan Coury, a member of the ZF community review team, has produced a nice module
+for ZF1 (<a class="reference external" href="https://github.com/EvanDotPro/zf-2-for-1">zf-2-for-1</a>) that allows you to use ZF2 features inside an existing
+ZF1 application. This module offers some basic integrations like the usage of
+ZF2 view helpers in the ZF1 view layer (i.e. <tt class="docutils literal"><span class="pre">$this-&gt;zf2-&gt;get('formRow')</span></tt>).</p>
+</div>
+<div class="section" id="use-zf1-in-a-zf2-project">
+<span id="zf1-in-zf2"></span><h2>Use ZF1 in a ZF2 project<a class="headerlink" href="#use-zf1-in-a-zf2-project" title="Permalink to this headline">¶</a></h2>
+<p>You can add ZF1 to your ZF2 application via Composer by adding the
+&#8220;zendframework/zendframework1&#8221; package as a requirement.</p>
+<p>For instance, if you have a ZF2 application and you want to install ZF 1.12, you
+need to add the following line in the require section of your <tt class="docutils literal"><span class="pre">composer.json</span></tt>
+file:</p>
+<div class="highlight-json"><pre>"require": {
+     "php": "&gt;=5.3.3",
+     "zendframework/zendframework1": "1.12",
+     ...
+ }</pre>
+</div>
+<p>After executing <tt class="docutils literal"><span class="pre">composer.phar</span> <span class="pre">update</span></tt>, you can start to use ZF1 classes in your ZF2
+project. Since all ZF1 classes exist in the global namespace, you will need to
+refer to them by their full name; as examples, <tt class="docutils literal"><span class="pre">Zend_Date</span></tt>,
+<tt class="docutils literal"><span class="pre">Zend_Feed_Reader</span></tt>, etc.</p>
+<p>For other strategies on how to use ZF1 in a ZF2 project, you can check out this
+blog post by Abdul Malik Ikhsan, <a class="reference external" href="http://samsonasik.wordpress.com/2012/12/04/zend-framework-2-using-zend-framework-1-libraries-in-zend-framework-2/">Zend Framework 2 : Using Zend Framework 1
+libraries</a>.</p>
+</div>
+<div class="section" id="run-zf1-and-zf2-together">
+<span id="zf1-and-zf2-together"></span><h2>Run ZF1 and ZF2 together<a class="headerlink" href="#run-zf1-and-zf2-together" title="Permalink to this headline">¶</a></h2>
+<p>As we mentioned early, one way to migrate a ZF1 application to ZF2 can be to
+execute in parallel the different versions of the framework, using ZF2 for the
+new features, and migrating the ZF1 code step by step.  In order to execute in
+parallel, we need to map different URLs to the different front controllers for
+ZF1 and ZF2. This goal can be accomplished using the rewriting rules of your web
+server. From a performance point of view, this is the best solution because it
+does not involve pre-processing overhead.  For each URL we can define a
+different version of the framework to be used.</p>
+<p>For instance, imagine we have a ZF1 application and we want to use ZF2 only for
+URLs starting with <tt class="docutils literal"><span class="pre">/album</span></tt>. We can use the following <tt class="docutils literal"><span class="pre">.htaccess</span></tt> file (this
+information is related to <a class="reference external" href="http://httpd.apache.org/">apache</a>; if you are using another web server, read
+the instructions in the note below):</p>
+<div class="highlight-apacheconf"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7
+8</pre></div></td><td class="code"><div class="highlight"><pre><span class="nb">SetEnv</span> APPLICATION_ENV development
+<span class="nb">RewriteEngine</span> <span class="k">On</span>
+<span class="nb">RewriteCond</span> %{REQUEST_FILENAME} -s [OR]
+<span class="nb">RewriteCond</span> %{REQUEST_FILENAME} -l [OR]
+<span class="nb">RewriteCond</span> %{REQUEST_FILENAME} -d
+<span class="nb">RewriteRule</span> ^ - [NC,L]
+<span class="nb">RewriteRule</span> ^album(/.*)?$ index_zf2.php [NC,L]
+<span class="nb">RewriteRule</span> ^ index.php [NC,L]
+</pre></div>
+</td></tr></table></div>
+<p><tt class="docutils literal"><span class="pre">index_zf2.php</span></tt> is a PHP script that includes as the typical
+<tt class="docutils literal"><span class="pre">public/index.php</span></tt> file of ZF2.  Here is the source code for
+<tt class="docutils literal"><span class="pre">index_zf2.php</span></tt>:</p>
+<div class="highlight-php"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="highlight"><pre><span class="k">require_once</span> <span class="s1">&#39;../path-to-ZF2-app/public/index.php&#39;</span><span class="p">;</span>
+</pre></div>
+</td></tr></table></div>
+<p>We suggest putting the ZF2 application in a separate folder under the same root
+directory of the ZF1 application. In this way you can continue to maintain the
+existing ZF1 code and use ZF2 only for the new features.  Moreover, if you want
+to migrate the old code you can do that by URL and switch to the new ZF2 code
+only when you are ready. This approach can be useful to provide migration
+guideline without losing development time in a full stack migration.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">All web servers support a rewriting mechanism. For instance, if you are using
+<a class="reference external" href="http://www.iis.net/">Microsoft IIS 7</a>, you can check how to configure the rewriting rules from
+Rob Allen&#8217;s post <a class="reference external" href="http://akrabat.com/winphp-challenge/zend-framework-url-rewriting-in-iis7/">Zend Framework URL Rewriting in IIS7</a>; if you are using
+<a class="reference external" href="http://nginx.org/">nginx</a>, you can check out this StackOverflow question: <a class="reference external" href="http://stackoverflow.com/questions/376732/zend-framework-on-nginx">Zend Framework on
+nginx</a>.</p>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/zf2_logo.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Running Zend Framework 2 and Zend Framework 1 in parallel</a><ul>
+<li><a class="reference internal" href="#use-zf2-in-a-zf1-project">Use ZF2 in a ZF1 project</a></li>
+<li><a class="reference internal" href="#use-zf1-in-a-zf2-project">Use ZF1 in a ZF2 project</a></li>
+<li><a class="reference internal" href="#run-zf1-and-zf2-together">Run ZF1 and ZF2 together</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="namespacing-old-classes.html"
+                        title="previous chapter">Namespacing Old Classes</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="../modules/zend.authentication.intro.html"
+                        title="next chapter">Introduction to Zend\Authentication</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li>
+        <!--<a href="../_sources/migration/zf1_zf2_parallel.txt"-->
+        <a href="https://github.com/zendframework/zf2-documentation/blob/master/docs/languages/en/migration/zf1_zf2_parallel.rst"
+           rel="nofollow">Show Source</a></li>
+    <li><a href="https://github.com/zendframework/zf2-documentation/edit/master/docs/languages/en/migration/zf1_zf2_parallel.rst"
+           rel="nofollow">Edit Source</a>
+    </li>
+  </ul>
+        <p style="font-size: 12px">
+            Note: You need to stay logged into your <a href="http://www.github.com">GitHub account</a> to contribute to the documentation.
+        </p>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../modules/zend.authentication.intro.html" title="Introduction to Zend\Authentication"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="namespacing-old-classes.html" title="Namespacing Old Classes"
+             >previous</a> |</li>
+        <li><a href="../index.html">Zend Framework 2 2.3.0dev documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+
+    <div class="footer">
+        &copy; Copyright 2013, Zend Technologies Ltd..
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b3.
+    </div>
+<div id="edit-button">
+    <img src="../_static/edit.gif" alt="Edit this document" title="Edit this document" onclick="javascript:$('#editor-trap').toggle();">
+</div>
+     
+<div id="editor-trap">
+    <h3>Edit this document</h3>
+
+    <p>
+        The source code of this file is hosted on GitHub. Everyone can
+        update and fix errors in this document with few clicks -
+        no downloads needed.
+    <p>
+
+    <ol>
+
+        <li>
+            Login with your <a href="http://www.github.com">GitHub</a> account.
+        </li>
+
+        <li>
+            Go to
+            <a href="https://github.com/zendframework/zf2-documentation/edit/master/docs/languages/en/migration/zf1_zf2_parallel.rst">
+                Running Zend Framework 2 and Zend Framework 1 in parallel
+            </a> on GitHub.
+        </li>
+
+        <li>
+            Edit file contents using GitHub's text editor in your web browser
+        </li>
+
+        <li>
+            Fill in the <b>Commit message</b> text box at the end of the page telling <i>why</i>
+            you did the changes. Press <b>Propose file change</b> button next to it when done.
+        </li>
+
+
+        <li>
+            On <i>Send a pull request</i> page you don't need to fill in text anymore. Just
+            press <b>Send pull request</b> button.
+        </li>
+
+        <li>
+            Your changes are now queued for review under project's <a href="https://github.com/zendframework/zf2-documentation/pulls">Pull requests</a> tab on GitHub.
+        </li>
+    </ol>
+
+</div>
+
+
+  </body>
+</html>

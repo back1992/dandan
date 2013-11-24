@@ -1,0 +1,460 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Delegator service factories &mdash; Zend Framework 2 2.3.0dev documentation</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '2.3.0dev',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="Zend Framework 2 2.3.0dev documentation" href="../index.html" />
+    <link rel="next" title="Lazy Services" href="zend.service-manager.lazy-services.html" />
+    <link rel="prev" title="Zend\ServiceManager Quick Start" href="zend.service-manager.quick-start.html" />
+<style type="text/css">
+    /* Styles for floating Edit on GitHub box */
+    #editor-trap {
+        padding: 1em;
+        border: 1px solid white;
+        width: 250px;
+
+        display: none;
+        color: white;
+        background: #3f454b;
+        position: fixed;
+        bottom: 5px;
+        left: 175px;
+        font-size: 85%;
+        text-align: left;
+        z-index: 2;
+
+        box-shadow: 0 4px 6px #333;
+        -moz-box-shadow: 0 4px 6px #333;
+        -webkit-box-shadow: 0 4px 6px #333;
+        
+        cursor: pointer;
+    }
+
+    #editor-trap h3 {
+        margin: 0 0 0.5em 0;
+        padding: 0;
+    }
+
+    #editor-trap h3 > span {
+        padding: 0 6px;
+        border: solid white;
+        border-width: 0 1px 4px 1px;
+        font-size: 10px;
+    }
+
+    #editor-trap a {
+        color: #98DBCC;
+    }
+
+    #editor-trap ol {
+        margin: 0;
+        padding: 0 0 0 2em;
+    }
+
+    /* Hide trick */
+    #editor-trap.toggled > * {
+        display: none;
+    }
+
+
+    #editor-trap.toggled > h3 {
+        display: block;
+    }
+
+    #editor-trap.toggled > h3 > span {
+        border-width: 6px 1px 0 1px;
+    }
+    
+    #edit-button {
+        position: fixed;
+        bottom: 5px;
+        left: 5px;
+        z-index: 2;
+        width: 162px;
+        height: 42px;
+    }
+</style>
+
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="zend.service-manager.lazy-services.html" title="Lazy Services"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="zend.service-manager.quick-start.html" title="Zend\ServiceManager Quick Start"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">Zend Framework 2 2.3.0dev documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="delegator-service-factories">
+<span id="zend-service-manager-delegator-factories"></span><h1>Delegator service factories<a class="headerlink" href="#delegator-service-factories" title="Permalink to this headline">¶</a></h1>
+<p><tt class="docutils literal"><span class="pre">Zend\ServiceManager</span></tt> can instantiate <a class="reference external" href="http://en.wikipedia.org/wiki/Delegation_pattern">delegators</a> of requested services, decorating them
+as specified in a delegate factory implementing the <a class="reference external" href="https://github.com/zendframework/zf2/tree/master/library/Zend/ServiceManager/DelegatorFactoryInterface.php">delegator factory interface</a>.</p>
+<p>The delegate pattern is useful in cases when you want to wrap a real service in a <a class="reference external" href="http://en.wikipedia.org/wiki/Decorator_pattern">decorator</a>,
+or generally intercept actions being performed on the delegate in an <a class="reference external" href="http://en.wikipedia.org/wiki/Aspect-oriented_programming">AOP</a> fashioned way.</p>
+<div class="section" id="delegator-factory-signature">
+<h2>Delegator factory signature<a class="headerlink" href="#delegator-factory-signature" title="Permalink to this headline">¶</a></h2>
+<p>A delegator factory has the following signature:</p>
+<div class="highlight-php"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6</pre></div></td><td class="code"><div class="highlight"><pre><span class="k">namespace</span> <span class="nx">Zend\ServiceManager</span><span class="p">;</span>
+
+<span class="k">interface</span> <span class="nx">DelegatorFactoryInterface</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">createDelegatorWithName</span><span class="p">(</span><span class="nx">ServiceLocatorInterface</span> <span class="nv">$serviceLocator</span><span class="p">,</span> <span class="nv">$name</span><span class="p">,</span> <span class="nv">$requestedName</span><span class="p">,</span> <span class="nv">$callback</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+<p>The parameters passed to the <tt class="docutils literal"><span class="pre">DelegatorFactoryInterface#createDelegatorWithName</span></tt> factory are the following:</p>
+<blockquote>
+<div><ul class="simple">
+<li><tt class="docutils literal"><span class="pre">$serviceLocator</span></tt> is the service locator that is used while creating the delegator for the requested service</li>
+<li><tt class="docutils literal"><span class="pre">$name</span></tt> is the canonical name of the service being requested</li>
+<li><tt class="docutils literal"><span class="pre">$requestedName</span></tt> is the name of the service as originally requested to the service locator</li>
+<li><tt class="docutils literal"><span class="pre">$callback</span></tt> is a <a class="reference external" href="http://www.php.net/manual/en/language.types.callable.php">callable</a> that is responsible of instantiating the delegated service (the real service instance)</li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="a-delegator-factory-use-case">
+<h2>A Delegator factory use case<a class="headerlink" href="#a-delegator-factory-use-case" title="Permalink to this headline">¶</a></h2>
+<p>A typical use case for <a class="reference external" href="http://en.wikipedia.org/wiki/Delegation_pattern">delegators</a> is to handle logic before or after a method is called.</p>
+<p>In the following example, an event is being triggered before <tt class="docutils literal"><span class="pre">Buzzer::buzz()</span></tt> is called and some output text
+is prepended.</p>
+<p>The delegated object <tt class="docutils literal"><span class="pre">Buzzer</span></tt> (original object) is defined as following:</p>
+<div class="highlight-php"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7</pre></div></td><td class="code"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Buzzer</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">buzz</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="s1">&#39;Buzz!&#39;</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+<p>The delegator class <tt class="docutils literal"><span class="pre">BuzzerDelegator</span></tt> has the following structure:</p>
+<div class="highlight-php"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20</pre></div></td><td class="code"><div class="highlight"><pre><span class="k">use</span> <span class="nx">Zend\EventManager\EventManagerInterface</span><span class="p">;</span>
+
+<span class="k">class</span> <span class="nc">BuzzerDelegator</span> <span class="k">extends</span> <span class="nx">Buzzer</span>
+<span class="p">{</span>
+    <span class="k">protected</span> <span class="nv">$realBuzzer</span><span class="p">;</span>
+    <span class="k">protected</span> <span class="nv">$eventManager</span><span class="p">;</span>
+
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">__construct</span><span class="p">(</span><span class="nx">Buzzer</span> <span class="nv">$realBuzzer</span><span class="p">,</span> <span class="nx">EventManagerInterface</span> <span class="nv">$eventManager</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">realBuzzer</span>   <span class="o">=</span> <span class="nv">$realBuzzer</span><span class="p">;</span>
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">eventManager</span> <span class="o">=</span> <span class="nv">$eventManager</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">buzz</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">eventManager</span><span class="o">-&gt;</span><span class="na">trigger</span><span class="p">(</span><span class="s1">&#39;buzz&#39;</span><span class="p">,</span> <span class="nv">$this</span><span class="p">);</span>
+
+        <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">realBuzzer</span><span class="o">-&gt;</span><span class="na">buzz</span><span class="p">();</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+<p>To use the <tt class="docutils literal"><span class="pre">BuzzerDelegator</span></tt>, you can run the following code:</p>
+<div class="highlight-php"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7
+8</pre></div></td><td class="code"><div class="highlight"><pre><span class="nv">$wrappedBuzzer</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Buzzer</span><span class="p">();</span>
+<span class="nv">$eventManager</span>  <span class="o">=</span> <span class="k">new</span> <span class="nx">Zend\EventManager\EventManager</span><span class="p">();</span>
+
+<span class="nv">$eventManager</span><span class="o">-&gt;</span><span class="na">attach</span><span class="p">(</span><span class="s1">&#39;buzz&#39;</span><span class="p">,</span> <span class="k">function</span> <span class="p">()</span> <span class="p">{</span> <span class="k">echo</span> <span class="s2">&quot;Stare at the art!</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">;</span> <span class="p">});</span>
+
+<span class="nv">$buzzer</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">BuzzerDelegator</span><span class="p">(</span><span class="nv">$wrappedBuzzer</span><span class="p">,</span> <span class="nv">$eventManager</span><span class="p">);</span>
+
+<span class="k">echo</span> <span class="nv">$buzzer</span><span class="o">-&gt;</span><span class="na">buzz</span><span class="p">();</span> <span class="c1">// &quot;Stare at the art!\nBuzz!&quot;</span>
+</pre></div>
+</td></tr></table></div>
+<p>This logic is fairly simple as long as you have access to the instantiation logic of the
+<tt class="docutils literal"><span class="pre">$wrappedBuzzer</span></tt> object.</p>
+<p>You may not always be able to define how <tt class="docutils literal"><span class="pre">$wrappedBuzzer</span></tt> is created, since a factory for it may be
+defined by some code to which you don&#8217;t have access, or which you cannot modify without introducing further
+complexity.</p>
+<p>Delegator factories solve this specific problem by allowing you to wrap, decorate or modify any existing service.</p>
+<p>A simple delegator factory for the <tt class="docutils literal"><span class="pre">buzzer</span></tt> service can be implemented as following:</p>
+<div class="highlight-php"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15</pre></div></td><td class="code"><div class="highlight"><pre><span class="k">use</span> <span class="nx">Zend\ServiceManager\DelegatorFactoryInterface</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Zend\ServiceManager\ServiceLocatorInterface</span><span class="p">;</span>
+
+<span class="k">class</span> <span class="nc">BuzzerDelegatorFactory</span> <span class="k">implements</span> <span class="nx">DelegatorFactoryInterface</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">createDelegatorWithName</span><span class="p">(</span><span class="nx">ServiceLocatorInterface</span> <span class="nv">$serviceLocator</span><span class="p">,</span> <span class="nv">$name</span><span class="p">,</span> <span class="nv">$requestedName</span><span class="p">,</span> <span class="nv">$callback</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="nv">$realBuzzer</span>   <span class="o">=</span> <span class="nb">call_user_func</span><span class="p">(</span><span class="nv">$callback</span><span class="p">);</span>
+        <span class="nv">$eventManager</span> <span class="o">=</span> <span class="nv">$serviceLocator</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;EventManager&#39;</span><span class="p">);</span>
+
+        <span class="nv">$eventManager</span><span class="o">-&gt;</span><span class="na">attach</span><span class="p">(</span><span class="s1">&#39;buzz&#39;</span><span class="p">,</span> <span class="k">function</span> <span class="p">()</span> <span class="p">{</span> <span class="k">echo</span> <span class="s2">&quot;Stare at the art!</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">;</span> <span class="p">});</span>
+
+        <span class="k">return</span> <span class="k">new</span> <span class="nx">BuzzerDelegator</span><span class="p">(</span><span class="nv">$realBuzzer</span><span class="p">,</span> <span class="nv">$eventManager</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+<p>You can then instruct the service manager to handle the service <tt class="docutils literal"><span class="pre">buzzer</span></tt> as a delegate:</p>
+<div class="highlight-php"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15</pre></div></td><td class="code"><div class="highlight"><pre><span class="nv">$serviceManager</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Zend\ServiceManager\ServiceManager</span><span class="p">();</span>
+
+<span class="nv">$serviceManager</span><span class="o">-&gt;</span><span class="na">setInvokableClass</span><span class="p">(</span><span class="s1">&#39;buzzer&#39;</span><span class="p">,</span> <span class="s1">&#39;Buzzer&#39;</span><span class="p">);</span> <span class="c1">// usually not under our control</span>
+
+<span class="c1">// as opposed to normal factory classes, a delegator factory is a</span>
+<span class="c1">// service like any other, and must be registered:</span>
+<span class="nv">$serviceManager</span><span class="o">-&gt;</span><span class="na">setInvokableClass</span><span class="p">(</span><span class="s1">&#39;buzzer-delegator-factory&#39;</span><span class="p">,</span> <span class="s1">&#39;BuzzerDelegatorFactory&#39;</span><span class="p">);</span>
+
+<span class="c1">// telling the service manager to use a delegator factory to handle service &#39;buzzer&#39;</span>
+<span class="nv">$serviceManager</span><span class="o">-&gt;</span><span class="na">addDelegator</span><span class="p">(</span><span class="s1">&#39;buzzer&#39;</span><span class="p">,</span> <span class="s1">&#39;buzzer-delegator-factory&#39;</span><span class="p">);</span>
+
+<span class="c1">// now, when fetching &#39;buzzer&#39;, we get a BuzzerDelegator instead</span>
+<span class="nv">$buzzer</span> <span class="o">=</span> <span class="nv">$serviceManager</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;buzzer&#39;</span><span class="p">);</span>
+
+<span class="nv">$buzzer</span><span class="o">-&gt;</span><span class="na">buzz</span><span class="p">();</span> <span class="c1">// &quot;Stare at the art!\nBuzz!&quot;</span>
+</pre></div>
+</td></tr></table></div>
+<p>You can also call <tt class="docutils literal"><span class="pre">$serviceManager-&gt;addDelegator()</span></tt> multiple times, with the same or different delegator
+factory service names. Each call will add one decorator around the instantiation logic of that particular
+service.</p>
+<p>Another way of configuring the service manager to use delegator factories is via configuration:</p>
+<div class="highlight-php"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12</pre></div></td><td class="code"><div class="highlight"><pre><span class="nv">$config</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span>
+    <span class="s1">&#39;invokables&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
+        <span class="s1">&#39;buzzer&#39;</span>                   <span class="o">=&gt;</span> <span class="s1">&#39;Buzzer&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;buzzer-delegator-factory&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;BuzzerDelegatorFactory&#39;</span><span class="p">,</span>
+    <span class="p">),</span>
+    <span class="s1">&#39;delegators&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
+        <span class="s1">&#39;buzzer&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
+             <span class="s1">&#39;buzzer-delegator-factory&#39;</span>
+             <span class="c1">// eventually add more delegators here</span>
+        <span class="p">),</span>
+    <span class="p">),</span>
+<span class="p">);</span>
+</pre></div>
+</td></tr></table></div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/zf2_logo.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Delegator service factories</a><ul>
+<li><a class="reference internal" href="#delegator-factory-signature">Delegator factory signature</a></li>
+<li><a class="reference internal" href="#a-delegator-factory-use-case">A Delegator factory use case</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="zend.service-manager.quick-start.html"
+                        title="previous chapter">Zend\ServiceManager Quick Start</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="zend.service-manager.lazy-services.html"
+                        title="next chapter">Lazy Services</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li>
+        <!--<a href="../_sources/modules/zend.service-manager.delegator-factories.txt"-->
+        <a href="https://github.com/zendframework/zf2-documentation/blob/master/docs/languages/en/modules/zend.service-manager.delegator-factories.rst"
+           rel="nofollow">Show Source</a></li>
+    <li><a href="https://github.com/zendframework/zf2-documentation/edit/master/docs/languages/en/modules/zend.service-manager.delegator-factories.rst"
+           rel="nofollow">Edit Source</a>
+    </li>
+  </ul>
+        <p style="font-size: 12px">
+            Note: You need to stay logged into your <a href="http://www.github.com">GitHub account</a> to contribute to the documentation.
+        </p>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="zend.service-manager.lazy-services.html" title="Lazy Services"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="zend.service-manager.quick-start.html" title="Zend\ServiceManager Quick Start"
+             >previous</a> |</li>
+        <li><a href="../index.html">Zend Framework 2 2.3.0dev documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+
+    <div class="footer">
+        &copy; Copyright 2013, Zend Technologies Ltd..
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b3.
+    </div>
+<div id="edit-button">
+    <img src="../_static/edit.gif" alt="Edit this document" title="Edit this document" onclick="javascript:$('#editor-trap').toggle();">
+</div>
+     
+<div id="editor-trap">
+    <h3>Edit this document</h3>
+
+    <p>
+        The source code of this file is hosted on GitHub. Everyone can
+        update and fix errors in this document with few clicks -
+        no downloads needed.
+    <p>
+
+    <ol>
+
+        <li>
+            Login with your <a href="http://www.github.com">GitHub</a> account.
+        </li>
+
+        <li>
+            Go to
+            <a href="https://github.com/zendframework/zf2-documentation/edit/master/docs/languages/en/modules/zend.service-manager.delegator-factories.rst">
+                Delegator service factories
+            </a> on GitHub.
+        </li>
+
+        <li>
+            Edit file contents using GitHub's text editor in your web browser
+        </li>
+
+        <li>
+            Fill in the <b>Commit message</b> text box at the end of the page telling <i>why</i>
+            you did the changes. Press <b>Propose file change</b> button next to it when done.
+        </li>
+
+
+        <li>
+            On <i>Send a pull request</i> page you don't need to fill in text anymore. Just
+            press <b>Send pull request</b> button.
+        </li>
+
+        <li>
+            Your changes are now queued for review under project's <a href="https://github.com/zendframework/zf2-documentation/pulls">Pull requests</a> tab on GitHub.
+        </li>
+    </ol>
+
+</div>
+
+
+  </body>
+</html>

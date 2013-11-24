@@ -1,0 +1,381 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>View Helper - Cycle &mdash; Zend Framework 2 2.3.0dev documentation</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '2.3.0dev',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="Zend Framework 2 2.3.0dev documentation" href="../index.html" />
+    <link rel="next" title="View Helper - Doctype" href="zend.view.helpers.doctype.html" />
+    <link rel="prev" title="View Helper - BasePath" href="zend.view.helpers.base-path.html" />
+<style type="text/css">
+    /* Styles for floating Edit on GitHub box */
+    #editor-trap {
+        padding: 1em;
+        border: 1px solid white;
+        width: 250px;
+
+        display: none;
+        color: white;
+        background: #3f454b;
+        position: fixed;
+        bottom: 5px;
+        left: 175px;
+        font-size: 85%;
+        text-align: left;
+        z-index: 2;
+
+        box-shadow: 0 4px 6px #333;
+        -moz-box-shadow: 0 4px 6px #333;
+        -webkit-box-shadow: 0 4px 6px #333;
+        
+        cursor: pointer;
+    }
+
+    #editor-trap h3 {
+        margin: 0 0 0.5em 0;
+        padding: 0;
+    }
+
+    #editor-trap h3 > span {
+        padding: 0 6px;
+        border: solid white;
+        border-width: 0 1px 4px 1px;
+        font-size: 10px;
+    }
+
+    #editor-trap a {
+        color: #98DBCC;
+    }
+
+    #editor-trap ol {
+        margin: 0;
+        padding: 0 0 0 2em;
+    }
+
+    /* Hide trick */
+    #editor-trap.toggled > * {
+        display: none;
+    }
+
+
+    #editor-trap.toggled > h3 {
+        display: block;
+    }
+
+    #editor-trap.toggled > h3 > span {
+        border-width: 6px 1px 0 1px;
+    }
+    
+    #edit-button {
+        position: fixed;
+        bottom: 5px;
+        left: 5px;
+        z-index: 2;
+        width: 162px;
+        height: 42px;
+    }
+</style>
+
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="zend.view.helpers.doctype.html" title="View Helper - Doctype"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="zend.view.helpers.base-path.html" title="View Helper - BasePath"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">Zend Framework 2 2.3.0dev documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="view-helper-cycle">
+<span id="zend-view-helpers-initial-cycle"></span><h1>View Helper - Cycle<a class="headerlink" href="#view-helper-cycle" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="introduction">
+<span id="zend-view-helpers-initial-cycle-introduction"></span><h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<p>The <tt class="docutils literal"><span class="pre">Cycle</span></tt> helper is used to alternate a set of values.</p>
+</div>
+<div class="section" id="basic-usage">
+<span id="zend-view-helpers-initial-cycle-basicusage"></span><h2>Basic Usage<a class="headerlink" href="#basic-usage" title="Permalink to this headline">¶</a></h2>
+<p>To add elements to cycle just specify them in constructor:</p>
+<div class="highlight-php"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7
+8</pre></div></td><td class="code"><div class="highlight"><pre><span class="o">&lt;</span><span class="nx">table</span><span class="o">&gt;</span>
+    <span class="o">&lt;?</span><span class="nx">php</span> <span class="k">foreach</span> <span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">books</span> <span class="k">as</span> <span class="nv">$book</span><span class="p">)</span><span class="o">:</span> <span class="cp">?&gt;</span><span class="x"></span>
+<span class="x">        &lt;tr style=&quot;background-color: </span><span class="cp">&lt;?php</span> <span class="k">echo</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">cycle</span><span class="p">(</span><span class="k">array</span><span class="p">(</span><span class="s1">&#39;#F0F0F0&#39;</span><span class="p">,</span> <span class="s1">&#39;#FFF&#39;</span><span class="p">))</span>
+                                                     <span class="o">-&gt;</span><span class="na">next</span><span class="p">()</span> <span class="cp">?&gt;</span><span class="x">&quot;&gt;</span>
+<span class="x">            &lt;td&gt;</span><span class="cp">&lt;?php</span> <span class="k">echo</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">escapeHtml</span><span class="p">(</span><span class="nv">$book</span><span class="p">[</span><span class="s1">&#39;author&#39;</span><span class="p">])</span> <span class="cp">?&gt;</span><span class="x">&lt;/td&gt;</span>
+<span class="x">        &lt;/tr&gt;</span>
+<span class="x">    </span><span class="cp">&lt;?php</span> <span class="k">endforeach</span> <span class="cp">?&gt;</span><span class="x"></span>
+<span class="x">&lt;/table&gt;</span>
+</pre></div>
+</td></tr></table></div>
+<p>The output:</p>
+<div class="highlight-html"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7
+8</pre></div></td><td class="code"><div class="highlight"><pre><span class="nt">&lt;table&gt;</span>
+    <span class="nt">&lt;tr</span> <span class="na">style=</span><span class="s">&quot;background-color: #F0F0F0&quot;</span><span class="nt">&gt;</span>
+       <span class="nt">&lt;td&gt;</span>First<span class="nt">&lt;/td&gt;</span>
+    <span class="nt">&lt;/tr&gt;</span>
+    <span class="nt">&lt;tr</span> <span class="na">style=</span><span class="s">&quot;background-color: #FFF&quot;</span><span class="nt">&gt;</span>
+       <span class="nt">&lt;td&gt;</span>Second<span class="nt">&lt;/td&gt;</span>
+    <span class="nt">&lt;/tr&gt;</span>
+<span class="nt">&lt;/table&gt;</span>
+</pre></div>
+</td></tr></table></div>
+<p>Or use <tt class="docutils literal"><span class="pre">assign(array</span> <span class="pre">$data)</span></tt> method and moving in backwards order:</p>
+<div class="highlight-php"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9</pre></div></td><td class="code"><div class="highlight"><pre><span class="o">&lt;?</span><span class="nx">php</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">cycle</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">assign</span><span class="p">(</span><span class="k">array</span><span class="p">(</span><span class="s1">&#39;#F0F0F0&#39;</span><span class="p">,</span> <span class="s1">&#39;#FFF&#39;</span><span class="p">))</span> <span class="cp">?&gt;</span><span class="x"></span>
+
+<span class="x">&lt;table&gt;</span>
+<span class="x">    </span><span class="cp">&lt;?php</span> <span class="k">foreach</span> <span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">books</span> <span class="k">as</span> <span class="nv">$book</span><span class="p">)</span><span class="o">:</span> <span class="cp">?&gt;</span><span class="x"></span>
+<span class="x">    &lt;tr style=&quot;background-color: </span><span class="cp">&lt;?php</span> <span class="k">echo</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">cycle</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">prev</span><span class="p">()</span> <span class="cp">?&gt;</span><span class="x">&quot;&gt;</span>
+<span class="x">       &lt;td&gt;</span><span class="cp">&lt;?php</span> <span class="k">echo</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">escapeHtml</span><span class="p">(</span><span class="nv">$book</span><span class="p">[</span><span class="s1">&#39;author&#39;</span><span class="p">])</span> <span class="cp">?&gt;</span><span class="x">&lt;/td&gt;</span>
+<span class="x">    &lt;/tr&gt;</span>
+<span class="x">    </span><span class="cp">&lt;?php</span> <span class="k">endforeach</span> <span class="cp">?&gt;</span><span class="x"></span>
+<span class="x">&lt;/table&gt;</span>
+</pre></div>
+</td></tr></table></div>
+<p>The output:</p>
+<div class="highlight-html"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7
+8</pre></div></td><td class="code"><div class="highlight"><pre><span class="nt">&lt;table&gt;</span>
+    <span class="nt">&lt;tr</span> <span class="na">style=</span><span class="s">&quot;background-color: #FFF&quot;</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;td&gt;</span>First<span class="nt">&lt;/td&gt;</span>
+    <span class="nt">&lt;/tr&gt;</span>
+    <span class="nt">&lt;tr</span> <span class="na">style=</span><span class="s">&quot;background-color: #F0F0F0&quot;</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;td&gt;</span>Second<span class="nt">&lt;/td&gt;</span>
+    <span class="nt">&lt;/tr&gt;</span>
+<span class="nt">&lt;/table&gt;</span>
+</pre></div>
+</td></tr></table></div>
+</div>
+<div class="section" id="working-with-two-or-more-cycles">
+<span id="zend-view-helpers-initial-cycle-advanceusage"></span><h2>Working with two or more cycles<a class="headerlink" href="#working-with-two-or-more-cycles" title="Permalink to this headline">¶</a></h2>
+<p>To use two cycles you have to specify the names of cycles. Just set second
+parameter in cycle method: <tt class="docutils literal"><span class="pre">$this-&gt;cycle(array('#F0F0F0',</span> <span class="pre">'#FFF'),</span> <span class="pre">'cycle2')</span></tt></p>
+<div class="highlight-php"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9</pre></div></td><td class="code"><div class="highlight"><pre><span class="o">&lt;</span><span class="nx">table</span><span class="o">&gt;</span>
+    <span class="o">&lt;?</span><span class="nx">php</span> <span class="k">foreach</span> <span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">books</span> <span class="k">as</span> <span class="nv">$book</span><span class="p">)</span><span class="o">:</span> <span class="cp">?&gt;</span><span class="x"></span>
+<span class="x">        &lt;tr style=&quot;background-color: </span><span class="cp">&lt;?php</span> <span class="k">echo</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">cycle</span><span class="p">(</span><span class="k">array</span><span class="p">(</span><span class="s1">&#39;#F0F0F0&#39;</span><span class="p">,</span> <span class="s1">&#39;#FFF&#39;</span><span class="p">))</span>
+                                                     <span class="o">-&gt;</span><span class="na">next</span><span class="p">()</span> <span class="cp">?&gt;</span><span class="x">&quot;&gt;</span>
+<span class="x">            &lt;td&gt;</span><span class="cp">&lt;?php</span> <span class="k">echo</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">cycle</span><span class="p">(</span><span class="k">array</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="s1">&#39;number&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">next</span><span class="p">()</span> <span class="cp">?&gt;</span><span class="x">&lt;/td&gt;</span>
+<span class="x">            &lt;td&gt;</span><span class="cp">&lt;?php</span> <span class="k">echo</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">escapeHtml</span><span class="p">(</span><span class="nv">$book</span><span class="p">[</span><span class="s1">&#39;author&#39;</span><span class="p">])</span> <span class="cp">?&gt;</span><span class="x">&lt;/td&gt;</span>
+<span class="x">        &lt;/tr&gt;</span>
+<span class="x">    </span><span class="cp">&lt;?php</span> <span class="k">endforeach</span> <span class="cp">?&gt;</span><span class="x"></span>
+<span class="x">&lt;/table&gt;</span>
+</pre></div>
+</td></tr></table></div>
+<p>You can also use <tt class="docutils literal"><span class="pre">assign($data,</span> <span class="pre">$name)</span></tt> and <tt class="docutils literal"><span class="pre">setName($name)</span></tt> methods:</p>
+<div class="highlight-php"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12</pre></div></td><td class="code"><div class="highlight"><pre><span class="o">&lt;?</span><span class="nx">php</span>
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">cycle</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">assign</span><span class="p">(</span><span class="k">array</span><span class="p">(</span><span class="s1">&#39;#F0F0F0&#39;</span><span class="p">,</span> <span class="s1">&#39;#FFF&#39;</span><span class="p">),</span> <span class="s1">&#39;colors&#39;</span><span class="p">);</span>
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">cycle</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">assign</span><span class="p">(</span><span class="k">array</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="s1">&#39;numbers&#39;</span><span class="p">);</span>
+<span class="cp">?&gt;</span><span class="x"></span>
+<span class="x">&lt;table&gt;</span>
+<span class="x">    </span><span class="cp">&lt;?php</span> <span class="k">foreach</span> <span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">books</span> <span class="k">as</span> <span class="nv">$book</span><span class="p">)</span><span class="o">:</span> <span class="cp">?&gt;</span><span class="x"></span>
+<span class="x">        &lt;tr style=&quot;background-color: </span><span class="cp">&lt;?php</span> <span class="k">echo</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">cycle</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">setName</span><span class="p">(</span><span class="s1">&#39;colors&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">next</span><span class="p">()</span> <span class="cp">?&gt;</span><span class="x">&quot;&gt;</span>
+<span class="x">            &lt;td&gt;</span><span class="cp">&lt;?php</span> <span class="k">echo</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">cycle</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">setName</span><span class="p">(</span><span class="s1">&#39;numbers&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">next</span><span class="p">()</span> <span class="cp">?&gt;</span><span class="x">&lt;/td&gt;</span>
+<span class="x">            &lt;td&gt;</span><span class="cp">&lt;?php</span> <span class="k">echo</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">escapeHtml</span><span class="p">(</span><span class="nv">$book</span><span class="p">[</span><span class="s1">&#39;author&#39;</span><span class="p">])</span> <span class="cp">?&gt;</span><span class="x">&lt;/td&gt;</span>
+<span class="x">        &lt;/tr&gt;</span>
+<span class="x">    </span><span class="cp">&lt;?php</span> <span class="k">endforeach</span> <span class="cp">?&gt;</span><span class="x"></span>
+<span class="x">&lt;/table&gt;</span>
+</pre></div>
+</td></tr></table></div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/zf2_logo.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">View Helper - Cycle</a><ul>
+<li><a class="reference internal" href="#introduction">Introduction</a></li>
+<li><a class="reference internal" href="#basic-usage">Basic Usage</a></li>
+<li><a class="reference internal" href="#working-with-two-or-more-cycles">Working with two or more cycles</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="zend.view.helpers.base-path.html"
+                        title="previous chapter">View Helper - BasePath</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="zend.view.helpers.doctype.html"
+                        title="next chapter">View Helper - Doctype</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li>
+        <!--<a href="../_sources/modules/zend.view.helpers.cycle.txt"-->
+        <a href="https://github.com/zendframework/zf2-documentation/blob/master/docs/languages/en/modules/zend.view.helpers.cycle.rst"
+           rel="nofollow">Show Source</a></li>
+    <li><a href="https://github.com/zendframework/zf2-documentation/edit/master/docs/languages/en/modules/zend.view.helpers.cycle.rst"
+           rel="nofollow">Edit Source</a>
+    </li>
+  </ul>
+        <p style="font-size: 12px">
+            Note: You need to stay logged into your <a href="http://www.github.com">GitHub account</a> to contribute to the documentation.
+        </p>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="zend.view.helpers.doctype.html" title="View Helper - Doctype"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="zend.view.helpers.base-path.html" title="View Helper - BasePath"
+             >previous</a> |</li>
+        <li><a href="../index.html">Zend Framework 2 2.3.0dev documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+
+    <div class="footer">
+        &copy; Copyright 2013, Zend Technologies Ltd..
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b3.
+    </div>
+<div id="edit-button">
+    <img src="../_static/edit.gif" alt="Edit this document" title="Edit this document" onclick="javascript:$('#editor-trap').toggle();">
+</div>
+     
+<div id="editor-trap">
+    <h3>Edit this document</h3>
+
+    <p>
+        The source code of this file is hosted on GitHub. Everyone can
+        update and fix errors in this document with few clicks -
+        no downloads needed.
+    <p>
+
+    <ol>
+
+        <li>
+            Login with your <a href="http://www.github.com">GitHub</a> account.
+        </li>
+
+        <li>
+            Go to
+            <a href="https://github.com/zendframework/zf2-documentation/edit/master/docs/languages/en/modules/zend.view.helpers.cycle.rst">
+                View Helper - Cycle
+            </a> on GitHub.
+        </li>
+
+        <li>
+            Edit file contents using GitHub's text editor in your web browser
+        </li>
+
+        <li>
+            Fill in the <b>Commit message</b> text box at the end of the page telling <i>why</i>
+            you did the changes. Press <b>Propose file change</b> button next to it when done.
+        </li>
+
+
+        <li>
+            On <i>Send a pull request</i> page you don't need to fill in text anymore. Just
+            press <b>Send pull request</b> button.
+        </li>
+
+        <li>
+            Your changes are now queued for review under project's <a href="https://github.com/zendframework/zf2-documentation/pulls">Pull requests</a> tab on GitHub.
+        </li>
+    </ol>
+
+</div>
+
+
+  </body>
+</html>

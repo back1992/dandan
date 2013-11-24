@@ -1,0 +1,470 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Namespacing Old Classes &mdash; Zend Framework 2 2.3.0dev documentation</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '2.3.0dev',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="Zend Framework 2 2.3.0dev documentation" href="../index.html" />
+    <link rel="next" title="Running Zend Framework 2 and Zend Framework 1 in parallel" href="zf1_zf2_parallel.html" />
+    <link rel="prev" title="Migration from Zend Framework 1" href="overview.html" />
+<style type="text/css">
+    /* Styles for floating Edit on GitHub box */
+    #editor-trap {
+        padding: 1em;
+        border: 1px solid white;
+        width: 250px;
+
+        display: none;
+        color: white;
+        background: #3f454b;
+        position: fixed;
+        bottom: 5px;
+        left: 175px;
+        font-size: 85%;
+        text-align: left;
+        z-index: 2;
+
+        box-shadow: 0 4px 6px #333;
+        -moz-box-shadow: 0 4px 6px #333;
+        -webkit-box-shadow: 0 4px 6px #333;
+        
+        cursor: pointer;
+    }
+
+    #editor-trap h3 {
+        margin: 0 0 0.5em 0;
+        padding: 0;
+    }
+
+    #editor-trap h3 > span {
+        padding: 0 6px;
+        border: solid white;
+        border-width: 0 1px 4px 1px;
+        font-size: 10px;
+    }
+
+    #editor-trap a {
+        color: #98DBCC;
+    }
+
+    #editor-trap ol {
+        margin: 0;
+        padding: 0 0 0 2em;
+    }
+
+    /* Hide trick */
+    #editor-trap.toggled > * {
+        display: none;
+    }
+
+
+    #editor-trap.toggled > h3 {
+        display: block;
+    }
+
+    #editor-trap.toggled > h3 > span {
+        border-width: 6px 1px 0 1px;
+    }
+    
+    #edit-button {
+        position: fixed;
+        bottom: 5px;
+        left: 5px;
+        z-index: 2;
+        width: 162px;
+        height: 42px;
+    }
+</style>
+
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="zf1_zf2_parallel.html" title="Running Zend Framework 2 and Zend Framework 1 in parallel"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="overview.html" title="Migration from Zend Framework 1"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">Zend Framework 2 2.3.0dev documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="namespacing-old-classes">
+<span id="migration-namespacing-old-classes"></span><h1>Namespacing Old Classes<a class="headerlink" href="#namespacing-old-classes" title="Permalink to this headline">¶</a></h1>
+<p>ZF2&#8217;s minimal version is PHP 5.3.  The most notable feature of PHP 5.3 is
+the addition of namespaces, which ZF2 fully embraces.  Moreover, new projects
+built on ZF2 also fully embrace PHP namespaces.  The addition of namespaces
+to PHP has greatly improved the readability of long class names and
+has helped better organize code into modules and components.  This transition
+has also given birth to some naming best practices that help developers organize
+their code bases consisting of classes, components, and modules in a consistent
+and clean fashion.</p>
+<p>Converting an older code base that follows the original PEAR/ZF underscore
+separated class naming convention into a properly namespaced codebase is one
+of the easier strategies to employ in both modernizing your code base as well
+as getting ready to ZF2-ify your ZF1 application.</p>
+<p>We&#8217;ve created a tool to help in this endeavor, it is located here:</p>
+<blockquote>
+<div><a class="reference external" href="https://github.com/zendframework/Namespacer">https://github.com/zendframework/Namespacer</a></div></blockquote>
+<p>This tool will take a wholesale approach to converting older code like the
+following:</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="k">class</span> <span class="nc">My_Long_NestedComponent_ClassName</span>
+<span class="p">{</span>
+    <span class="c1">// methods that use other classes</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>into:</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="k">namespace</span> <span class="nx">My\Long\NestedComponent</span><span class="p">;</span>
+
+<span class="k">use</span> <span class="nx">Other\Classes</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Something\ElseConsumed</span><span class="p">;</span>
+
+<span class="k">class</span> <span class="nc">ClassName</span>
+<span class="p">{</span>
+    <span class="c1">// methods with classes converted to short name from use statement.</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Some IDEs have this capability to some degree.  That said, a good approach might
+be to use the command line <tt class="docutils literal"><span class="pre">Namespacer</span></tt> to do a full sweep of your codebase,
+then use the IDE to make more specific naming changes that might makes more
+sense to your application.</p>
+<div class="section" id="namespacing-a-zf1-application">
+<span id="namespacing-zf1-applications"></span><h2>Namespacing a ZF1 Application<a class="headerlink" href="#namespacing-a-zf1-application" title="Permalink to this headline">¶</a></h2>
+<p>The above <tt class="docutils literal"><span class="pre">Namespacer</span></tt> is a generalized tool.  It does not understand the
+structure and naming conventions of a ZF1 application.  As such, you&#8217;ll need to
+address the problem of converting your classes according to their role, and
+which classes you find you can convert without affecting the way the framework
+interoperates with your code.</p>
+<p>For example, in ZF1, the naming convention of application and module layer classes
+does not directly match up with same well-defined library class/file conventions of
+the PEAR/ZF namings.  For a standard ZF1 application, in the <tt class="docutils literal"><span class="pre">application/</span></tt> directory,
+controller classes are not prefixed, yet model and form classes are prefixed with
+<tt class="docutils literal"><span class="pre">Application_</span></tt>.  Moreover, they exist inside of lowercased directories, such as
+<tt class="docutils literal"><span class="pre">models</span></tt> or <tt class="docutils literal"><span class="pre">forms</span></tt>, and their file to class name segment matching picks up only
+after the first segment.  As an example, you might have this directory structure
+with the class names on the right:</p>
+<div class="highlight-python"><pre>application/
+    ├── Bootstrap.php
+    ├── configs
+    │   ├── application.ini
+    │   └── application.ini.dist
+    ├── controllers
+    │   ├── IndexController.php         [class IndexController]
+    │   └── PurchaseOrderController.php [class PurchaseOrderController]
+    ├── forms
+    │   └── PurchaseOrder
+    │       └── Payment.php             [class Application_Form_PurchaseOrder_Payment]
+    ├── layouts
+    │   └── scripts
+    │       ├── main.phtml
+    │       └── subpage.phtml
+    ├── models
+    │   ├── DbTable
+    │   │   └── Invoice.php             [Application_Model_DbTable_Invoice]
+    │   ├── Invoice.php                 [Application_Model_Invoice]
+    │   ├── InvoiceRepository.php       [Application_Model_InvoiceRepository]
+    │   ├── Payment
+    │   │   └── Paypal
+    │   │       └──  DirectPayment.php  [Application_Model_Payment_Paypal_DirectPayment]
+    │   └── PurchaseOrder.php           [Application_Model_PurchaseOrder]
+    └── views
+        └── scripts
+            ├── error
+            │   └── error.phtml
+            ├── index
+            │   └── index.phtml
+            └── purchase-order
+                ├── index.phtml
+                └── purchaser.phtml</pre>
+</div>
+<p>It would not be a good strategy to attempt to do a wholesale namespacing of this kind
+of project for a number of reasons:</p>
+<ol class="arabic simple">
+<li>ZF1 has special, context-aware autoloaders that will assist loading a class of
+a particular context from a special location on disk.  For example, ZF1
+understands controllers will be located in the <tt class="docutils literal"><span class="pre">controllers</span></tt> directory and
+will not be prefixed unless they are inside of a named module&#8217;s
+<tt class="docutils literal"><span class="pre">controllers</span></tt> directory.</li>
+<li>Attempting to apply namespacing to controller classes would generally render
+a ZF1 application useless.  ZF1, beyond loading files from disk, assumes
+controllers will have a very specific naming convention so that they can be
+invoked by the framework upon routing and dispatching.</li>
+<li>Beyond dispatching, ZF1 uses the class name to identify and map the proper view
+script to automatically execute.  By naming the controller something non-standard,
+views will no longer this this 1:1 mapping of controllers by name to controller action
+named view scripts.</li>
+</ol>
+<p>A better solution would be to start by namespacing the parts of your ZF1 application that
+have fewer tie-ins with the ZF1 architecture.  The place to start with this is models
+and forms.</p>
+<p>Since models and forms do not touch controller and view classes (which make heavy use
+of ZF1 classes by way of inheritance), model and form classes might not have the same
+level of coupling.</p>
+</div>
+<div class="section" id="howto-namespace-your-models">
+<span id="namespacing-models"></span><h2>HOWTO Namespace Your Models<a class="headerlink" href="#howto-namespace-your-models" title="Permalink to this headline">¶</a></h2>
+<p>First, ensure your classes are under version control. The namespacer tool will
+make modification to classes in place. You can then use your version control
+system as a diffing utility afterwards .</p>
+<p>To run the tool, download the phar.  Optionally you can place the
+<tt class="docutils literal"><span class="pre">namespacer.phar</span></tt> into a directory in your <tt class="docutils literal"><span class="pre">PATH</span></tt>.</p>
+<p>Namespacing is a 2 part process:</p>
+<ol class="arabic simple">
+<li>Create a map of all the old files, new files, old classes and new classes.</li>
+<li>Make the transformations according to the map file.</li>
+</ol>
+<p>Change into your <tt class="docutils literal"><span class="pre">models/</span></tt> directory and execute the map function:</p>
+<div class="highlight-bash"><div class="highlight"><pre>namespacer.phar map --mapfile model-map.php --source models/
+</pre></div>
+</div>
+<p>This will produce a file called <tt class="docutils literal"><span class="pre">model-map.php</span></tt> with entries like this:</p>
+<div class="highlight-php"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11</pre></div></td><td class="code"><div class="highlight"><pre><span class="o">&lt;?</span><span class="nx">php</span> <span class="k">return</span> <span class="k">array</span> <span class="p">(</span>
+    <span class="k">array</span> <span class="p">(</span>
+      <span class="s1">&#39;root_directory&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;/realpath/to/project/application/models&#39;</span><span class="p">,</span>
+      <span class="s1">&#39;original_class&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;Application_Model_Invoice&#39;</span><span class="p">,</span>
+      <span class="s1">&#39;original_file&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;/realpath/to/project/application/models/Invoice.php&#39;</span><span class="p">,</span>
+      <span class="s1">&#39;new_namespace&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;Application\\Model&#39;</span><span class="p">,</span>
+      <span class="s1">&#39;new_class&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;Invoice&#39;</span><span class="p">,</span>
+      <span class="s1">&#39;new_file&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;/realpath/to/project/application/models/Application/Model/Invoice.php&#39;</span><span class="p">,</span>
+    <span class="p">),</span>
+    <span class="o">...</span>
+<span class="p">);</span>
+</pre></div>
+</td></tr></table></div>
+<p>This gives you an opportunity to manually edit the transformations if you so desire.
+While you can modify this file, you also might find it to be easier to go with the default
+transformations, and do the remaining changes with your IDE&#8217;s refactoring utility.</p>
+<p>Once you are happy with the map file, run the transformations:</p>
+<div class="highlight-bash"><div class="highlight"><pre>namespacer.phar transform --mapfile model-map.php
+</pre></div>
+</div>
+<p>At this point, you can use your version control system&#8217;s <tt class="docutils literal"><span class="pre">status</span></tt> command to
+see how the directory has transformed. As an example, in a sample project of
+mine, <tt class="docutils literal"><span class="pre">git</span></tt> reports the following:</p>
+<div class="highlight-python"><pre>renamed:  models/DbTable/Invoice.php -&gt; models/Application/Model/DbTable/Invoice.php
+new file: models/Application/Model/DbTable/Transaction.php
+renamed:  models/Invoice.php -&gt; models/Application/Model/Invoice.php
+renamed:  models/Payment/Paypal/DirectPayment.php -&gt; models/Application/Model/Payment/Paypal/DirectPayment.php
+renamed:  models/PurchaseOrder.php -&gt; models/Application/Model/PurchaseOrder.php
+renamed:  models/PurchaseOrderRepository.php -&gt; models/Application/Model/PurchaseOrderRepository.php
+new file: models/Application/Model/PurchaseOrderService.php
+renamed:  models/Purchaser.php -&gt; models/Application/Model/Purchaser.php
+renamed:  models/Ticket.php -&gt; models/Application/Model/Ticket.php
+renamed:  models/Transaction.php -&gt; models/Application/Model/Transaction.php
+renamed:  models/TransactionRepository.php -&gt; models/Application/Model/TransactionRepository.php
+deleted:  models/DbTable/Transaction.php
+deleted:  models/PurchaseOrderService.php</pre>
+</div>
+<p>You&#8217;ll notice that the resulting files have treated the <tt class="docutils literal"><span class="pre">models/</span></tt> directory as the autoloader root
+directory.  That means that from this root, class files follow the strict PEAR/ZF2 classfile
+naming convention.  The contents of one of the files will look like this:</p>
+<div class="highlight-php"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14</pre></div></td><td class="code"><div class="highlight"><pre><span class="k">namespace</span> <span class="nx">Application\Model</span><span class="p">;</span>
+
+<span class="k">use</span> <span class="nx">Application\Model\PurchaseOrder</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Application\Model\Transaction</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Zend_Filter_Alnum</span><span class="p">;</span>
+
+<span class="k">class</span> <span class="nc">Invoice</span>
+<span class="p">{</span>
+
+    <span class="k">protected</span> <span class="nv">$tickets</span><span class="p">;</span>
+    <span class="k">protected</span> <span class="nv">$transaction</span><span class="p">;</span>
+
+    <span class="o">...</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+<p>Things to notice here:</p>
+<ul class="simple">
+<li>A namespace has been created for this class.</li>
+<li>The namespacer has created PHP <tt class="docutils literal"><span class="pre">use</span></tt> statements for classes known in the map file.</li>
+<li>Unknown classes are also included (for example, <tt class="docutils literal"><span class="pre">Zend</span></tt> classes) in <tt class="docutils literal"><span class="pre">use</span></tt>
+statements.</li>
+</ul>
+<p>By keeping the old ZF1 classes, your models should continue to work if they
+consume ZF1 classes.  This will allow you to, at your own pace, transition your
+codebase to ZF2.</p>
+<p>This same procedure can largely be adapted to forms and independent library
+code as well.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/zf2_logo.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Namespacing Old Classes</a><ul>
+<li><a class="reference internal" href="#namespacing-a-zf1-application">Namespacing a ZF1 Application</a></li>
+<li><a class="reference internal" href="#howto-namespace-your-models">HOWTO Namespace Your Models</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="overview.html"
+                        title="previous chapter">Migration from Zend Framework 1</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="zf1_zf2_parallel.html"
+                        title="next chapter">Running Zend Framework 2 and Zend Framework 1 in parallel</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li>
+        <!--<a href="../_sources/migration/namespacing-old-classes.txt"-->
+        <a href="https://github.com/zendframework/zf2-documentation/blob/master/docs/languages/en/migration/namespacing-old-classes.rst"
+           rel="nofollow">Show Source</a></li>
+    <li><a href="https://github.com/zendframework/zf2-documentation/edit/master/docs/languages/en/migration/namespacing-old-classes.rst"
+           rel="nofollow">Edit Source</a>
+    </li>
+  </ul>
+        <p style="font-size: 12px">
+            Note: You need to stay logged into your <a href="http://www.github.com">GitHub account</a> to contribute to the documentation.
+        </p>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="zf1_zf2_parallel.html" title="Running Zend Framework 2 and Zend Framework 1 in parallel"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="overview.html" title="Migration from Zend Framework 1"
+             >previous</a> |</li>
+        <li><a href="../index.html">Zend Framework 2 2.3.0dev documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+
+    <div class="footer">
+        &copy; Copyright 2013, Zend Technologies Ltd..
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b3.
+    </div>
+<div id="edit-button">
+    <img src="../_static/edit.gif" alt="Edit this document" title="Edit this document" onclick="javascript:$('#editor-trap').toggle();">
+</div>
+     
+<div id="editor-trap">
+    <h3>Edit this document</h3>
+
+    <p>
+        The source code of this file is hosted on GitHub. Everyone can
+        update and fix errors in this document with few clicks -
+        no downloads needed.
+    <p>
+
+    <ol>
+
+        <li>
+            Login with your <a href="http://www.github.com">GitHub</a> account.
+        </li>
+
+        <li>
+            Go to
+            <a href="https://github.com/zendframework/zf2-documentation/edit/master/docs/languages/en/migration/namespacing-old-classes.rst">
+                Namespacing Old Classes
+            </a> on GitHub.
+        </li>
+
+        <li>
+            Edit file contents using GitHub's text editor in your web browser
+        </li>
+
+        <li>
+            Fill in the <b>Commit message</b> text box at the end of the page telling <i>why</i>
+            you did the changes. Press <b>Propose file change</b> button next to it when done.
+        </li>
+
+
+        <li>
+            On <i>Send a pull request</i> page you don't need to fill in text anymore. Just
+            press <b>Send pull request</b> button.
+        </li>
+
+        <li>
+            Your changes are now queued for review under project's <a href="https://github.com/zendframework/zf2-documentation/pulls">Pull requests</a> tab on GitHub.
+        </li>
+    </ol>
+
+</div>
+
+
+  </body>
+</html>

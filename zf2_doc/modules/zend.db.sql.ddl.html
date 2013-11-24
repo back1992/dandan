@@ -1,0 +1,481 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Zend\Db\Sql\Ddl &mdash; Zend Framework 2 2.3.0dev documentation</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '2.3.0dev',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="Zend Framework 2 2.3.0dev documentation" href="../index.html" />
+    <link rel="next" title="Zend\Db\TableGateway" href="zend.db.table-gateway.html" />
+    <link rel="prev" title="Zend\Db\Sql" href="zend.db.sql.html" />
+<style type="text/css">
+    /* Styles for floating Edit on GitHub box */
+    #editor-trap {
+        padding: 1em;
+        border: 1px solid white;
+        width: 250px;
+
+        display: none;
+        color: white;
+        background: #3f454b;
+        position: fixed;
+        bottom: 5px;
+        left: 175px;
+        font-size: 85%;
+        text-align: left;
+        z-index: 2;
+
+        box-shadow: 0 4px 6px #333;
+        -moz-box-shadow: 0 4px 6px #333;
+        -webkit-box-shadow: 0 4px 6px #333;
+        
+        cursor: pointer;
+    }
+
+    #editor-trap h3 {
+        margin: 0 0 0.5em 0;
+        padding: 0;
+    }
+
+    #editor-trap h3 > span {
+        padding: 0 6px;
+        border: solid white;
+        border-width: 0 1px 4px 1px;
+        font-size: 10px;
+    }
+
+    #editor-trap a {
+        color: #98DBCC;
+    }
+
+    #editor-trap ol {
+        margin: 0;
+        padding: 0 0 0 2em;
+    }
+
+    /* Hide trick */
+    #editor-trap.toggled > * {
+        display: none;
+    }
+
+
+    #editor-trap.toggled > h3 {
+        display: block;
+    }
+
+    #editor-trap.toggled > h3 > span {
+        border-width: 6px 1px 0 1px;
+    }
+    
+    #edit-button {
+        position: fixed;
+        bottom: 5px;
+        left: 5px;
+        z-index: 2;
+        width: 162px;
+        height: 42px;
+    }
+</style>
+
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="zend.db.table-gateway.html" title="Zend\Db\TableGateway"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="zend.db.sql.html" title="Zend\Db\Sql"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">Zend Framework 2 2.3.0dev documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="zend-db-sql-ddl">
+<span id="id1"></span><h1>Zend\Db\Sql\Ddl<a class="headerlink" href="#zend-db-sql-ddl" title="Permalink to this headline">¶</a></h1>
+<p><tt class="docutils literal"><span class="pre">Zend\Db\Sql\Ddl</span></tt> is a sub-component of <tt class="docutils literal"><span class="pre">Zend\Db\Sql</span></tt> that allows consumers
+to create statement objects that will produce DDL (Data Definition Language) SQL
+statements.  When combined with a platform specific <tt class="docutils literal"><span class="pre">Zend\Db\Sql\Sql</span></tt> object,
+these DDL objects are capable of producing platform-specific <tt class="docutils literal"><span class="pre">CREATE</span> <span class="pre">TABLE</span></tt>
+statements, with specialized data types, constraints, and indexes for a
+database/schema.</p>
+<p>The following platforms have platform specializations for DDL:</p>
+<ul class="simple">
+<li>MySQL</li>
+<li>All databases compatible with ANSI SQL92</li>
+</ul>
+</div>
+<div class="section" id="creating-tables">
+<span id="zend-db-sql-ddl-creating-tables"></span><h1>Creating Tables<a class="headerlink" href="#creating-tables" title="Permalink to this headline">¶</a></h1>
+<p>Like <tt class="docutils literal"><span class="pre">Zend\Db\Sql</span></tt> objects, each statement type is represented by a class.
+For example, <tt class="docutils literal"><span class="pre">CREATE</span> <span class="pre">TABLE</span></tt> is modeled by a <tt class="docutils literal"><span class="pre">CreateTable</span></tt> object; this is
+likewise the same for <tt class="docutils literal"><span class="pre">ALTER</span> <span class="pre">TABLE</span></tt> (as <tt class="docutils literal"><span class="pre">AlterTable</span></tt>), and <tt class="docutils literal"><span class="pre">DROP</span> <span class="pre">TABLE</span></tt>
+(as <tt class="docutils literal"><span class="pre">DropTable</span></tt>).  These classes exist in the <tt class="docutils literal"><span class="pre">Zend\Db\Sql\Ddl</span></tt> namespace.
+To initiate the building of a DDL statement, such as <tt class="docutils literal"><span class="pre">CreateTable</span></tt>, one needs
+to instantiate the object. There are a couple of valid patterns for this:</p>
+<div class="highlight-php"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9</pre></div></td><td class="code"><div class="highlight"><pre><span class="k">use</span> <span class="nx">Zend\Db\Sql\Ddl</span><span class="p">;</span>
+
+<span class="nv">$table</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Ddl\CreateTable</span><span class="p">();</span>
+
+<span class="c1">// or with table</span>
+<span class="nv">$table</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Ddl\CreateTable</span><span class="p">(</span><span class="s1">&#39;bar&#39;</span><span class="p">);</span>
+
+<span class="c1">// optionally, as a temporary table</span>
+<span class="nv">$table</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Ddl\CreateTable</span><span class="p">(</span><span class="s1">&#39;bar&#39;</span><span class="p">,</span> <span class="k">true</span><span class="p">);</span>
+</pre></div>
+</td></tr></table></div>
+<p>You can also set the table after instantiation:</p>
+<div class="highlight-php"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="highlight"><pre><span class="nv">$table</span><span class="o">-&gt;</span><span class="na">setTable</span><span class="p">(</span><span class="s1">&#39;bar&#39;</span><span class="p">);</span>
+</pre></div>
+</td></tr></table></div>
+<p>Currently, columns are added by creating a column object, described in the
+data type table in the data type section below:</p>
+<div class="highlight-php"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3</pre></div></td><td class="code"><div class="highlight"><pre><span class="k">use</span> <span class="nx">Zend\Db\Sql\Ddl\Column</span><span class="p">;</span>
+<span class="nv">$table</span><span class="o">-&gt;</span><span class="na">addColumn</span><span class="p">(</span><span class="k">new</span> <span class="nx">Column\Integer</span><span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">));</span>
+<span class="nv">$table</span><span class="o">-&gt;</span><span class="na">addColumn</span><span class="p">(</span><span class="k">new</span> <span class="nx">Column\Varchar</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="mi">255</span><span class="p">));</span>
+</pre></div>
+</td></tr></table></div>
+<p>Beyond adding columns to a table, constraints can also be added:</p>
+<div class="highlight-php"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5</pre></div></td><td class="code"><div class="highlight"><pre><span class="k">use</span> <span class="nx">Zend\Db\Sql\Ddl\Constraint</span><span class="p">;</span>
+<span class="nv">$table</span><span class="o">-&gt;</span><span class="na">addConstraint</span><span class="p">(</span><span class="k">new</span> <span class="nx">Constraint\PrimaryKey</span><span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">));</span>
+<span class="nv">$table</span><span class="o">-&gt;</span><span class="na">addConstraint</span><span class="p">(</span>
+    <span class="k">new</span> <span class="nx">Constraint\UniqueKey</span><span class="p">([</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;foo&#39;</span><span class="p">],</span> <span class="s1">&#39;my_unique_key&#39;</span><span class="p">)</span>
+<span class="p">);</span>
+</pre></div>
+</td></tr></table></div>
+</div>
+<div class="section" id="altering-tables">
+<span id="zend-db-sql-ddl-altering-tables"></span><h1>Altering Tables<a class="headerlink" href="#altering-tables" title="Permalink to this headline">¶</a></h1>
+<p>Similarly to <tt class="docutils literal"><span class="pre">CreateTable</span></tt>, you may also instantiate <tt class="docutils literal"><span class="pre">AlterTable</span></tt>:</p>
+<div class="highlight-php"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9</pre></div></td><td class="code"><div class="highlight"><pre><span class="k">use</span> <span class="nx">Zend\Db\Sql\Ddl</span><span class="p">;</span>
+
+<span class="nv">$table</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Ddl\AlterTable</span><span class="p">();</span>
+
+<span class="c1">// or with table</span>
+<span class="nv">$table</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Ddl\AlterTable</span><span class="p">(</span><span class="s1">&#39;bar&#39;</span><span class="p">);</span>
+
+<span class="c1">// optionally, as a temporary table</span>
+<span class="nv">$table</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Ddl\AlterTable</span><span class="p">(</span><span class="s1">&#39;bar&#39;</span><span class="p">,</span> <span class="k">true</span><span class="p">);</span>
+</pre></div>
+</td></tr></table></div>
+<p>The primary difference between a <tt class="docutils literal"><span class="pre">CreateTable</span></tt> and <tt class="docutils literal"><span class="pre">AlterTable</span></tt> is that the
+<tt class="docutils literal"><span class="pre">AlterTable</span></tt> takes into account that the table and its assets already exist.
+Therefore, while you still have <tt class="docutils literal"><span class="pre">addColumn()</span></tt> and <tt class="docutils literal"><span class="pre">addConstraint()</span></tt>, you
+will also see the ability to change existing columns:</p>
+<div class="highlight-php"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2</pre></div></td><td class="code"><div class="highlight"><pre><span class="k">use</span> <span class="nx">Zend\Db\Sql\Ddl\Column</span><span class="p">;</span>
+<span class="nv">$table</span><span class="o">-&gt;</span><span class="na">changeColumn</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="nx">Column\Varchar</span><span class="p">(</span><span class="s1">&#39;new_name&#39;</span><span class="p">,</span> <span class="mi">50</span><span class="p">));</span>
+</pre></div>
+</td></tr></table></div>
+<p>You may also drop existing columns or constraints:</p>
+<div class="highlight-php"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2</pre></div></td><td class="code"><div class="highlight"><pre><span class="nv">$table</span><span class="o">-&gt;</span><span class="na">dropColumn</span><span class="p">(</span><span class="s1">&#39;foo&#39;</span><span class="p">);</span>
+<span class="nv">$table</span><span class="o">-&gt;</span><span class="na">dropConstraint</span><span class="p">(</span><span class="s1">&#39;my_index&#39;</span><span class="p">);</span>
+</pre></div>
+</td></tr></table></div>
+</div>
+<div class="section" id="dropping-tables">
+<span id="zend-db-sql-ddl-dropping-tables"></span><h1>Dropping Tables<a class="headerlink" href="#dropping-tables" title="Permalink to this headline">¶</a></h1>
+<p>To drop a table, create a <tt class="docutils literal"><span class="pre">DropTable</span></tt> statement object:</p>
+<div class="highlight-php"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="highlight"><pre><span class="nv">$drop</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Ddl\DropTable</span><span class="p">(</span><span class="s1">&#39;bar&#39;</span><span class="p">);</span>
+</pre></div>
+</td></tr></table></div>
+</div>
+<div class="section" id="executing-ddl-statements">
+<span id="zend-db-sql-ddl-execution"></span><h1>Executing DDL Statements<a class="headerlink" href="#executing-ddl-statements" title="Permalink to this headline">¶</a></h1>
+<p>After a DDL statement object has been created and configured, at some point you
+will want to execute the statement. To do this, you will need two other objects:
+an <tt class="docutils literal"><span class="pre">Adapter</span></tt> instance, and a properly seeded <tt class="docutils literal"><span class="pre">Sql</span></tt> instance.</p>
+<p>The workflow looks something like this, with <tt class="docutils literal"><span class="pre">$ddl</span></tt> being a <tt class="docutils literal"><span class="pre">CreateTable</span></tt>,
+<tt class="docutils literal"><span class="pre">AlterTable</span></tt>, or <tt class="docutils literal"><span class="pre">DropTable</span></tt> instance:</p>
+<div class="highlight-php"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9</pre></div></td><td class="code"><div class="highlight"><pre><span class="k">use</span> <span class="nx">Zend\Db\Sql\Sql</span><span class="p">;</span>
+
+<span class="c1">// existence of $adapter is assumed</span>
+<span class="nv">$sql</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Sql</span><span class="p">(</span><span class="nv">$adapter</span><span class="p">);</span>
+
+<span class="nv">$adapter</span><span class="o">-&gt;</span><span class="na">query</span><span class="p">(</span>
+    <span class="nv">$sql</span><span class="o">-&gt;</span><span class="na">getSqlStringForSqlObject</span><span class="p">(</span><span class="nv">$ddl</span><span class="p">),</span>
+    <span class="nv">$adapter</span><span class="o">::</span><span class="na">QUERY_MODE_EXECUTE</span>
+<span class="p">);</span>
+</pre></div>
+</td></tr></table></div>
+<p>By passing the <tt class="docutils literal"><span class="pre">$ddl</span></tt> object through the <tt class="docutils literal"><span class="pre">$sql</span></tt> object&#8217;s
+<tt class="docutils literal"><span class="pre">getSqlStringForSqlObject()</span></tt> method, we ensure that any platform specific
+specializations/modifications are utilized to create a platform specific
+SQL statement.</p>
+<p>Next, using the constant <tt class="docutils literal"><span class="pre">Zend\Db\Adapter\Adapter::QUERY_MODE_EXECUTE</span></tt> ensures
+that the SQL statement is not prepared, as many DDL statements on a variety of
+platforms cannot be prepared, only executed.</p>
+</div>
+<div class="section" id="currently-supported-data-types">
+<span id="zend-db-sql-ddl-supported-data-types"></span><h1>Currently Supported Data Types<a class="headerlink" href="#currently-supported-data-types" title="Permalink to this headline">¶</a></h1>
+<p>These types exist in the <tt class="docutils literal"><span class="pre">Zend\Db\Sql\Ddl\Column</span></tt> namespace.  Data types must
+implement <tt class="docutils literal"><span class="pre">Zend\Db\Sql\Ddl\Column\ColumnInterface</span></tt>.</p>
+<p>In alphabetical order:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="18%" />
+<col width="82%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Type</th>
+<th class="head">Arguments For Construction</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>Blob</td>
+<td><tt class="docutils literal"><span class="pre">$name,</span> <span class="pre">$length,</span> <span class="pre">$nullable</span> <span class="pre">=</span> <span class="pre">false,</span> <span class="pre">$default</span> <span class="pre">=</span> <span class="pre">null,</span> <span class="pre">array</span> <span class="pre">$options</span> <span class="pre">=</span> <span class="pre">array()</span></tt></td>
+</tr>
+<tr class="row-odd"><td>Boolean</td>
+<td><tt class="docutils literal"><span class="pre">$name</span></tt></td>
+</tr>
+<tr class="row-even"><td>Char</td>
+<td><tt class="docutils literal"><span class="pre">$name,</span> <span class="pre">$length</span></tt></td>
+</tr>
+<tr class="row-odd"><td>Column (generic)</td>
+<td><tt class="docutils literal"><span class="pre">$name</span> <span class="pre">=</span> <span class="pre">null</span></tt></td>
+</tr>
+<tr class="row-even"><td>Date</td>
+<td><tt class="docutils literal"><span class="pre">$name</span></tt></td>
+</tr>
+<tr class="row-odd"><td>Decimal</td>
+<td><tt class="docutils literal"><span class="pre">$name,</span> <span class="pre">$precision,</span> <span class="pre">$scale</span> <span class="pre">=</span> <span class="pre">null</span></tt></td>
+</tr>
+<tr class="row-even"><td>Float</td>
+<td><tt class="docutils literal"><span class="pre">$name,</span> <span class="pre">$digits,</span> <span class="pre">$decimal</span></tt></td>
+</tr>
+<tr class="row-odd"><td>Integer</td>
+<td><tt class="docutils literal"><span class="pre">$name,</span> <span class="pre">$nullable</span> <span class="pre">=</span> <span class="pre">false,</span> <span class="pre">$default</span> <span class="pre">=</span> <span class="pre">null,</span> <span class="pre">array</span> <span class="pre">$options</span> <span class="pre">=</span> <span class="pre">array()</span></tt></td>
+</tr>
+<tr class="row-even"><td>Time</td>
+<td><tt class="docutils literal"><span class="pre">$name</span></tt></td>
+</tr>
+<tr class="row-odd"><td>Varchar</td>
+<td><tt class="docutils literal"><span class="pre">$name,</span> <span class="pre">$length</span></tt></td>
+</tr>
+</tbody>
+</table>
+<p>Each of the above types can be utilized in any place that accepts a
+<tt class="docutils literal"><span class="pre">Column\ColumnInterface</span></tt> instance.  Currently, this is primarily in
+<tt class="docutils literal"><span class="pre">CreateTable::addColumn()</span></tt> and <tt class="docutils literal"><span class="pre">AlterTable</span></tt>&#8216;s <tt class="docutils literal"><span class="pre">addColumn()</span></tt> and
+<tt class="docutils literal"><span class="pre">changeColumn()</span></tt> methods.</p>
+</div>
+<div class="section" id="currently-supported-constraint-types">
+<span id="zend-db-sql-ddl-supported-constraints"></span><h1>Currently Supported Constraint Types<a class="headerlink" href="#currently-supported-constraint-types" title="Permalink to this headline">¶</a></h1>
+<p>These types exist in the <tt class="docutils literal"><span class="pre">Zend\Db\Sql\Ddl\Constraint</span></tt> namespace. Data types must
+implement <tt class="docutils literal"><span class="pre">Zend\Db\Sql\Ddl\Constraint\ConstraintInterface</span></tt>.</p>
+<p>In alphabetical order:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="14%" />
+<col width="86%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Type</th>
+<th class="head">Arguments For Construction</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>Check</td>
+<td><tt class="docutils literal"><span class="pre">$expression,</span> <span class="pre">$name</span></tt></td>
+</tr>
+<tr class="row-odd"><td>ForeignKey</td>
+<td><tt class="docutils literal"><span class="pre">$name,</span> <span class="pre">$column,</span> <span class="pre">$referenceTable,</span> <span class="pre">$referenceColumn,</span> <span class="pre">$onDeleteRule</span> <span class="pre">=</span> <span class="pre">null,</span> <span class="pre">$onUpdateRule</span> <span class="pre">=</span> <span class="pre">null</span></tt></td>
+</tr>
+<tr class="row-even"><td>PrimaryKey</td>
+<td><tt class="docutils literal"><span class="pre">$columns</span></tt></td>
+</tr>
+<tr class="row-odd"><td>UniqueKey</td>
+<td><tt class="docutils literal"><span class="pre">$column,</span> <span class="pre">$name</span> <span class="pre">=</span> <span class="pre">null</span></tt></td>
+</tr>
+</tbody>
+</table>
+<p>Each of the above types can be utilized in any place that accepts a
+<tt class="docutils literal"><span class="pre">Column\ConstraintInterface</span></tt> instance.  Currently, this is primarily in
+<tt class="docutils literal"><span class="pre">CreateTable::addConstraint()</span></tt> and <tt class="docutils literal"><span class="pre">AlterTable::addConstraint()</span></tt>.</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/zf2_logo.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Zend\Db\Sql\Ddl</a></li>
+<li><a class="reference internal" href="#creating-tables">Creating Tables</a></li>
+<li><a class="reference internal" href="#altering-tables">Altering Tables</a></li>
+<li><a class="reference internal" href="#dropping-tables">Dropping Tables</a></li>
+<li><a class="reference internal" href="#executing-ddl-statements">Executing DDL Statements</a></li>
+<li><a class="reference internal" href="#currently-supported-data-types">Currently Supported Data Types</a></li>
+<li><a class="reference internal" href="#currently-supported-constraint-types">Currently Supported Constraint Types</a></li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="zend.db.sql.html"
+                        title="previous chapter">Zend\Db\Sql</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="zend.db.table-gateway.html"
+                        title="next chapter">Zend\Db\TableGateway</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li>
+        <!--<a href="../_sources/modules/zend.db.sql.ddl.txt"-->
+        <a href="https://github.com/zendframework/zf2-documentation/blob/master/docs/languages/en/modules/zend.db.sql.ddl.rst"
+           rel="nofollow">Show Source</a></li>
+    <li><a href="https://github.com/zendframework/zf2-documentation/edit/master/docs/languages/en/modules/zend.db.sql.ddl.rst"
+           rel="nofollow">Edit Source</a>
+    </li>
+  </ul>
+        <p style="font-size: 12px">
+            Note: You need to stay logged into your <a href="http://www.github.com">GitHub account</a> to contribute to the documentation.
+        </p>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="zend.db.table-gateway.html" title="Zend\Db\TableGateway"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="zend.db.sql.html" title="Zend\Db\Sql"
+             >previous</a> |</li>
+        <li><a href="../index.html">Zend Framework 2 2.3.0dev documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+
+    <div class="footer">
+        &copy; Copyright 2013, Zend Technologies Ltd..
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b3.
+    </div>
+<div id="edit-button">
+    <img src="../_static/edit.gif" alt="Edit this document" title="Edit this document" onclick="javascript:$('#editor-trap').toggle();">
+</div>
+     
+<div id="editor-trap">
+    <h3>Edit this document</h3>
+
+    <p>
+        The source code of this file is hosted on GitHub. Everyone can
+        update and fix errors in this document with few clicks -
+        no downloads needed.
+    <p>
+
+    <ol>
+
+        <li>
+            Login with your <a href="http://www.github.com">GitHub</a> account.
+        </li>
+
+        <li>
+            Go to
+            <a href="https://github.com/zendframework/zf2-documentation/edit/master/docs/languages/en/modules/zend.db.sql.ddl.rst">
+                Zend\Db\Sql\Ddl
+            </a> on GitHub.
+        </li>
+
+        <li>
+            Edit file contents using GitHub's text editor in your web browser
+        </li>
+
+        <li>
+            Fill in the <b>Commit message</b> text box at the end of the page telling <i>why</i>
+            you did the changes. Press <b>Propose file change</b> button next to it when done.
+        </li>
+
+
+        <li>
+            On <i>Send a pull request</i> page you don't need to fill in text anymore. Just
+            press <b>Send pull request</b> button.
+        </li>
+
+        <li>
+            Your changes are now queued for review under project's <a href="https://github.com/zendframework/zf2-documentation/pulls">Pull requests</a> tab on GitHub.
+        </li>
+    </ol>
+
+</div>
+
+
+  </body>
+</html>
