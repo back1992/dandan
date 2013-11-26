@@ -1,0 +1,1 @@
+Search.setIndex({envversion:42,terms:{pleas:0,thi:0,look:0,have:0,obsolet:0},objtypes:{},objnames:{},filenames:["index"],titles:["PHP FFMpeg documentation"],objects:{},titleterms:{php:0,ffmpeg:0,document:0}})
