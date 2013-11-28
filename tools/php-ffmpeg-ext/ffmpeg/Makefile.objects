@@ -1,0 +1,2 @@
+ffmpeg.lo: /var/www/html/dandan/tools/php-ffmpeg-ext/ffmpeg/ffmpeg.c
+	$(LIBTOOL) --mode=compile $(CC)  -I. -I/var/www/html/dandan/tools/php-ffmpeg-ext/ffmpeg $(COMMON_FLAGS) $(CFLAGS_CLEAN) $(EXTRA_CFLAGS)  -c /var/www/html/dandan/tools/php-ffmpeg-ext/ffmpeg/ffmpeg.c -o ffmpeg.lo 

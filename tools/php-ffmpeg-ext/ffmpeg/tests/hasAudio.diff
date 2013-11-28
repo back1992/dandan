@@ -1,0 +1,3 @@
+001+ Fatal error: Class 'ffmpeg_movie' not found in /var/www/html/dandan/tools/php-ffmpeg-ext/ffmpeg/tests/hasAudio.php on line 2
+001- ffmpeg hasAudio(): No
+002- ffmpeg hasAudio(): Yes

@@ -1,0 +1,49 @@
+<html>
+<body>
+<pre>
+<h1>Build Log</h1>
+<h3>
+--------------------Configuration: ffmpeg - Win32 Release_TS--------------------
+</h3>
+<h3>Command Lines</h3>
+Creating temporary file "C:\DOCUME~1\illk\LOCALS~1\Temp\RSP49.tmp" with contents
+[
+/nologo /MD /W3 /GX /O2 /I "..\.." /I "..\..\main" /I "..\..\Zend" /I "..\..\..\bindlib_w32" /I "..\..\TSRM" /D ZEND_DEBUG=0 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "FFMPEG_EXPORTS" /D "COMPILE_DL_FFMPEG" /D ZTS=1 /D "ZEND_WIN32" /D "PHP_WIN32" /FR"Release_TS/" /Fp"Release_TS/ffmpeg.pch" /YX /Fo"Release_TS/" /Fd"Release_TS/" /FD /c     
+/Tc "F:\cppworks\dlls\src\php-4.3.9\ext\ffmpeg\ffmpeg.c"
+/Tc "F:\cppworks\dlls\src\php-4.3.9\ext\ffmpeg\ffmpeg_frame.c"
+/Tc "F:\cppworks\dlls\src\php-4.3.9\ext\ffmpeg\ffmpeg_movie.c"
+]
+Creating command line "cl.exe @C:\DOCUME~1\illk\LOCALS~1\Temp\RSP49.tmp" 
+Creating temporary file "C:\DOCUME~1\illk\LOCALS~1\Temp\RSP4A.tmp" with contents
+[
+kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib php4ts.lib /nologo /dll /pdb:none /machine:I386 /out:"..\..\Release_TS/php_ffmpeg.dll" /implib:"Release_TS/php_ffmpeg.lib" /libpath:"..\..\Release_TS" /libpath:"..\..\Release_TS_Inline" 
+".\Release_TS\ffmpeg.obj"
+".\Release_TS\ffmpeg_frame.obj"
+".\Release_TS\ffmpeg_movie.obj"
+".\avcodec.lib"
+".\avformat.lib"
+"..\..\RELEASE_TS\php4ts.lib"
+]
+Creating command line "link.exe @C:\DOCUME~1\illk\LOCALS~1\Temp\RSP4A.tmp"
+<h3>Output Window</h3>
+Compiling...
+ffmpeg.c
+F:\CPPWORKS\DLLS\FFMPEG\FFMPEG\LIBAVCODEC\rational.h(49) : warning C4244: 'return' : conversion from '__int64 ' to 'int ', possible loss of data
+ffmpeg_frame.c
+F:\CPPWORKS\DLLS\FFMPEG\FFMPEG\LIBAVCODEC\rational.h(49) : warning C4244: 'return' : conversion from '__int64 ' to 'int ', possible loss of data
+ffmpeg_movie.c
+F:\CPPWORKS\DLLS\FFMPEG\FFMPEG\LIBAVCODEC\rational.h(49) : warning C4244: 'return' : conversion from '__int64 ' to 'int ', possible loss of data
+F:\cppworks\dlls\src\php-4.3.9\ext\ffmpeg\ffmpeg_movie.c(377) : warning C4244: 'return' : conversion from 'double ' to 'long ', possible loss of data
+Linking...
+   Creating library Release_TS/php_ffmpeg.lib and object Release_TS/php_ffmpeg.exp
+Creating command line "bscmake.exe /nologo /o"Release_TS/ffmpeg.bsc"  ".\Release_TS\ffmpeg.sbr" ".\Release_TS\ffmpeg_frame.sbr" ".\Release_TS\ffmpeg_movie.sbr""
+Creating browse info file...
+<h3>Output Window</h3>
+
+
+
+<h3>Results</h3>
+php_ffmpeg.dll - 0 error(s), 4 warning(s)
+</pre>
+</body>
+</html>

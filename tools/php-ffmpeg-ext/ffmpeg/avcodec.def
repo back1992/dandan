@@ -1,0 +1,632 @@
+EXPORTS
+    DCT_common_init @1
+    DCtab_chrom @2 DATA
+    DCtab_lum @3 DATA
+    DecoderMMS @4
+    Decoder_Interface_Decode @5
+    Decoder_Interface_exit @6
+    Decoder_Interface_init @7
+    Decoder_Interface_reset @8
+    Encoder_Interface_Encode @9
+    Encoder_Interface_exit @10
+    Encoder_Interface_init @11
+    MPV_common_end @12
+    MPV_common_init @13
+    MPV_common_init_mmx @14
+    MPV_decode_defaults @15
+    MPV_decode_mb @16
+    MPV_encode_end @17
+    MPV_encode_init @18
+    MPV_encode_picture @19
+    MPV_frame_end @20
+    MPV_frame_start @21
+    Speech_Decode_Frame @22
+    Speech_Decode_Frame_exit @23
+    Speech_Decode_Frame_init @24
+    Speech_Decode_Frame_reset @25
+    Speech_Encode_Frame @26
+    Speech_Encode_Frame_exit @27
+    Speech_Encode_Frame_init @28
+    Speech_Encode_Frame_reset @29
+    ac3_common_init @30
+    ac3_encoder @31 DATA
+    ac3_parametric_bit_allocation @32
+    add_pixels_clamped_mmx @33
+    adpcm_4xm_decoder @34 DATA
+    adpcm_4xm_encoder @35 DATA
+    adpcm_adx_decoder @36 DATA
+    adpcm_adx_encoder @37 DATA
+    adpcm_ct_decoder @38 DATA
+    adpcm_ct_encoder @39 DATA
+    adpcm_ea_decoder @40 DATA
+    adpcm_ea_encoder @41 DATA
+    adpcm_g726_decoder @42 DATA
+    adpcm_g726_encoder @43 DATA
+    adpcm_ima_dk3_decoder @44 DATA
+    adpcm_ima_dk3_encoder @45 DATA
+    adpcm_ima_dk4_decoder @46 DATA
+    adpcm_ima_dk4_encoder @47 DATA
+    adpcm_ima_qt_decoder @48 DATA
+    adpcm_ima_qt_encoder @49 DATA
+    adpcm_ima_smjpeg_decoder @50 DATA
+    adpcm_ima_smjpeg_encoder @51 DATA
+    adpcm_ima_wav_decoder @52 DATA
+    adpcm_ima_wav_encoder @53 DATA
+    adpcm_ima_ws_decoder @54 DATA
+    adpcm_ima_ws_encoder @55 DATA
+    adpcm_ms_decoder @56 DATA
+    adpcm_ms_encoder @57 DATA
+    adpcm_xa_decoder @58 DATA
+    adpcm_xa_encoder @59 DATA
+    adx_adpcm_decoder @60 DATA
+    adx_adpcm_encoder @61 DATA
+    align_get_bits @62
+    align_put_bits @63
+    alloc_tables @64 DATA
+    amr_nb_decoder @65 DATA
+    amr_nb_encoder @66 DATA
+    asv1_decoder @67 DATA
+    asv1_encoder @68 DATA
+    asv2_decoder @69 DATA
+    asv2_encoder @70 DATA
+    audio_resample @71
+    audio_resample_close @72
+    audio_resample_init @73
+    av_add_i @74
+    av_add_q @75
+    av_build_filter @76
+    av_cmp_i @77
+    av_d2q @78
+    av_div_i @79
+    av_div_q @80
+    av_fast_realloc @81
+    av_first_parser @82 DATA
+    av_free @83
+    av_free_static @84
+    av_freep @85
+    av_get_pict_type_char @86
+    av_i2int @87
+    av_int2i @88
+    av_log @89
+    av_log2_i @90
+    av_log_get_level @91
+    av_log_set_callback @92
+    av_log_set_level @93
+    av_malloc @94
+    av_mallocz @95
+    av_mallocz_static @96
+    av_mod_i @97
+    av_mul_i @98
+    av_mul_q @99
+    av_parser_close @100
+    av_parser_init @101
+    av_parser_parse @102
+    av_realloc @103
+    av_realloc_static @104
+    av_reduce @105
+    av_register_codec_parser @106
+    av_resample @107
+    av_resample_close @108
+    av_resample_compensate @109
+    av_resample_init @110
+    av_rescale @111
+    av_rescale_rnd @112
+    av_shr_i @113
+    av_strdup @114
+    av_sub_i @115
+    av_sub_q @116
+    av_vlog @117
+    avcodec_align_dimensions @118
+    avcodec_alloc_context @119
+    avcodec_alloc_frame @120
+    avcodec_build @121
+    avcodec_check_dimensions @122
+    avcodec_close @123
+    avcodec_decode_audio @124
+    avcodec_decode_video @125
+    avcodec_default_execute @126
+    avcodec_default_free_buffers @127
+    avcodec_default_get_buffer @128
+    avcodec_default_get_format @129
+    avcodec_default_reget_buffer @130
+    avcodec_default_release_buffer @131
+    avcodec_encode_audio @132
+    avcodec_encode_video @133
+    avcodec_find_best_pix_fmt @134
+    avcodec_find_decoder @135
+    avcodec_find_decoder_by_name @136
+    avcodec_find_encoder @137
+    avcodec_find_encoder_by_name @138
+    avcodec_flush_buffers @139
+    avcodec_get_chroma_sub_sample @140
+    avcodec_get_context_defaults @141
+    avcodec_get_frame_defaults @142
+    avcodec_get_pix_fmt @143
+    avcodec_get_pix_fmt_loss @144
+    avcodec_get_pix_fmt_name @145
+    avcodec_init @146
+    avcodec_open @147
+    avcodec_pix_fmt_to_codec_tag @148
+    avcodec_register_all @149
+    avcodec_set_dimensions @150
+    avcodec_string @151
+    avcodec_thread_execute @152
+    avcodec_thread_free @153
+    avcodec_thread_init @154
+    avcodec_version @155
+    avoption_parse @156
+    avoptions_common @157 DATA
+    avoptions_workaround_bug @158 DATA
+    avpicture_alloc @159
+    avpicture_deinterlace @160
+    avpicture_fill @161
+    avpicture_free @162
+    avpicture_get_size @163
+    avpicture_layout @164
+    band_size_long @165 DATA
+    band_size_short @166 DATA
+    bessel @167
+    cbpc_b_tab @168 DATA
+    cbpy_tab @169 DATA
+    check_marker @170
+    ci_table @171 DATA
+    cinepak_decoder @172 DATA
+    cljr_decoder @173 DATA
+    cropTbl @174 DATA
+    cyuv_decoder @175 DATA
+    draw_edges @176 DATA
+    dsputil_init @177
+    dsputil_init_mmx @178
+    dsputil_init_pix_mmx @179
+    dsputil_static_init @180
+    dvvideo_decoder @181 DATA
+    dvvideo_encoder @182 DATA
+    eightbps_decoder @183 DATA
+    fdct_ifast @184
+    fdct_ifast248 @185
+    fdct_r_row_sse2 @186 DATA
+    ff_aic_dc_scale_table @187 DATA
+    ff_alternate_horizontal_scan @188 DATA
+    ff_alternate_vertical_scan @189 DATA
+    ff_avg_qpel16_mc11_old_c @190
+    ff_avg_qpel16_mc12_old_c @191
+    ff_avg_qpel16_mc13_old_c @192
+    ff_avg_qpel16_mc31_old_c @193
+    ff_avg_qpel16_mc32_old_c @194
+    ff_avg_qpel16_mc33_old_c @195
+    ff_avg_qpel8_mc11_old_c @196
+    ff_avg_qpel8_mc12_old_c @197
+    ff_avg_qpel8_mc13_old_c @198
+    ff_avg_qpel8_mc31_old_c @199
+    ff_avg_qpel8_mc32_old_c @200
+    ff_avg_qpel8_mc33_old_c @201
+    ff_block_permute @202
+    ff_build_rac_states @203
+    ff_clean_h263_qscales @204
+    ff_clean_intra_table_entries @205
+    ff_clean_mpeg4_qscales @206
+    ff_combine_frame @207
+    ff_copy_bits @208
+    ff_draw_horiz_band @209
+    ff_emulated_edge_mc @210
+    ff_epzs_motion_search @211
+    ff_er_add_slice @212
+    ff_er_frame_end @213
+    ff_er_frame_start @214
+    ff_estimate_b_frame_motion @215
+    ff_estimate_p_frame_motion @216
+    ff_eval @217
+    ff_faandct @218
+    ff_faandct248 @219
+    ff_fdct248_islow @220
+    ff_fdct_mmx @221
+    ff_fdct_mmx2 @222
+    ff_fdct_sse2 @223
+    ff_fft_calc_c @224
+    ff_fft_end @225
+    ff_fft_init @226
+    ff_fft_permute @227
+    ff_find_unused_picture @228
+    ff_fix_long_mvs @229
+    ff_fix_long_p_mvs @230
+    ff_flv_encode_picture_header @231
+    ff_gcd @232
+    ff_get_best_fcode @233
+    ff_get_mb_score @234
+    ff_golomb_vlc_len @235 DATA
+    ff_h261_encode_init @236
+    ff_h261_encode_mb @237
+    ff_h261_encode_picture_header @238
+    ff_h261_loop_filter @239
+    ff_h261_reorder_mb_index @240
+    ff_h263_chroma_qscale_table @241 DATA
+    ff_h263_decode_end @242
+    ff_h263_decode_frame @243
+    ff_h263_decode_init @244
+    ff_h263_decode_mb @245
+    ff_h263_decode_mba @246
+    ff_h263_encode_mba @247
+    ff_h263_encode_motion @248
+    ff_h263_get_gob_height @249
+    ff_h263_loop_filter @250
+    ff_h263_loop_filter_strength @251 DATA
+    ff_h263_resync @252
+    ff_h263_round_chroma @253
+    ff_h263_update_motion_val @254
+    ff_h264_idct_add_c @255
+    ff_h264_lowres_idct_add_c @256
+    ff_h264_lowres_idct_put_c @257
+    ff_h264_lps_range @258 DATA
+    ff_h264_lps_state @259 DATA
+    ff_h264_mps_state @260 DATA
+    ff_h264_norm_shift @261 DATA
+    ff_imdct_calc @262
+    ff_init_block_index @263
+    ff_init_cabac_decoder @264
+    ff_init_cabac_encoder @265
+    ff_init_cabac_states @266
+    ff_init_me @267
+    ff_init_range_decoder @268
+    ff_init_range_encoder @269
+    ff_init_scantable @270
+    ff_interleaved_golomb_vlc_len @271 DATA
+    ff_interleaved_se_golomb_vlc_code @272 DATA
+    ff_interleaved_ue_golomb_vlc_code @273 DATA
+    ff_jpeg_fdct_islow @274
+    ff_log2_tab @275 DATA
+    ff_mba_length @276 DATA
+    ff_mba_max @277 DATA
+    ff_mdct_calc @278
+    ff_mdct_end @279
+    ff_mdct_init @280
+    ff_mjpeg_stuffing @281
+    ff_mmx_idct @282
+    ff_mmxext_idct @283
+    ff_mpeg1_clean_buffers @284
+    ff_mpeg1_dc_scale_table @285 DATA
+    ff_mpeg1_default_intra_matrix @286 DATA
+    ff_mpeg1_default_non_intra_matrix @287 DATA
+    ff_mpeg1_encode_init @288
+    ff_mpeg1_encode_slice_header @289
+    ff_mpeg1_find_frame_end @290
+    ff_mpeg4_c_dc_scale_table @291 DATA
+    ff_mpeg4_clean_buffers @292
+    ff_mpeg4_decode_mb @293
+    ff_mpeg4_decode_partitions @294
+    ff_mpeg4_decode_picture_header @295
+    ff_mpeg4_default_intra_matrix @296 DATA
+    ff_mpeg4_default_non_intra_matrix @297 DATA
+    ff_mpeg4_encode_video_packet_header @298
+    ff_mpeg4_find_frame_end @299
+    ff_mpeg4_get_video_packet_prefix_length @300
+    ff_mpeg4_init_partitions @301
+    ff_mpeg4_merge_partitions @302
+    ff_mpeg4_resync_prefix @303 DATA
+    ff_mpeg4_set_direct_mv @304
+    ff_mpeg4_stuffing @305
+    ff_mpeg4_y_dc_scale_table @306 DATA
+    ff_mpeg_flush @307
+    ff_msmpeg4_decode_init @308
+    ff_msmpeg4_encode_init @309
+    ff_mspel_motion @310
+    ff_parse_close @311
+    ff_pre_estimate_p_frame_motion @312
+    ff_print_debug_info @313
+    ff_put_no_rnd_qpel16_mc11_old_c @314
+    ff_put_no_rnd_qpel16_mc12_old_c @315
+    ff_put_no_rnd_qpel16_mc13_old_c @316
+    ff_put_no_rnd_qpel16_mc31_old_c @317
+    ff_put_no_rnd_qpel16_mc32_old_c @318
+    ff_put_no_rnd_qpel16_mc33_old_c @319
+    ff_put_no_rnd_qpel8_mc11_old_c @320
+    ff_put_no_rnd_qpel8_mc12_old_c @321
+    ff_put_no_rnd_qpel8_mc13_old_c @322
+    ff_put_no_rnd_qpel8_mc31_old_c @323
+    ff_put_no_rnd_qpel8_mc32_old_c @324
+    ff_put_no_rnd_qpel8_mc33_old_c @325
+    ff_put_qpel16_mc11_old_c @326
+    ff_put_qpel16_mc12_old_c @327
+    ff_put_qpel16_mc13_old_c @328
+    ff_put_qpel16_mc31_old_c @329
+    ff_put_qpel16_mc32_old_c @330
+    ff_put_qpel16_mc33_old_c @331
+    ff_put_qpel8_mc11_old_c @332
+    ff_put_qpel8_mc12_old_c @333
+    ff_put_qpel8_mc13_old_c @334
+    ff_put_qpel8_mc31_old_c @335
+    ff_put_qpel8_mc32_old_c @336
+    ff_put_qpel8_mc33_old_c @337
+    ff_rac_terminate @338
+    ff_rate_control_init @339
+    ff_rate_control_uninit @340
+    ff_rate_estimate_qscale @341
+    ff_se_golomb_vlc_code @342 DATA
+    ff_set_cmp @343
+    ff_set_mpeg4_time @344
+    ff_set_qscale @345
+    ff_simple_idct_add_mmx @346
+    ff_simple_idct_mmx @347
+    ff_simple_idct_put_mmx @348
+    ff_spatial_dwt @349
+    ff_spatial_idwt @350
+    ff_sqrt_tab @351 DATA
+    ff_ue_golomb_len @352 DATA
+    ff_ue_golomb_vlc_code @353 DATA
+    ff_update_duplicate_context @354
+    ff_vbv_update @355
+    ff_wmv2_add_mb @356
+    ff_wmv2_decode_picture_header @357
+    ff_wmv2_decode_secondary_picture_header @358
+    ff_wmv2_encode_mb @359
+    ff_wmv2_encode_picture_header @360
+    ff_write_pass1_stats @361
+    ff_write_quant_matrix @362
+    ff_yuv420p_list @363 DATA
+    ff_zigzag248_direct @364 DATA
+    ff_zigzag_direct @365 DATA
+    ffv1_decoder @366 DATA
+    ffv1_encoder @367 DATA
+    ffvhuff_decoder @368 DATA
+    ffvhuff_encoder @369 DATA
+    first_avcodec @370 DATA
+    flac_decoder @371 DATA
+    flic_decoder @372 DATA
+    flv_decoder @373 DATA
+    flv_encoder @374 DATA
+    flv_h263_decode_picture_header @375
+    fourxm_decoder @376 DATA
+    free_vlc @377
+    get_bits_long @378
+    h261_cbp_tab @379 DATA
+    h261_decode_picture_header @380
+    h261_decoder @381 DATA
+    h261_encoder @382 DATA
+    h261_mba_bits @383 DATA
+    h261_mba_code @384 DATA
+    h261_mtype_bits @385 DATA
+    h261_mtype_code @386 DATA
+    h261_mv_tab @387 DATA
+    h261_parser @388 DATA
+    h261_tcoeff_level @389 DATA
+    h261_tcoeff_run @390 DATA
+    h261_tcoeff_vlc @391 DATA
+    h263_decode_init_vlc @392
+    h263_decode_picture_header @393
+    h263_decoder @394 DATA
+    h263_encode_gob_header @395
+    h263_encode_init @396
+    h263_encode_mb @397
+    h263_encode_picture_header @398
+    h263_encoder @399 DATA
+    h263_get_picture_format @400
+    h263_parser @401 DATA
+    h263_pred_motion @402
+    h263i_decoder @403 DATA
+    h263p_encoder @404 DATA
+    h264_decoder @405 DATA
+    h264_parser @406 DATA
+    huffyuv_decoder @407 DATA
+    huffyuv_encoder @408 DATA
+    idcin_decoder @409 DATA
+    img_convert @410
+    img_copy @411
+    img_get_alpha_info @412
+    img_resample @413
+    img_resample_close @414
+    img_resample_full_init @415
+    img_resample_init @416
+    indeo3_decoder @417 DATA
+    init_rl @418
+    init_vlc @419
+    init_vlc_rl @420
+    intel_h263_decode_picture_header @421
+    inter_MCBPC_bits @422 DATA
+    inter_MCBPC_code @423 DATA
+    inter_level @424 DATA
+    inter_run @425 DATA
+    inter_vlc @426 DATA
+    interplay_dpcm_decoder @427 DATA
+    interplay_video_decoder @428 DATA
+    intra_MCBPC_bits @429 DATA
+    intra_MCBPC_code @430 DATA
+    intra_level @431 DATA
+    intra_level_aic @432 DATA
+    intra_run @433 DATA
+    intra_run_aic @434 DATA
+    intra_vlc @435 DATA
+    intra_vlc_aic @436 DATA
+    inv_zigzag_direct16 @437 DATA
+    inverse @438 DATA
+    is_adx @439
+    j_rev_dct @440
+    j_rev_dct1 @441
+    j_rev_dct2 @442
+    j_rev_dct4 @443
+    l2_select_table @444
+    ljpeg_encoder @445 DATA
+    mace3_decoder @446 DATA
+    mace6_decoder @447 DATA
+    mdec_decoder @448 DATA
+    mjpeg_close @449
+    mjpeg_decoder @450 DATA
+    mjpeg_encode_mb @451
+    mjpeg_encoder @452 DATA
+    mjpeg_init @453
+    mjpeg_parser @454 DATA
+    mjpeg_picture_header @455
+    mjpeg_picture_trailer @456
+    mjpegb_decoder @457 DATA
+    mm_flags @458 DATA
+    mm_support @459
+    mp2_decoder @460 DATA
+    mp2_encoder @461 DATA
+    mp3_decoder @462 DATA
+    mp3adu_decoder @463 DATA
+    mpa_bitrate_tab @464 DATA
+    mpa_decode_header @465
+    mpa_enwindow @466 DATA
+    mpa_freq_tab @467 DATA
+    mpa_huff_data @468 DATA
+    mpa_huff_tables @469 DATA
+    mpa_huffbits_1 @470 DATA
+    mpa_huffbits_10 @471 DATA
+    mpa_huffbits_11 @472 DATA
+    mpa_huffbits_12 @473 DATA
+    mpa_huffbits_13 @474 DATA
+    mpa_huffbits_15 @475 DATA
+    mpa_huffbits_16 @476 DATA
+    mpa_huffbits_2 @477 DATA
+    mpa_huffbits_24 @478 DATA
+    mpa_huffbits_3 @479 DATA
+    mpa_huffbits_5 @480 DATA
+    mpa_huffbits_6 @481 DATA
+    mpa_huffbits_7 @482 DATA
+    mpa_huffbits_8 @483 DATA
+    mpa_huffbits_9 @484 DATA
+    mpa_huffcodes_1 @485 DATA
+    mpa_huffcodes_10 @486 DATA
+    mpa_huffcodes_11 @487 DATA
+    mpa_huffcodes_12 @488 DATA
+    mpa_huffcodes_13 @489 DATA
+    mpa_huffcodes_15 @490 DATA
+    mpa_huffcodes_16 @491 DATA
+    mpa_huffcodes_2 @492 DATA
+    mpa_huffcodes_24 @493 DATA
+    mpa_huffcodes_3 @494 DATA
+    mpa_huffcodes_5 @495 DATA
+    mpa_huffcodes_6 @496 DATA
+    mpa_huffcodes_7 @497 DATA
+    mpa_huffcodes_8 @498 DATA
+    mpa_huffcodes_9 @499 DATA
+    mpa_pretab @500 DATA
+    mpeg1_encode_mb @501
+    mpeg1_encode_picture_header @502
+    mpeg1video_decoder @503 DATA
+    mpeg1video_encoder @504 DATA
+    mpeg2video_decoder @505 DATA
+    mpeg2video_encoder @506 DATA
+    mpeg4_decoder @507 DATA
+    mpeg4_encode_mb @508
+    mpeg4_encode_picture_header @509
+    mpeg4_encoder @510 DATA
+    mpeg4_pred_ac @511
+    mpeg4video_parser @512 DATA
+    mpegaudio_parser @513 DATA
+    mpegvideo_decoder @514 DATA
+    mpegvideo_parser @515 DATA
+    msmpeg4_decode_ext_header @516
+    msmpeg4_decode_picture_header @517
+    msmpeg4_encode_ext_header @518
+    msmpeg4_encode_mb @519
+    msmpeg4_encode_picture_header @520
+    msmpeg4v1_decoder @521 DATA
+    msmpeg4v1_encoder @522 DATA
+    msmpeg4v2_decoder @523 DATA
+    msmpeg4v2_encoder @524 DATA
+    msmpeg4v3_decoder @525 DATA
+    msmpeg4v3_encoder @526 DATA
+    msrle_decoder @527 DATA
+    msvideo1_decoder @528 DATA
+    mszh_decoder @529 DATA
+    mvtab @530 DATA
+    pam_encoder @531 DATA
+    pbm_encoder @532 DATA
+    pcm_alaw_decoder @533 DATA
+    pcm_alaw_encoder @534 DATA
+    pcm_mulaw_decoder @535 DATA
+    pcm_mulaw_encoder @536 DATA
+    pcm_s16be_decoder @537 DATA
+    pcm_s16be_encoder @538 DATA
+    pcm_s16le_decoder @539 DATA
+    pcm_s16le_encoder @540 DATA
+    pcm_s8_decoder @541 DATA
+    pcm_s8_encoder @542 DATA
+    pcm_u16be_decoder @543 DATA
+    pcm_u16be_encoder @544 DATA
+    pcm_u16le_decoder @545 DATA
+    pcm_u16le_encoder @546 DATA
+    pcm_u8_decoder @547 DATA
+    pcm_u8_encoder @548 DATA
+    pgm_encoder @549 DATA
+    pgmyuv_encoder @550 DATA
+    pixelFormatTags @551 DATA
+    pixfmt_rgb24 @552 DATA
+    pixfmt_xvmc_mpg2_420 @553 DATA
+    pixfmt_yuv_420 @554 DATA
+    pixfmt_yuv_422 @555 DATA
+    pixfmt_yuv_444 @556 DATA
+    pnm_parser @557 DATA
+    ppm_encoder @558 DATA
+    put_pixels_clamped_mmx @559
+    put_signed_pixels_clamped_mmx @560
+    put_string @561
+    qdraw_decoder @562 DATA
+    qpeg_decoder @563 DATA
+    qtrle_decoder @564 DATA
+    quant_bits @565 DATA
+    quant_steps @566 DATA
+    ra_144_decoder @567 DATA
+    ra_288_decoder @568 DATA
+    rawvideo_decoder @569 DATA
+    rawvideo_encoder @570 DATA
+    register_avcodec @571
+    roq_decoder @572 DATA
+    roq_dpcm_decoder @573 DATA
+    rpza_decoder @574 DATA
+    rv10_decoder @575 DATA
+    rv10_encode_picture_header @576
+    rv10_encoder @577 DATA
+    rv20_decoder @578 DATA
+    rv20_encode_picture_header @579
+    rv20_encoder @580 DATA
+    rv_decode_dc @581
+    sblimit_table @582 DATA
+    show_bits_long @583
+    simple_idct @584
+    simple_idct248_put @585
+    simple_idct48_add @586
+    simple_idct84_add @587
+    simple_idct_add @588
+    simple_idct_put @589
+    smc_decoder @590 DATA
+    snow_decoder @591 DATA
+    snow_encoder @592 DATA
+    sol_dpcm_decoder @593 DATA
+    sonic_decoder @594 DATA
+    sonic_encoder @595 DATA
+    sonic_ls_encoder @596 DATA
+    sp5x_decoder @597 DATA
+    squareTbl @598 DATA
+    svq1_decoder @599 DATA
+    svq1_encoder @600 DATA
+    svq3_decoder @601 DATA
+    tab_frw_01234567_sse2 @602 DATA
+    theora_decoder @603 DATA
+    truemotion1_decoder @604 DATA
+    tscc_decoder @605 DATA
+    ulti_decoder @606 DATA
+    vcr1_decoder @607 DATA
+    vlc_dc_chroma_bits @608 DATA
+    vlc_dc_chroma_code @609 DATA
+    vmdaudio_decoder @610 DATA
+    vmdvideo_decoder @611 DATA
+    vp3_decoder @612 DATA
+    vp3_dsp_init_c @613
+    vp3_dsp_init_mmx @614
+    vp3_dsp_init_sse2 @615
+    vp3_idct_c @616
+    vp3_idct_mmx @617
+    vp3_idct_sse2 @618
+    vqa_decoder @619 DATA
+    wmav1_decoder @620 DATA
+    wmav2_decoder @621 DATA
+    wmv1_decoder @622 DATA
+    wmv1_encoder @623 DATA
+    wmv2_decoder @624 DATA
+    wmv2_encoder @625 DATA
+    xan_dpcm_decoder @626 DATA
+    xan_wc3_decoder @627 DATA
+    xl_decoder @628 DATA
+    xl_table @629 DATA
+    zlib_decoder @630 DATA
+    zlib_encoder @631 DATA

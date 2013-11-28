@@ -1,0 +1,6 @@
+
+---- EXPECTED OUTPUT
+ffmpeg getBitRate(): 306
+---- ACTUAL OUTPUT
+Fatal error: Class 'ffmpeg_movie' not found in /var/www/html/dandan/tools/php-ffmpeg-ext/ffmpeg/tests/getBitRate.php on line 2
+---- FAILED

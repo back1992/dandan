@@ -1,0 +1,6 @@
+
+---- EXPECTED OUTPUT
+ffmpeg getFileName\(\): .*\/test.avi
+---- ACTUAL OUTPUT
+Fatal error: Class 'ffmpeg_movie' not found in /var/www/html/dandan/tools/php-ffmpeg-ext/ffmpeg/tests/getFileName.php on line 2
+---- FAILED
