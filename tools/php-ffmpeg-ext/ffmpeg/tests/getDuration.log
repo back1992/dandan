@@ -1,6 +1,0 @@
-
----- EXPECTED OUTPUT
-ffmpeg getDuration(): 5.00
----- ACTUAL OUTPUT
-Fatal error: Class 'ffmpeg_movie' not found in /var/www/html/dandan/tools/php-ffmpeg-ext/ffmpeg/tests/getDuration.php on line 2
----- FAILED

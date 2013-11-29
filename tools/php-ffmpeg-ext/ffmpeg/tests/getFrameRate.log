@@ -1,6 +1,0 @@
-
----- EXPECTED OUTPUT
-ffmpeg getFrameRate(): 24.00
----- ACTUAL OUTPUT
-Fatal error: Class 'ffmpeg_movie' not found in /var/www/html/dandan/tools/php-ffmpeg-ext/ffmpeg/tests/getFrameRate.php on line 2
----- FAILED
